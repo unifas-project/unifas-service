@@ -1,4 +1,4 @@
 package com.example.unifasservice.configuration;
 
-public class Config {
+public class Configuration {
 }

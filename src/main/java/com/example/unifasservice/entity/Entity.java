@@ -1,4 +1,4 @@
 package com.example.unifasservice.entity;
 
-public class Index {
+public class Entity {
 }
