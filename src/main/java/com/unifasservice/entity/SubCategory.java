@@ -2,6 +2,8 @@ package com.unifasservice.entity;
 
 
 import lombok.*;
+import org.hibernate.annotations.Where;
+
 import javax.persistence.*;
 import java.util.List;
 
@@ -12,6 +14,7 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @Table(name = "SUB_CATEGORY")
+@Where(clause = "IS_SHOWN = 'TRUE'")
 public class SubCategory {
 
     @Id

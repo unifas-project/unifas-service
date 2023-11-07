@@ -1,8 +1,10 @@
 package com.unifasservice.service;
 
 
-import org.springframework.stereotype.Service;
+import com.unifasservice.dto.response.CategoryResponseDTO;
 
+import java.util.List;
 
 public interface ICategoryService {
+    List<CategoryResponseDTO> findAll();
 }

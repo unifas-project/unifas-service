@@ -1,7 +1,9 @@
 package com.unifasservice.service;
 
-import org.springframework.stereotype.Service;
+import com.unifasservice.dto.response.ProductResponseDTO;
 
+import java.util.List;
 
 public interface IProductService {
+    List<ProductResponseDTO> findAll();
 }
