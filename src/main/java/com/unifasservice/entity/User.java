@@ -43,12 +43,6 @@ public class User {
     @Column(name="PHONE_NUMBER")
     private String phoneNumber;
 
-    @NotBlank(message = "Address is required")
-    @Size(max = 255, message = "Address should not exceed 255 characters")
-    @Column(name="ADDRESS")
-    private String address;
-
-
     @Column(name = "ROLE_USER")
     private String role;
 

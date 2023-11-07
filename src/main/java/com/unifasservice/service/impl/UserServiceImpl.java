@@ -57,9 +57,9 @@ public class UserServiceImpl implements IUserService {
                 responseDTO.setMessage("Email exists, please enter another email!");
                 return responseDTO;
             }
-            User user = userRegisterConverter.toEntity(userResgisterRequestDTO);
+            User user = userRegisterConverter.convertDTORequestToEntity(userResgisterRequestDTO);
             userRepository.save(user);
-            responseDTO = userRegisterConverter.toDto(user);
+            responseDTO = userRegisterConverter.convertEntityResponseToDTO(user);
         } catch (Exception e) {
             responseDTO.setMessage("Register Failure!");
             return responseDTO;

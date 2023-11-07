@@ -8,17 +8,20 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class UserRegisterConverter {
-    public UserRegisterResponseDTO toDto(User user){
+    public UserRegisterResponseDTO convertEntityResponseToDTO(User user){
         UserRegisterResponseDTO userRegisterResponseDTO = new UserRegisterResponseDTO();
         userRegisterResponseDTO.setId(user.getId());
         userRegisterResponseDTO.setUsername(user.getUsername());
         return userRegisterResponseDTO;
     }
-    public User toEntity(UserRegisterRequestDTO userRegisterRequestDTO){
+    public User convertDTORequestToEntity(UserRegisterRequestDTO userRegisterRequestDTO){
         User user = new User();
         user.setId(userRegisterRequestDTO.getId());
         user.setUsername(userRegisterRequestDTO.getUsername());
         user.setPassword(userRegisterRequestDTO.getPassword());
+        user.setEmail(user.getEmail());
+        user.setPhoneNumber(user.getPhoneNumber());
+        user.setRole(user.getRole());
         return user;
     }
 }
