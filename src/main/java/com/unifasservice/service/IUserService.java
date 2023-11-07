@@ -5,7 +5,7 @@ import com.unifasservice.dto.request.UserLoginRequestDTO;
 import com.unifasservice.dto.response.UserLoginResponseDTO;
 import org.springframework.stereotype.Service;
 
-@Service
-public interface IUerService {
+
+public interface IUserService {
     UserLoginResponseDTO login(UserLoginRequestDTO login);
 }

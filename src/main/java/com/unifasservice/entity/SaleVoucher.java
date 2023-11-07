@@ -19,7 +19,7 @@ public class SaleVoucher {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "ID")
-    private int id;
+    private long id;
 
     @Column(name = "CODE")
     private String code;
