@@ -59,33 +59,12 @@ public class UserServiceImpl implements IUserService {
             }
             User user = userRegisterConverter.toEntity(userResgisterRequestDTO);
             userRepository.save(user);
-            return responseDTO
-
-
-//            String role = "ROLE_".concat(ERole.USER.toString());
-//            String password = registerRequest.getPassword();
-//            String cypherText = passwordEncoder.encode(password);
-//            User user = new User();
-//            user.setUsername(registerRequest.getUsername());
-//            user.setPassword(cypherText);
-//            user.setRole(role);
-//            user.setActivated(true);
-//            UserDetail userDetail = new UserDetail();
-//            userDetail.setUser(user);
-//            userDetail.setPhoneNumber(registerRequest.getPhoneNumber());
-//            userDetail.setFullName(registerRequest.getFullName());
-//            userDetail.setGender(registerRequest.getGender());
-//            userDetail.setEmail(registerRequest.getEmail());
-//            userRepository.save(user);
-//            userDetailRepository.save(userDetail);
-//            Cart cart = new Cart();
-//            cart.setUser(user);
-//            cartRepository.save(cart);
+            responseDTO = userRegisterConverter.toDto(user);
         } catch (Exception e) {
-            responseDTO.setMessage("Register failure!");
+            responseDTO.setMessage("Register Failure!");
             return responseDTO;
         }
-//        responseDTO.setMessage(Constant.REGISTER_SUCCESS);
+        responseDTO.setMessage("Register Success!");
         return responseDTO;
     }
 }
