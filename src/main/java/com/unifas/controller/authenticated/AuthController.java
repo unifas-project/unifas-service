@@ -3,6 +3,8 @@ package com.unifas.controller.authenticated;
 
 import com.unifas.dto.request.UserLoginRequestDTO;
 import com.unifas.dto.response.UserLoginResponseDTO;
+import com.unifas.dto.request.UserRegisterRequestDTO;
+import com.unifas.dto.response.UserRegisterResponseDTO;
 import com.unifas.service.IUserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -39,6 +41,11 @@ public class AuthController {
         } catch (RuntimeException e) {
             return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
         }
+    }
+    @PostMapping(value = "/register")
+    public ResponseEntity<UserRegisterResponseDTO> registerUser(@RequestBody UserRegisterRequestDTO userRegisterRequestDTO) {
+        UserRegisterResponseDTO responseDto = iUserService.register(userRegisterRequestDTO);
+        return new ResponseEntity<>(responseDto, HttpStatus.CREATED);
     }
 
 }
