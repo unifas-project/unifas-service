@@ -30,6 +30,7 @@ public class UserServiceImpl implements IUserService {
             if (password.equals(user.getPassword())) {
                 UserLoginResponseDTO loginResponseDTO = userLoginConverter.userToUserLoginDTO(user);
                 loginResponseDTO.setMessage("Logged in successfully !");
+
                 return loginResponseDTO;
             } else {
                 throw new RuntimeException("Wrong password");
