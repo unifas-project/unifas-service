@@ -1,7 +1,8 @@
 package com.unifasservice.service;
 
-import org.springframework.stereotype.Service;
+import com.unifasservice.dto.response.SubCategoryResponseDTO;
 
-
+import java.util.List;
 public interface ISubCategoryService {
+    List<SubCategoryResponseDTO> findAll();
 }
