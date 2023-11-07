@@ -24,10 +24,9 @@ public class CategoryServiceImpl implements ICategoryService {
         List<CategoryResponseDTO> categoriesResponseDTO = new ArrayList<>();
         List<Category> categories = categoryRepository.findAll();
         for(Category category : categories) {
-            if(category.isShown()) {
-                CategoryResponseDTO categoryResponseDTO = categoryConverter.categoryToCategoryResponseDTO(category);
+                CategoryResponseDTO categoryResponseDTO =
+                        categoryConverter.categoryToCategoryResponseDTO(category);
                 categoriesResponseDTO.add(categoryResponseDTO);
-            }
         }
         return categoriesResponseDTO;
     }

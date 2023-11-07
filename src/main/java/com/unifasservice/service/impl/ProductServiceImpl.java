@@ -25,10 +25,8 @@ public class ProductServiceImpl implements IProductService {
         List<ProductResponseDTO> productResponseDTOs = new ArrayList<>();
         List<Product> products = productRepository.findAll();
         for ( Product product : products) {
-            if(!product.isDeleted()) {
                 ProductResponseDTO productResponseDTO = productConverter.productToProductResponseDTO(product);
                 productResponseDTOs.add(productResponseDTO);
-            }
         }
         return productResponseDTOs;
     }

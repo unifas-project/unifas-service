@@ -2,6 +2,7 @@ package com.unifasservice.entity;
 
 
 import lombok.*;
+import org.hibernate.annotations.Where;
 
 import javax.persistence.*;
 import java.util.List;
@@ -13,7 +14,7 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @Table(name = "PRODUCT")
-
+@Where(clause = "IS_DELETED = 'FALSE'")
 public class Product {
 
     @Id

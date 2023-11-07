@@ -25,11 +25,9 @@ public class SubCategoryServiceImpl implements ISubCategoryService {
         List<SubCategoryResponseDTO> subCategoriesResponseDTO = new ArrayList<>();
         List<SubCategory> subCategories = subCategoryRepository.findAll();
         for ( SubCategory subCategory : subCategories ) {
-            if (subCategory.isShown()) {
                 SubCategoryResponseDTO subCategoryResponseDTO =
                         subCategoryConverter.subCategoryToSubCategoryResponseDTO(subCategory);
                 subCategoriesResponseDTO.add(subCategoryResponseDTO);
-            }
         }
         return subCategoriesResponseDTO;
     }
