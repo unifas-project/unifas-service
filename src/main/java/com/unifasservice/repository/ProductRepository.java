@@ -1,9 +1,8 @@
 package com.unifasservice.repository;
 
+import com.unifasservice.entity.Product;
 import com.unifasservice.entity.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 
-
-public interface UserRepository extends JpaRepository<User, Long> {
-    User findByUsername(String username);
+public interface ProductRepository  extends JpaRepository<Product, Long> {
 }

@@ -3,10 +3,9 @@ package com.unifasservice.controller.authenticated;
 
 import com.unifasservice.dto.request.UserLoginRequestDTO;
 import com.unifasservice.dto.response.UserLoginResponseDTO;
-import com.unifasservice.service.IUerService;
+import com.unifasservice.service.IUserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
@@ -21,8 +20,9 @@ import javax.validation.Valid;
 public class AuthController {
 
 
+
     @Autowired
-    private IUerService iUerService;
+    private IUserService iUserService;
 
     @PostMapping("/login")
     public ResponseEntity<UserLoginResponseDTO> login(@Valid @RequestBody UserLoginRequestDTO loginRequestDTO,
@@ -32,7 +32,7 @@ public class AuthController {
         }
 
         try {
-            UserLoginResponseDTO loginResponseDTO = iUerService.login(loginRequestDTO);
+            UserLoginResponseDTO loginResponseDTO = iUserService.login(loginRequestDTO);
             return new ResponseEntity<>(loginResponseDTO, HttpStatus.OK);
         } catch (IllegalArgumentException e) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
