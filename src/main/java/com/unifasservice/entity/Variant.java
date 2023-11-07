@@ -16,7 +16,7 @@ public class Variant {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "ID")
-    private int id;
+    private long id;
 
     @Column(name = "IS_DELETED")
     private boolean isDeleted;

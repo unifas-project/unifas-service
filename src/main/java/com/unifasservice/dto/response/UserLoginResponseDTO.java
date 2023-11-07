@@ -5,7 +5,7 @@ import java.util.UUID;
 
 @Data
 public class UserLoginResponseDTO {
-    private int id;
+    private long id;
     private String username;
     private String message;
 

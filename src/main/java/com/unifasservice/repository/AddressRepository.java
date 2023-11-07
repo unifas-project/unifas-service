@@ -1,7 +1,10 @@
 package com.unifasservice.repository;
 
-import org.springframework.stereotype.Repository;
+import com.unifasservice.entity.Address;
 
-@Repository
-public interface AddressRepository {
+import org.springframework.data.jpa.repository.JpaRepository;
+
+
+
+public interface AddressRepository  extends JpaRepository<Address, Long> {
 }
