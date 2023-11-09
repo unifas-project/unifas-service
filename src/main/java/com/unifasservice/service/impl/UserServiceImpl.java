@@ -22,14 +22,14 @@ public class UserServiceImpl implements IUserService {
     private UserRegisterConverter userRegisterConverter;
 
     public UserLoginResponseDTO login(UserLoginRequestDTO login) {
-        String username = login.getUsername();
+        String email = login.getEmail();
         String password = login.getPassword();
 
-        if (username == null || password == null) {
+        if (email == null || password == null) {
             throw new IllegalArgumentException("Username and password are required.");
         }
 
-        User user = userRepository.findByUsername(username);
+        User user = userRepository.findByEmail(email);
 
         if (user != null) {
             if (password.equals(user.getPassword())) {
