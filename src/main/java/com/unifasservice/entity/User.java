@@ -35,7 +35,7 @@ public class User {
     @Column(name="PHONE_NUMBER")
     private String phoneNumber;
 
-    @Column(name = "ROLE_USER")
+    @Column(name = "ROLE")
     private String role;
 
     @Column(name="IS_DELETED")
