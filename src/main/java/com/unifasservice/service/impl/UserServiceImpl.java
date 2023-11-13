@@ -4,6 +4,7 @@ import com.unifasservice.configuration.JwtTokenUtil;
 import com.unifasservice.converter.UserLoginConverter;
 import com.unifasservice.dto.request.UserLoginRequestDto;
 import com.unifasservice.dto.response.UserLoginResponseDto;
+import com.unifasservice.entity.Cart;
 import com.unifasservice.entity.User;
 import com.unifasservice.repository.UserRepository;
 import com.unifasservice.converter.UserRegisterConverter;
@@ -27,6 +28,7 @@ public class UserServiceImpl implements UserService {
     private PasswordEncoder passwordEncoder;
     @Autowired
     private JwtTokenUtil jwtTokenUtil;
+
 
     public UserLoginResponseDto login(UserLoginRequestDto login) {
         String email = login.getEmail();
@@ -77,6 +79,12 @@ public class UserServiceImpl implements UserService {
             User user = userRegisterConverter.convertDTORequestToEntity(userRegisterRequestDTO);
             user.setPassword(hashCode);
             user.setDeleted(false);
+
+            Cart cartUser = new Cart();
+            cartUser.setUser(user);
+
+            user.setCart(cartUser);
+
             userRepository.save(user);
             responseDTO = userRegisterConverter.convertEntityResponseToDTO(user);
             responseDTO.setMessage("Register Success!");
