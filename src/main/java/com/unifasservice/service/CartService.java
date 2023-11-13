@@ -1,5 +1,5 @@
 package com.unifasservice.service;
 
 
-public interface IOrderService {
+public interface CartService {
 }

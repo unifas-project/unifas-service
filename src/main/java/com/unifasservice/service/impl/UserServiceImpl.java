@@ -9,14 +9,14 @@ import com.unifasservice.repository.UserRepository;
 import com.unifasservice.converter.UserRegisterConverter;
 import com.unifasservice.dto.request.UserRegisterRequestDTO;
 import com.unifasservice.dto.response.UserRegisterResponseDTO;
-import com.unifasservice.service.IUserService;
+import com.unifasservice.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 
 @Service
-public class UserServiceImpl implements IUserService {
+public class UserServiceImpl implements UserService {
     @Autowired
     private UserRepository userRepository;
     @Autowired

@@ -1,5 +1,5 @@
 package com.unifasservice.service;
 
 
-public interface ISaleVoucherService {
+public interface CartProduct {
 }

@@ -5,7 +5,7 @@ import com.unifasservice.dto.request.UserLoginRequestDTO;
 import com.unifasservice.dto.response.UserLoginResponseDTO;
 import com.unifasservice.dto.request.UserRegisterRequestDTO;
 import com.unifasservice.dto.response.UserRegisterResponseDTO;
-import com.unifasservice.service.IUserService;
+import com.unifasservice.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -24,7 +24,7 @@ public class AuthController {
 
 
     @Autowired
-    private IUserService iUserService;
+    private UserService userService;
 
     @PostMapping("/login")
     public ResponseEntity<UserLoginResponseDTO> login(@Valid @RequestBody UserLoginRequestDTO loginRequestDTO,
@@ -34,7 +34,7 @@ public class AuthController {
         }
 
         try {
-            UserLoginResponseDTO loginResponseDTO = iUserService.login(loginRequestDTO);
+            UserLoginResponseDTO loginResponseDTO = userService.login(loginRequestDTO);
             return new ResponseEntity<>(loginResponseDTO, HttpStatus.OK);
         } catch (IllegalArgumentException e) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
@@ -44,7 +44,7 @@ public class AuthController {
     }
     @PostMapping(value = "/register")
     public ResponseEntity<UserRegisterResponseDTO> registerUser(@RequestBody UserRegisterRequestDTO userRegisterRequestDTO) {
-        UserRegisterResponseDTO responseDto = iUserService.register(userRegisterRequestDTO);
+        UserRegisterResponseDTO responseDto = userService.register(userRegisterRequestDTO);
         return new ResponseEntity<>(responseDto, HttpStatus.CREATED);
     }
 

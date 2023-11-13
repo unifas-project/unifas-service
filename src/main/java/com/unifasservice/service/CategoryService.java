@@ -5,6 +5,6 @@ import com.unifasservice.dto.response.CategoryResponseDTO;
 
 import java.util.List;
 
-public interface ICategoryService {
+public interface CategoryService {
     List<CategoryResponseDTO> findAll();
 }
