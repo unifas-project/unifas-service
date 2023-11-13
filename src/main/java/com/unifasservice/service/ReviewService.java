@@ -1,5 +1,5 @@
 package com.unifasservice.service;
 
 
-public interface ICartService {
+public interface ReviewService {
 }

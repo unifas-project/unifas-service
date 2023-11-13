@@ -1,7 +1,7 @@
 package com.unifasservice.controller;
 
 import com.unifasservice.dto.response.ProductResponseDTO;
-import com.unifasservice.service.IProductService;
+import com.unifasservice.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -17,7 +17,7 @@ import java.util.List;
 @CrossOrigin("*")
 public class ProductController {
     @Autowired
-    private IProductService productService;
+    private ProductService productService;
 
     @GetMapping()
     public ResponseEntity<List<ProductResponseDTO>> getAllProduct() {

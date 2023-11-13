@@ -1,5 +1,6 @@
 package com.unifasservice.service.impl;
 
+import com.unifasservice.configuration.JwtTokenUtil;
 import com.unifasservice.converter.UserLoginConverter;
 import com.unifasservice.dto.request.UserLoginRequestDTO;
 import com.unifasservice.dto.response.UserLoginResponseDTO;
@@ -8,18 +9,24 @@ import com.unifasservice.repository.UserRepository;
 import com.unifasservice.converter.UserRegisterConverter;
 import com.unifasservice.dto.request.UserRegisterRequestDTO;
 import com.unifasservice.dto.response.UserRegisterResponseDTO;
-import com.unifasservice.service.IUserService;
+import com.unifasservice.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+
 @Service
-public class UserServiceImpl implements IUserService {
+public class UserServiceImpl implements UserService {
     @Autowired
     private UserRepository userRepository;
     @Autowired
     private UserLoginConverter userLoginConverter;
     @Autowired
     private UserRegisterConverter userRegisterConverter;
+    @Autowired
+    private PasswordEncoder passwordEncoder;
+    @Autowired
+    private JwtTokenUtil jwtTokenUtil;
 
     public UserLoginResponseDTO login(UserLoginRequestDTO login) {
         String email = login.getEmail();
@@ -32,9 +39,15 @@ public class UserServiceImpl implements IUserService {
         User user = userRepository.findByEmail(email);
 
         if (user != null) {
-            if (password.equals(user.getPassword())) {
+            if (passwordEncoder.matches(password, user.getPassword())) {
                 UserLoginResponseDTO loginResponseDTO = userLoginConverter.userToUserLoginDTO(user);
                 loginResponseDTO.setMessage("Logged in successfully !");
+
+                String token = jwtTokenUtil.generateToken(user);
+                loginResponseDTO.setToken(token);
+                loginResponseDTO.setRole(user.getRole());
+
+
                 return loginResponseDTO;
             } else {
                 throw new RuntimeException("Wrong password");
@@ -44,27 +57,35 @@ public class UserServiceImpl implements IUserService {
         }
     }
     @Override
-    public UserRegisterResponseDTO register(UserRegisterRequestDTO userResgisterRequestDTO) {
+    public UserRegisterResponseDTO register(UserRegisterRequestDTO userRegisterRequestDTO) {
+
+        String password = userRegisterRequestDTO.getPassword();
+        String hashCode = passwordEncoder.encode(password);
+
         UserRegisterResponseDTO responseDTO = new UserRegisterResponseDTO();
         try {
-            User userNameCheck = userRepository.findByUsername(userResgisterRequestDTO.getUsername());
+            User userNameCheck = userRepository.findByUsername(userRegisterRequestDTO.getUsername());
             if (userNameCheck != null) {
                 responseDTO.setMessage("This account already exists");
                 return responseDTO;
             }
-            User emailCheck = userRepository.findByEmail(userResgisterRequestDTO.getEmail());
+            User emailCheck = userRepository.findByEmail(userRegisterRequestDTO.getEmail());
             if (emailCheck != null) {
                 responseDTO.setMessage("Email exists, please enter another email!");
                 return responseDTO;
             }
-            User user = userRegisterConverter.convertDTORequestToEntity(userResgisterRequestDTO);
+            User user = userRegisterConverter.convertDTORequestToEntity(userRegisterRequestDTO);
+            user.setPassword(hashCode);
+            user.setDeleted(false);
             userRepository.save(user);
             responseDTO = userRegisterConverter.convertEntityResponseToDTO(user);
+            responseDTO.setMessage("Register Success!");
+            return responseDTO;
+
         } catch (Exception e) {
             responseDTO.setMessage("Register Failure!");
             return responseDTO;
         }
-        responseDTO.setMessage("Register Success!");
-        return responseDTO;
+
     }
 }
