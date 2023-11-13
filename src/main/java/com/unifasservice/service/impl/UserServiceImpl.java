@@ -2,13 +2,13 @@ package com.unifasservice.service.impl;
 
 import com.unifasservice.configuration.JwtTokenUtil;
 import com.unifasservice.converter.UserLoginConverter;
-import com.unifasservice.dto.request.UserLoginRequestDTO;
-import com.unifasservice.dto.response.UserLoginResponseDTO;
+import com.unifasservice.dto.request.UserLoginRequestDto;
+import com.unifasservice.dto.response.UserLoginResponseDto;
 import com.unifasservice.entity.User;
 import com.unifasservice.repository.UserRepository;
 import com.unifasservice.converter.UserRegisterConverter;
-import com.unifasservice.dto.request.UserRegisterRequestDTO;
-import com.unifasservice.dto.response.UserRegisterResponseDTO;
+import com.unifasservice.dto.request.UserRegisterRequestDto;
+import com.unifasservice.dto.response.UserRegisterResponseDto;
 import com.unifasservice.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -28,7 +28,7 @@ public class UserServiceImpl implements UserService {
     @Autowired
     private JwtTokenUtil jwtTokenUtil;
 
-    public UserLoginResponseDTO login(UserLoginRequestDTO login) {
+    public UserLoginResponseDto login(UserLoginRequestDto login) {
         String email = login.getEmail();
         String password = login.getPassword();
 
@@ -40,7 +40,7 @@ public class UserServiceImpl implements UserService {
 
         if (user != null) {
             if (passwordEncoder.matches(password, user.getPassword())) {
-                UserLoginResponseDTO loginResponseDTO = userLoginConverter.userToUserLoginDTO(user);
+                UserLoginResponseDto loginResponseDTO = userLoginConverter.userToUserLoginDTO(user);
                 loginResponseDTO.setMessage("Logged in successfully !");
 
                 String token = jwtTokenUtil.generateToken(user);
@@ -57,12 +57,12 @@ public class UserServiceImpl implements UserService {
         }
     }
     @Override
-    public UserRegisterResponseDTO register(UserRegisterRequestDTO userRegisterRequestDTO) {
+    public UserRegisterResponseDto register(UserRegisterRequestDto userRegisterRequestDTO) {
 
         String password = userRegisterRequestDTO.getPassword();
         String hashCode = passwordEncoder.encode(password);
 
-        UserRegisterResponseDTO responseDTO = new UserRegisterResponseDTO();
+        UserRegisterResponseDto responseDTO = new UserRegisterResponseDto();
         try {
             User userNameCheck = userRepository.findByUsername(userRegisterRequestDTO.getUsername());
             if (userNameCheck != null) {

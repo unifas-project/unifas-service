@@ -3,7 +3,7 @@ package com.unifasservice.dto.response;
 import lombok.Data;
 
 @Data
-public class ProductResponseDTO {
+public class ProductResponseDto {
     private long id;
     private String name;
     private double price;

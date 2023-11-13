@@ -1,6 +1,6 @@
 package com.unifasservice.controller;
 
-import com.unifasservice.dto.response.ProductResponseDTO;
+import com.unifasservice.dto.response.ProductResponseDto;
 import com.unifasservice.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -20,8 +20,8 @@ public class ProductController {
     private ProductService productService;
 
     @GetMapping()
-    public ResponseEntity<List<ProductResponseDTO>> getAllProduct() {
-        List<ProductResponseDTO> products = productService.findAll();
+    public ResponseEntity<List<ProductResponseDto>> getAllProduct() {
+        List<ProductResponseDto> products = productService.findAll();
         return new ResponseEntity<>(products, HttpStatus.OK);
     }
 }

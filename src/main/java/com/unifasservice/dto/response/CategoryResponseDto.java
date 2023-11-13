@@ -3,8 +3,8 @@ package com.unifasservice.dto.response;
 import lombok.Data;
 
 @Data
-public class SubCategoryResponseDTO {
+public class CategoryResponseDto {
     private long id;
     private String name;
-    private long categoryId;
+    private String gender;
 }

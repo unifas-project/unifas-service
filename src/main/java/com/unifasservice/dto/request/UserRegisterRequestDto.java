@@ -3,7 +3,7 @@ package com.unifasservice.dto.request;
 import lombok.Data;
 
 @Data
-public class UserRegisterRequestDTO {
+public class UserRegisterRequestDto {
     private long id;
     private String username;
     private String password;

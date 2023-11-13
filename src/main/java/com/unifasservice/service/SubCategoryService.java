@@ -1,8 +1,8 @@
 package com.unifasservice.service;
 
-import com.unifasservice.dto.response.SubCategoryResponseDTO;
+import com.unifasservice.dto.response.SubCategoryResponseDto;
 
 import java.util.List;
 public interface SubCategoryService {
-    List<SubCategoryResponseDTO> findAll();
+    List<SubCategoryResponseDto> findAll();
 }

@@ -1,10 +1,10 @@
 package com.unifasservice.controller.authenticated;
 
 
-import com.unifasservice.dto.request.UserLoginRequestDTO;
-import com.unifasservice.dto.response.UserLoginResponseDTO;
-import com.unifasservice.dto.request.UserRegisterRequestDTO;
-import com.unifasservice.dto.response.UserRegisterResponseDTO;
+import com.unifasservice.dto.request.UserLoginRequestDto;
+import com.unifasservice.dto.response.UserLoginResponseDto;
+import com.unifasservice.dto.request.UserRegisterRequestDto;
+import com.unifasservice.dto.response.UserRegisterResponseDto;
 import com.unifasservice.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,14 +27,14 @@ public class AuthController {
     private UserService userService;
 
     @PostMapping("/login")
-    public ResponseEntity<UserLoginResponseDTO> login(@Valid @RequestBody UserLoginRequestDTO loginRequestDTO,
+    public ResponseEntity<UserLoginResponseDto> login(@Valid @RequestBody UserLoginRequestDto loginRequestDTO,
                                                       BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
 
         try {
-            UserLoginResponseDTO loginResponseDTO = userService.login(loginRequestDTO);
+            UserLoginResponseDto loginResponseDTO = userService.login(loginRequestDTO);
             return new ResponseEntity<>(loginResponseDTO, HttpStatus.OK);
         } catch (IllegalArgumentException e) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
@@ -43,8 +43,8 @@ public class AuthController {
         }
     }
     @PostMapping(value = "/register")
-    public ResponseEntity<UserRegisterResponseDTO> registerUser(@RequestBody UserRegisterRequestDTO userRegisterRequestDTO) {
-        UserRegisterResponseDTO responseDto = userService.register(userRegisterRequestDTO);
+    public ResponseEntity<UserRegisterResponseDto> registerUser(@RequestBody UserRegisterRequestDto userRegisterRequestDTO) {
+        UserRegisterResponseDto responseDto = userService.register(userRegisterRequestDTO);
         return new ResponseEntity<>(responseDto, HttpStatus.CREATED);
     }
 

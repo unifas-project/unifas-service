@@ -45,8 +45,10 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity httpSecurity) throws Exception {
 
+
         httpSecurity.csrf().disable()
-                .authorizeRequests().antMatchers(
+                .authorizeRequests()
+                .antMatchers(
                         "/auth/login",
                         "/auth/register",
                         "/category").permitAll()
@@ -82,17 +84,17 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS);
 
         // Configure remember me (save token in database)
-        httpSecurity.authorizeHttpRequests()
-                .and().rememberMe()
-                .tokenRepository(this.persistentTokenRepository())
-                .tokenValiditySeconds(24 * 60 * 60);//24 hours
+//        httpSecurity.authorizeHttpRequests()
+//                .and().rememberMe()
+//                .tokenRepository(this.persistentTokenRepository())
+//                .tokenValiditySeconds(24 * 60 * 60);//24 hours
 
         // Add a filter to validate the tokens with every request
         httpSecurity.addFilterBefore(jwtRequestFilter, UsernamePasswordAuthenticationFilter.class);
     }
 
 
-    public PersistentTokenRepository persistentTokenRepository() {
-        return new InMemoryTokenRepositoryImpl();
-    }
+//    public PersistentTokenRepository persistentTokenRepository() {
+//        return new InMemoryTokenRepositoryImpl();
+//    }
 }

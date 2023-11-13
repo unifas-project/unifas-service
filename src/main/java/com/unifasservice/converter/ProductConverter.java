@@ -1,13 +1,13 @@
 package com.unifasservice.converter;
 
-import com.unifasservice.dto.response.ProductResponseDTO;
+import com.unifasservice.dto.response.ProductResponseDto;
 import com.unifasservice.entity.Product;
 import org.springframework.stereotype.Component;
 
 @Component
 public class ProductConverter {
-    public ProductResponseDTO productToProductResponseDTO(Product product) {
-        ProductResponseDTO productResponseDTO = new ProductResponseDTO();
+    public ProductResponseDto productToProductResponseDTO(Product product) {
+        ProductResponseDto productResponseDTO = new ProductResponseDto();
         productResponseDTO.setId(product.getId());
         productResponseDTO.setName(product.getName());
         productResponseDTO.setPrice(product.getPrice());

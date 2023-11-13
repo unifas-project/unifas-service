@@ -1,6 +1,6 @@
 package com.unifasservice.controller;
 
-import com.unifasservice.dto.response.SubCategoryResponseDTO;
+import com.unifasservice.dto.response.SubCategoryResponseDto;
 import com.unifasservice.service.impl.SubCategoryServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -20,8 +20,8 @@ public class SubCategoryController {
     private SubCategoryServiceImpl subCategoryService;
 
     @GetMapping()
-    private ResponseEntity<List<SubCategoryResponseDTO>> getAllSubCategory() {
-        List<SubCategoryResponseDTO> subCategories = subCategoryService.findAll();
+    private ResponseEntity<List<SubCategoryResponseDto>> getAllSubCategory() {
+        List<SubCategoryResponseDto> subCategories = subCategoryService.findAll();
         return new ResponseEntity<>(subCategories, HttpStatus.OK);
     }
 

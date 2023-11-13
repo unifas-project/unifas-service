@@ -1,20 +1,20 @@
 package com.unifasservice.converter;
 
 
-import com.unifasservice.dto.request.UserRegisterRequestDTO;
-import com.unifasservice.dto.response.UserRegisterResponseDTO;
+import com.unifasservice.dto.request.UserRegisterRequestDto;
+import com.unifasservice.dto.response.UserRegisterResponseDto;
 import com.unifasservice.entity.User;
 import org.springframework.stereotype.Component;
 
 @Component
 public class UserRegisterConverter {
-    public UserRegisterResponseDTO convertEntityResponseToDTO(User user){
-        UserRegisterResponseDTO userRegisterResponseDTO = new UserRegisterResponseDTO();
+    public UserRegisterResponseDto convertEntityResponseToDTO(User user){
+        UserRegisterResponseDto userRegisterResponseDTO = new UserRegisterResponseDto();
         userRegisterResponseDTO.setId(user.getId());
         userRegisterResponseDTO.setUsername(user.getUsername());
         return userRegisterResponseDTO;
     }
-    public User convertDTORequestToEntity(UserRegisterRequestDTO userRegisterRequestDTO){
+    public User convertDTORequestToEntity(UserRegisterRequestDto userRegisterRequestDTO){
         User user = new User();
         user.setId(userRegisterRequestDTO.getId());
         user.setUsername(userRegisterRequestDTO.getUsername());

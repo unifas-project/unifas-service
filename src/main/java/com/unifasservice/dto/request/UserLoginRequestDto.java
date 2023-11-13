@@ -8,7 +8,7 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 
 @Data
-public class UserLoginRequestDTO {
+public class UserLoginRequestDto {
 
     @Email(message = "Invalid email address")
     @NotBlank(message = "Email is required")
