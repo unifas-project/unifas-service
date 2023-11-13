@@ -16,6 +16,8 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.security.web.authentication.rememberme.InMemoryTokenRepositoryImpl;
+import org.springframework.security.web.authentication.rememberme.PersistentTokenRepository;
 
 @Configuration
 @EnableWebSecurity
@@ -42,17 +44,12 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity httpSecurity) throws Exception {
-        // We don't need CSRF for this example
+
         httpSecurity.csrf().disable()
-                // dont authenticate this particular request
                 .authorizeRequests().antMatchers(
                         "/auth/login",
                         "/auth/register",
-                        "/user/product",
-                        "/user/order",
-                        "/user/shopping-carts",
-                        "/user/cart",
-                        "/user/category").permitAll()
+                        "/category").permitAll()
 
 
 
@@ -84,7 +81,18 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .sessionManagement()
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS);
 
+        // Configure remember me (save token in database)
+        httpSecurity.authorizeHttpRequests()
+                .and().rememberMe()
+                .tokenRepository(this.persistentTokenRepository())
+                .tokenValiditySeconds(24 * 60 * 60);//24 hours
+
         // Add a filter to validate the tokens with every request
         httpSecurity.addFilterBefore(jwtRequestFilter, UsernamePasswordAuthenticationFilter.class);
+    }
+
+
+    public PersistentTokenRepository persistentTokenRepository() {
+        return new InMemoryTokenRepositoryImpl();
     }
 }
