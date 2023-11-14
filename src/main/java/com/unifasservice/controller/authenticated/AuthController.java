@@ -2,6 +2,7 @@ package com.unifasservice.controller.authenticated;
 
 
 import com.unifasservice.dto.request.UserLoginRequestDTO;
+import com.unifasservice.dto.response.ResponseDto;
 import com.unifasservice.dto.response.UserLoginResponseDTO;
 import com.unifasservice.dto.request.UserRegisterRequestDTO;
 import com.unifasservice.dto.response.UserRegisterResponseDTO;
@@ -43,8 +44,8 @@ public class AuthController {
         }
     }
     @PostMapping(value = "/register")
-    public ResponseEntity<UserRegisterResponseDTO> registerUser(@RequestBody UserRegisterRequestDTO userRegisterRequestDTO) {
-        UserRegisterResponseDTO responseDto = iUserService.register(userRegisterRequestDTO);
+    public ResponseEntity<ResponseDto> registerUser(@RequestBody UserRegisterRequestDTO userRegisterRequestDTO) {
+        ResponseDto responseDto = iUserService.register(userRegisterRequestDTO);
         return new ResponseEntity<>(responseDto, HttpStatus.CREATED);
     }
 

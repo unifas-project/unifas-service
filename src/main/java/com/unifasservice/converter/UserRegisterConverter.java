@@ -16,12 +16,10 @@ public class UserRegisterConverter {
     }
     public User convertDTORequestToEntity(UserRegisterRequestDTO userRegisterRequestDTO){
         User user = new User();
-        user.setId(userRegisterRequestDTO.getId());
         user.setUsername(userRegisterRequestDTO.getUsername());
         user.setPassword(userRegisterRequestDTO.getPassword());
-        user.setEmail(user.getEmail());
-        user.setPhoneNumber(user.getPhoneNumber());
-        user.setRole(user.getRole());
+        user.setEmail(userRegisterRequestDTO.getEmail());
+        user.setRole("ROLE_USER");
         return user;
     }
 }
