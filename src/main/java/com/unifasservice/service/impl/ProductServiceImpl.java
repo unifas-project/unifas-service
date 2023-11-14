@@ -4,7 +4,7 @@ import com.unifasservice.converter.ProductConverter;
 import com.unifasservice.dto.response.ProductResponseDTO;
 import com.unifasservice.entity.Product;
 import com.unifasservice.repository.ProductRepository;
-import com.unifasservice.service.IProductService;
+import com.unifasservice.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -12,7 +12,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Service
-public class ProductServiceImpl implements IProductService {
+public class ProductServiceImpl implements ProductService {
 
     @Autowired
     private ProductRepository productRepository;

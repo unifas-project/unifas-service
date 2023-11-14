@@ -8,7 +8,7 @@ import com.unifasservice.dto.response.UserLoginResponseDTO;
 import com.unifasservice.dto.response.UserRegisterResponseDTO;
 
 
-public interface IUserService {
+public interface UserService {
     UserLoginResponseDTO login(UserLoginRequestDTO login);
     ResponseDto register(UserRegisterRequestDTO userResgisterRequestDTO);
 }

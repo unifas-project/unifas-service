@@ -4,14 +4,14 @@ import com.unifasservice.converter.CategoryConverter;
 import com.unifasservice.dto.response.CategoryResponseDTO;
 import com.unifasservice.entity.Category;
 import com.unifasservice.repository.CategoryRepository;
-import com.unifasservice.service.ICategoryService;
+import com.unifasservice.service.CategoryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
 @Service
-public class CategoryServiceImpl implements ICategoryService {
+public class CategoryServiceImpl implements CategoryService {
 
     @Autowired
     private CategoryRepository categoryRepository;
