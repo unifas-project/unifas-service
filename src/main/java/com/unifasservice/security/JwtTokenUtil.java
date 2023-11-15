@@ -1,4 +1,4 @@
-package com.unifasservice.configuration;
+package com.unifasservice.security;
 
 
 import com.unifasservice.entity.User;

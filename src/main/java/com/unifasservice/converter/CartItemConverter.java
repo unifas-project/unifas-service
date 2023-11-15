@@ -1,18 +1,18 @@
 package com.unifasservice.converter;
 
 
-import com.unifasservice.dto.response.CartProductResponseDto;
-import com.unifasservice.entity.CartProduct;
+import com.unifasservice.dto.payload.response.CartItemResponse;
+import com.unifasservice.entity.CartItem;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 import java.util.List;
 
 @Component
-public class CartProductConverter {
+public class CartItemConverter {
 
-    public CartProductResponseDto fromEntityToDto (CartProduct cartProduct) {
-        CartProductResponseDto  cartProductResponseDto = new CartProductResponseDto();
+    public CartItemResponse fromEntityToDto (CartItem cartProduct) {
+        CartItemResponse cartProductResponseDto = new CartItemResponse();
         cartProductResponseDto.setId(cartProduct.getId());
         cartProductResponseDto.setName(cartProduct.getProduct().getName());
 //        cartProductResponseDto.setColor(cartProduct.getProduct().getVariantList());
@@ -23,9 +23,9 @@ public class CartProductConverter {
         return cartProductResponseDto;
     }
 
-    public List<CartProductResponseDto> fromListEntityToDto (List<CartProduct> cartProductList) {
-        List<CartProductResponseDto> cartProductResponseDtoList = new ArrayList<>();
-        for (CartProduct cartProduct : cartProductList) {
+    public List<CartItemResponse> fromListEntityToDto (List<CartItem> cartProductList) {
+        List<CartItemResponse> cartProductResponseDtoList = new ArrayList<>();
+        for (CartItem cartProduct : cartProductList) {
             cartProductResponseDtoList.add(fromEntityToDto(cartProduct));
         }
 

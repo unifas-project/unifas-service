@@ -1,7 +1,7 @@
 package com.unifasservice.service.impl;
 
 import com.unifasservice.converter.SubCategoryConverter;
-import com.unifasservice.dto.response.SubCategoryResponseDto;
+import com.unifasservice.dto.payload.response.SubCategoryResponse;
 import com.unifasservice.entity.SubCategory;
 import com.unifasservice.repository.SubCategoryRepository;
 import com.unifasservice.service.SubCategoryService;
@@ -21,11 +21,11 @@ public class SubCategoryServiceImpl implements SubCategoryService {
     private SubCategoryConverter subCategoryConverter;
 
     @Override
-    public List<SubCategoryResponseDto> findAll() {
-        List<SubCategoryResponseDto> subCategoriesResponseDTO = new ArrayList<>();
+    public List<SubCategoryResponse> findAll() {
+        List<SubCategoryResponse> subCategoriesResponseDTO = new ArrayList<>();
         List<SubCategory> subCategories = subCategoryRepository.findAll();
         for ( SubCategory subCategory : subCategories ) {
-                SubCategoryResponseDto subCategoryResponseDTO =
+                SubCategoryResponse subCategoryResponseDTO =
                         subCategoryConverter.subCategoryToSubCategoryResponseDTO(subCategory);
                 subCategoriesResponseDTO.add(subCategoryResponseDTO);
         }

@@ -1,21 +1,18 @@
 package com.unifasservice.service;
 
 
-import com.unifasservice.dto.request.AddProductToCartRequestDto;
-import com.unifasservice.dto.response.AddProductToCartResponseDto;
-import com.unifasservice.dto.response.CartProductResponseDto;
-import com.unifasservice.dto.response.DeleteCartProductResponseDto;
-import com.unifasservice.dto.response.UpdateCartProductResponseDto;
-import com.unifasservice.entity.CartProduct;
+import com.unifasservice.dto.payload.CommonResponse;
+import com.unifasservice.dto.payload.request.AddProductToCartRequest;
+import com.unifasservice.dto.payload.response.*;
 
 import java.util.List;
 
 public interface CartService {
-    AddProductToCartResponseDto addToCart(String username, AddProductToCartRequestDto addProduct);
+    CommonResponse addToCart(String username, AddProductToCartRequest addProduct);
 
-    List<CartProductResponseDto> getCartProducts(String username);
+    CommonResponse getCartProducts(String username);
 
-    UpdateCartProductResponseDto updateCartProduct(String username, long cartProductId, int newQuantity);
+    CommonResponse updateCartProduct(String username, long cartProductId, int newQuantity);
 
-    DeleteCartProductResponseDto deleteCartProduct(String username, long cartProductId);
+    DeleteCartItemResponse deleteCartProduct(String username, long cartProductId);
 }

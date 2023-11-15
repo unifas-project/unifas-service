@@ -1,7 +1,7 @@
 package com.unifasservice.service.impl;
 
 import com.unifasservice.converter.ProductConverter;
-import com.unifasservice.dto.response.ProductResponseDto;
+import com.unifasservice.dto.payload.response.ProductResponse;
 import com.unifasservice.entity.Product;
 import com.unifasservice.repository.ProductRepository;
 import com.unifasservice.service.ProductService;
@@ -21,11 +21,11 @@ public class ProductServiceImpl implements ProductService {
     private ProductConverter productConverter;
 
     @Override
-    public List<ProductResponseDto> findAll() {
-        List<ProductResponseDto> productResponseDTOs = new ArrayList<>();
+    public List<ProductResponse> findAll() {
+        List<ProductResponse> productResponseDTOs = new ArrayList<>();
         List<Product> products = productRepository.findAll();
         for ( Product product : products) {
-                ProductResponseDto productResponseDTO = productConverter.productToProductResponseDTO(product);
+                ProductResponse productResponseDTO = productConverter.productToProductResponseDTO(product);
                 productResponseDTOs.add(productResponseDTO);
         }
         return productResponseDTOs;

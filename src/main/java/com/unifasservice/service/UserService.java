@@ -1,13 +1,14 @@
 package com.unifasservice.service;
 
 
-import com.unifasservice.dto.request.UserLoginRequestDto;
-import com.unifasservice.dto.request.UserRegisterRequestDto;
-import com.unifasservice.dto.response.UserLoginResponseDto;
-import com.unifasservice.dto.response.UserRegisterResponseDto;
+import com.unifasservice.dto.payload.request.UserLoginRequest;
+import com.unifasservice.dto.payload.request.UserRegisterRequest;
+import com.unifasservice.dto.payload.CommonResponse;
+import com.unifasservice.dto.payload.response.UserLoginResponse;
+import com.unifasservice.dto.payload.response.UserRegisterResponse;
 
 
 public interface UserService {
-    UserLoginResponseDto login(UserLoginRequestDto login);
-    UserRegisterResponseDto register(UserRegisterRequestDto userResgisterRequestDTO);
+    CommonResponse login(UserLoginRequest login);
+    CommonResponse register(UserRegisterRequest userResgisterRequestDTO);
 }

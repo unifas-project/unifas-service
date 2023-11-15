@@ -1,8 +1,8 @@
-package com.unifasservice.consecurity;
+package com.unifasservice.configuration;
 
 
-import com.unifasservice.configuration.JwtAuthenticationEntryPoint;
-import com.unifasservice.configuration.JwtRequestFilter;
+import com.unifasservice.security.JwtRequestFilter;
+import com.unifasservice.security.JwtAuthenticationEntryPoint;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -16,8 +16,6 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
-import org.springframework.security.web.authentication.rememberme.InMemoryTokenRepositoryImpl;
-import org.springframework.security.web.authentication.rememberme.PersistentTokenRepository;
 
 @Configuration
 @EnableWebSecurity

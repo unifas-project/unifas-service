@@ -1,36 +1,38 @@
 package com.unifasservice.service.impl;
 
-import com.unifasservice.configuration.JwtTokenUtil;
+import com.unifasservice.dto.payload.CommonResponse;
+import com.unifasservice.security.JwtTokenUtil;
 import com.unifasservice.converter.UserLoginConverter;
-import com.unifasservice.dto.request.UserLoginRequestDto;
-import com.unifasservice.dto.response.UserLoginResponseDto;
+import com.unifasservice.dto.payload.request.UserLoginRequest;
+import com.unifasservice.dto.payload.response.UserLoginResponse;
 import com.unifasservice.entity.Cart;
 import com.unifasservice.entity.User;
 import com.unifasservice.repository.UserRepository;
 import com.unifasservice.converter.UserRegisterConverter;
-import com.unifasservice.dto.request.UserRegisterRequestDto;
-import com.unifasservice.dto.response.UserRegisterResponseDto;
+import com.unifasservice.dto.payload.request.UserRegisterRequest;
+import com.unifasservice.dto.payload.response.UserRegisterResponse;
 import com.unifasservice.service.UserService;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 
 @Service
+@RequiredArgsConstructor
 public class UserServiceImpl implements UserService {
-    @Autowired
-    private UserRepository userRepository;
-    @Autowired
-    private UserLoginConverter userLoginConverter;
-    @Autowired
-    private UserRegisterConverter userRegisterConverter;
-    @Autowired
-    private PasswordEncoder passwordEncoder;
-    @Autowired
-    private JwtTokenUtil jwtTokenUtil;
+
+    private final UserRepository userRepository;
+    private final UserLoginConverter userLoginConverter;
+    private final UserRegisterConverter userRegisterConverter;
+    private final PasswordEncoder passwordEncoder;
+    private final JwtTokenUtil jwtTokenUtil;
 
 
-    public UserLoginResponseDto login(UserLoginRequestDto login) {
+    public CommonResponse login(UserLoginRequest login) {
+
+        CommonResponse commonResponse = new CommonResponse();
+
         String email = login.getEmail();
         String password = login.getPassword();
 
@@ -42,15 +44,23 @@ public class UserServiceImpl implements UserService {
 
         if (user != null) {
             if (passwordEncoder.matches(password, user.getPassword())) {
-                UserLoginResponseDto loginResponseDTO = userLoginConverter.userToUserLoginDTO(user);
-                loginResponseDTO.setMessage("Logged in successfully !");
+
+                UserLoginResponse loginResponseDTO = userLoginConverter.userToUserLoginDTO(user);
+
 
                 String token = jwtTokenUtil.generateToken(user);
                 loginResponseDTO.setToken(token);
                 loginResponseDTO.setRole(user.getRole());
 
 
-                return loginResponseDTO;
+                commonResponse.builder()
+                        .message("Logged in Successfully !")
+                        .statusCode(HttpStatus.OK)
+                        .data(loginResponseDTO)
+                        .build();
+                return commonResponse;
+
+
             } else {
                 throw new RuntimeException("Wrong password");
             }
@@ -59,40 +69,66 @@ public class UserServiceImpl implements UserService {
         }
     }
     @Override
-    public UserRegisterResponseDto register(UserRegisterRequestDto userRegisterRequestDTO) {
+    public CommonResponse register(UserRegisterRequest userRegisterRequestDTO) {
+
+        CommonResponse commonResponse =  new CommonResponse();
 
         String password = userRegisterRequestDTO.getPassword();
         String hashCode = passwordEncoder.encode(password);
 
-        UserRegisterResponseDto responseDTO = new UserRegisterResponseDto();
+        UserRegisterResponse responseDTO = new UserRegisterResponse();
+
         try {
             User userNameCheck = userRepository.findByUsername(userRegisterRequestDTO.getUsername());
             if (userNameCheck != null) {
-                responseDTO.setMessage("This account already exists");
-                return responseDTO;
+                commonResponse.builder()
+                        .message("This account already exists")
+                        .statusCode(HttpStatus.BAD_REQUEST)
+                        .data(null)
+                        .build();
+                return commonResponse;
             }
             User emailCheck = userRepository.findByEmail(userRegisterRequestDTO.getEmail());
             if (emailCheck != null) {
-                responseDTO.setMessage("Email exists, please enter another email!");
-                return responseDTO;
+                commonResponse.builder()
+                        .message("Email exists, please enter another email!")
+                        .statusCode(HttpStatus.BAD_REQUEST)
+                        .data(null)
+                        .build();
+                return commonResponse;
+
+
             }
+
             User user = userRegisterConverter.convertDTORequestToEntity(userRegisterRequestDTO);
             user.setPassword(hashCode);
             user.setDeleted(false);
 
             Cart cartUser = new Cart();
             cartUser.setUser(user);
-
             user.setCart(cartUser);
-
             userRepository.save(user);
             responseDTO = userRegisterConverter.convertEntityResponseToDTO(user);
-            responseDTO.setMessage("Register Success!");
-            return responseDTO;
+
+
+
+            commonResponse.builder()
+                    .message("Register Success!")
+                    .statusCode(HttpStatus.CREATED)
+                    .data(responseDTO)
+                    .build();
+            return commonResponse;
+
 
         } catch (Exception e) {
-            responseDTO.setMessage("Register Failure!");
-            return responseDTO;
+
+            commonResponse.builder()
+                    .message("Register Failure!")
+                    .statusCode(HttpStatus.BAD_REQUEST)
+                    .data(null)
+                    .build();
+
+            return commonResponse;
         }
 
     }

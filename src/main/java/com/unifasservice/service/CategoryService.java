@@ -1,10 +1,10 @@
 package com.unifasservice.service;
 
 
-import com.unifasservice.dto.response.CategoryResponseDto;
+import com.unifasservice.dto.payload.response.CategoryResponse;
 
 import java.util.List;
 
 public interface CategoryService {
-    List<CategoryResponseDto> findAll();
+    List<CategoryResponse> findAll();
 }

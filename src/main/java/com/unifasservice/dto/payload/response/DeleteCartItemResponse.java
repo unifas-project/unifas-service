@@ -1,10 +1,10 @@
-package com.unifasservice.dto.response;
+package com.unifasservice.dto.payload.response;
 
 
 import lombok.Data;
 
 @Data
-public class DeleteCartProductResponseDto {
+public class DeleteCartItemResponse {
     private String message;
     private boolean success;
 

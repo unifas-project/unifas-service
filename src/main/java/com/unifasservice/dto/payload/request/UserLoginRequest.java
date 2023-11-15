@@ -1,4 +1,4 @@
-package com.unifasservice.dto.request;
+package com.unifasservice.dto.payload.request;
 
 
 import lombok.Data;
@@ -8,7 +8,7 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 
 @Data
-public class UserLoginRequestDto {
+public class UserLoginRequest {
 
     @Email(message = "Invalid email address")
     @NotBlank(message = "Email is required")

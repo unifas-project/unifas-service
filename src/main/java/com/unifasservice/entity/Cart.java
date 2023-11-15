@@ -30,7 +30,7 @@ public class Cart {
     private User user;
 
     @OneToMany(mappedBy = "cart", fetch = FetchType.LAZY)
-    private List<CartProduct> cartProductList ;
+    private List<CartItem> cartProductList ;
 
 
 }

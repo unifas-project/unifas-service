@@ -1,58 +1,70 @@
 package com.unifasservice.service.impl;
 
-import com.unifasservice.converter.CartProductConverter;
-import com.unifasservice.dto.request.AddProductToCartRequestDto;
-import com.unifasservice.dto.response.AddProductToCartResponseDto;
-import com.unifasservice.dto.response.CartProductResponseDto;
-import com.unifasservice.dto.response.DeleteCartProductResponseDto;
-import com.unifasservice.dto.response.UpdateCartProductResponseDto;
+import com.unifasservice.converter.CartItemConverter;
+import com.unifasservice.dto.payload.CommonResponse;
+import com.unifasservice.dto.payload.request.AddProductToCartRequest;
+import com.unifasservice.dto.payload.response.*;
 import com.unifasservice.entity.*;
 import com.unifasservice.repository.*;
 import com.unifasservice.service.CartService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 
 @Service
+@RequiredArgsConstructor
 public class CartServiceImpl implements CartService {
-    @Autowired
-    private UserRepository userRepository;
-    @Autowired
-    private ProductRepository productRepository;
-    @Autowired
-    private CartRepository cartRepository;
-    @Autowired
-    private VariantRepository variantRepository;
-    @Autowired
-    private CartProductConverter cartProductConverter;
-    @Autowired
-    private CartProductRepository cartProductRepository;
+
+    private final UserRepository userRepository;
+
+    private final ProductRepository productRepository;
+
+    private final CartRepository cartRepository;
+
+    private final VariantRepository variantRepository;
+
+    private final CartItemConverter cartProductConverter;
+
+    private final CartProductRepository cartProductRepository;
 
     @Override
-    public AddProductToCartResponseDto addToCart(String username, AddProductToCartRequestDto addProduct) {
+    public CommonResponse addToCart(String username, AddProductToCartRequest addProduct) {
 
-        AddProductToCartResponseDto responseDto = new AddProductToCartResponseDto();
+        CommonResponse commonResponse = new CommonResponse();
+
+        AddProductToCartResponse addProductToCartResponse = new AddProductToCartResponse();
 
 
         User user = userRepository.findByUsername(username);
         if (user == null) {
-            responseDto.setMessage("User not found");
-            responseDto.setSuccess(false);
-            return responseDto;
+
+            commonResponse.builder()
+                    .message("User not found !")
+                    .statusCode(HttpStatus.BAD_REQUEST)
+                    .data(null)
+                    .build();
+            return commonResponse;
         }
 
 
         long productId = addProduct.getProductId();
         Product product = productRepository.findById(productId)
-                .orElse(null);
+                .orElseThrow(() -> new RuntimeException("Product not found"));
 
         if (product == null) {
-            responseDto.setMessage("Product not found");
-            responseDto.setSuccess(false);
-            return responseDto;
+
+            commonResponse.builder()
+                    .message("Product not found !")
+                    .statusCode(HttpStatus.BAD_REQUEST)
+                    .data(null)
+                    .build();
+            return commonResponse;
+
+
         }
 
         long variantId = addProduct.getVariantId();
@@ -76,54 +88,84 @@ public class CartServiceImpl implements CartService {
             user.setCart(cart);
         }
 
-        CartProduct cartProduct = new CartProduct();
+        CartItem cartProduct = new CartItem();
         cartProduct.setProduct(product);
         cartProduct.setCart(cart);
         cartRepository.save(cart);
 
 
-        responseDto.setId(product.getId());
-        responseDto.setQuantity(addProduct.getQuantity());
-        responseDto.setPrice(product.getPrice());
-        responseDto.setSubtotal(addProduct.getQuantity() * product.getPrice());
-        responseDto.setMessage("Product added to cart successfully");
-        responseDto.setSuccess(true);
+        addProductToCartResponse.setId(product.getId());
+        addProductToCartResponse.setQuantity(addProduct.getQuantity());
+        addProductToCartResponse.setPrice(product.getPrice());
+        addProductToCartResponse.setSubtotal(addProduct.getQuantity() * product.getPrice());
 
-        return responseDto;
+
+        commonResponse.builder()
+                .message("Product added to cart successfully !")
+                .statusCode(HttpStatus.OK)
+                .data(addProductToCartResponse)
+                .build();
+        return commonResponse;
 
       }
 
     @Override
-    public List<CartProductResponseDto> getCartProducts(String username) {
+    public CommonResponse getCartProducts(String username) {
+
+        CommonResponse commonResponse = new CommonResponse();
+
         User user = userRepository.findByUsername(username);
         if (user == null || user.getCart() == null) {
-            return Collections.emptyList();
+
+            commonResponse.builder()
+                    .message("User not found or Cart not created ! ")
+                    .statusCode(HttpStatus.BAD_REQUEST)
+                    .data(null)
+                    .build();
+            return commonResponse;
         }
 
         Cart cart = user.getCart();
-        List<CartProduct> cartProductList = cart.getCartProductList();
+        List<CartItem> cartProductList = cart.getCartProductList();
 
-        List<CartProductResponseDto> cartProductResponseDtoList = cartProductConverter.fromListEntityToDto(cartProductList);
+        List<CartItemResponse> cartProductResponseDtoList = cartProductConverter.fromListEntityToDto(cartProductList);
 
 
-        return cartProductResponseDtoList;
+        commonResponse.builder()
+                .message("Show successfully !")
+                .statusCode(HttpStatus.OK)
+                .data(cartProductResponseDtoList)
+                .build();
+        return commonResponse;
+
+
     }
 
     @Override
-    public UpdateCartProductResponseDto updateCartProduct(String username, long cartProductId, int newQuantity) {
-        UpdateCartProductResponseDto responseDto = new UpdateCartProductResponseDto();
+    public CommonResponse updateCartProduct(String username, long cartProductId, int newQuantity) {
+
+        CommonResponse commonResponse = new CommonResponse();
+
+        UpdateCartItemResponse responseDto = new UpdateCartItemResponse();
 
         User user = userRepository.findByUsername(username);
+
         if (user == null || user.getCart() == null) {
-            responseDto.setMessage("User or cart not found");
-            responseDto.setSuccess(false);
-            return responseDto;
+
+            commonResponse.builder()
+                    .message("User not found or Cart not created ! ")
+                    .statusCode(HttpStatus.BAD_REQUEST)
+                    .data(null)
+                    .build();
+            return commonResponse;
+
+
         }
 
         Cart cart = user.getCart();
 
 
-        for (CartProduct cartProduct : cart.getCartProductList()) {
+        for (CartItem cartProduct : cart.getCartProductList()) {
             if (cartProduct.getId() == cartProductId) {
 
                 cartProduct.setQuantity(newQuantity);
@@ -135,21 +177,28 @@ public class CartServiceImpl implements CartService {
                 responseDto.setPrice(cartProduct.getPrice());
                 responseDto.setQuantity(cartProduct.getQuantity());
                 responseDto.setSubtotal(cartProduct.getSubtotal());
-                responseDto.setMessage("CartProduct updated successfully");
-                responseDto.setSuccess(true);
-                return responseDto;
+
+
+                commonResponse.builder()
+                        .message("Cart Item updated successfully !")
+                        .statusCode(HttpStatus.OK)
+                        .data(responseDto)
+                        .build();
+                return commonResponse;
             }
         }
 
-
-        responseDto.setMessage("CartProduct not found");
-        responseDto.setSuccess(false);
-        return responseDto;
+        commonResponse.builder()
+                .message("Cart Item not found !")
+                .statusCode(HttpStatus.BAD_REQUEST)
+                .data(null)
+                .build();
+        return commonResponse;
     }
 
     @Override
-    public DeleteCartProductResponseDto deleteCartProduct(String username, long cartProductId) {
-        DeleteCartProductResponseDto responseDto = new DeleteCartProductResponseDto();
+    public DeleteCartItemResponse deleteCartProduct(String username, long cartProductId) {
+        DeleteCartItemResponse responseDto = new DeleteCartItemResponse();
 
         User user = userRepository.findByUsername(username);
         if (user == null || user.getCart() == null) {
@@ -161,7 +210,7 @@ public class CartServiceImpl implements CartService {
         Cart cart = user.getCart();
 
 
-        for (CartProduct cartProduct : cart.getCartProductList()) {
+        for (CartItem cartProduct : cart.getCartProductList()) {
             if (cartProduct.getId() == cartProductId) {
 
                 cart.getCartProductList().remove(cartProduct);

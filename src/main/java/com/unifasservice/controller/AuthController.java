@@ -1,10 +1,8 @@
-package com.unifasservice.controller.authenticated;
+package com.unifasservice.controller;
 
-
-import com.unifasservice.dto.request.UserLoginRequestDto;
-import com.unifasservice.dto.response.UserLoginResponseDto;
-import com.unifasservice.dto.request.UserRegisterRequestDto;
-import com.unifasservice.dto.response.UserRegisterResponseDto;
+import com.unifasservice.dto.payload.request.UserLoginRequest;
+import com.unifasservice.dto.payload.CommonResponse;
+import com.unifasservice.dto.payload.request.UserRegisterRequest;
 import com.unifasservice.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,14 +25,14 @@ public class AuthController {
     private UserService userService;
 
     @PostMapping("/login")
-    public ResponseEntity<UserLoginResponseDto> login(@Valid @RequestBody UserLoginRequestDto loginRequestDTO,
-                                                      BindingResult bindingResult) {
+    public ResponseEntity<CommonResponse> login(@Valid @RequestBody UserLoginRequest loginRequestDTO,
+                                                                   BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
 
         try {
-            UserLoginResponseDto loginResponseDTO = userService.login(loginRequestDTO);
+            CommonResponse loginResponseDTO = userService.login(loginRequestDTO);
             return new ResponseEntity<>(loginResponseDTO, HttpStatus.OK);
         } catch (IllegalArgumentException e) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
@@ -43,8 +41,8 @@ public class AuthController {
         }
     }
     @PostMapping(value = "/register")
-    public ResponseEntity<UserRegisterResponseDto> registerUser(@RequestBody UserRegisterRequestDto userRegisterRequestDTO) {
-        UserRegisterResponseDto responseDto = userService.register(userRegisterRequestDTO);
+    public ResponseEntity<CommonResponse> registerUser(@RequestBody UserRegisterRequest userRegisterRequestDTO) {
+        CommonResponse responseDto = userService.register(userRegisterRequestDTO);
         return new ResponseEntity<>(responseDto, HttpStatus.CREATED);
     }
 

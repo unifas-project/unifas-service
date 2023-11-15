@@ -1,13 +1,13 @@
 package com.unifasservice.converter;
 
-import com.unifasservice.dto.response.CategoryResponseDto;
+import com.unifasservice.dto.payload.response.CategoryResponse;
 import com.unifasservice.entity.Category;
 import org.springframework.stereotype.Component;
 
 @Component
 public class CategoryConverter {
-    public CategoryResponseDto categoryToCategoryResponseDTO(Category category) {
-        CategoryResponseDto categoryResponseDTO = new CategoryResponseDto();
+    public CategoryResponse categoryToCategoryResponseDTO(Category category) {
+        CategoryResponse categoryResponseDTO = new CategoryResponse();
         categoryResponseDTO.setId(category.getId());
         categoryResponseDTO.setName(category.getName());
         categoryResponseDTO.setGender(category.getGender());

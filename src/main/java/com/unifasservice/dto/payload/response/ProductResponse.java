@@ -1,9 +1,9 @@
-package com.unifasservice.dto.response;
+package com.unifasservice.dto.payload.response;
 
 import lombok.Data;
 
 @Data
-public class ProductResponseDto {
+public class ProductResponse {
     private long id;
     private String name;
     private double price;
