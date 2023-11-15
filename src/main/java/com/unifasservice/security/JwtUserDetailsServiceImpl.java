@@ -1,4 +1,4 @@
-package com.unifasservice.service.impl;
+package com.unifasservice.security;
 
 
 import com.unifasservice.repository.UserRepository;
@@ -16,7 +16,7 @@ import java.util.List;
 
 @Service
 @Transactional
-public class JwtUserDetailsService implements UserDetailsService {
+public class JwtUserDetailsServiceImpl implements UserDetailsService {
 
     @Autowired
     private UserRepository userRepository;

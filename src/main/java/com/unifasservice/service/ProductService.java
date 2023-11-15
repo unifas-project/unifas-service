@@ -1,9 +1,9 @@
 package com.unifasservice.service;
 
-import com.unifasservice.dto.response.ProductResponseDTO;
+import com.unifasservice.dto.payload.response.ProductResponse;
 
 import java.util.List;
 
 public interface ProductService {
-    List<ProductResponseDTO> findAll();
+    List<ProductResponse> findAll();
 }

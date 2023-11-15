@@ -52,13 +52,13 @@ public class Product {
     private List<Variant>  variantList ;
 
     @OneToMany(mappedBy = "product", fetch = FetchType.LAZY)
-    private List<ImageProduct>  imageProductList ;
+    private List<ProductImage>  imageProductList ;
 
     @OneToMany(mappedBy = "product", fetch = FetchType.LAZY)
     private List<Review>  reviews ;
 
     @OneToMany(mappedBy = "product", fetch = FetchType.LAZY)
-    private List<CartProduct>  cartProductList ;
+    private List<CartItem>  cartProductList ;
 
     @OneToMany(mappedBy = "product", fetch = FetchType.LAZY)
     private List<OrderLine>  orderLineList ;

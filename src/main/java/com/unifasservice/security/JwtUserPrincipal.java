@@ -1,4 +1,4 @@
-package com.unifasservice.configuration;
+package com.unifasservice.security;
 
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -12,24 +12,24 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Objects;
 
-public class UserPrincipal implements UserDetails {
+public class JwtUserPrincipal implements UserDetails {
     private Long id;
     private String username;
     @JsonIgnore
     private String password;
     private Collection<? extends GrantedAuthority> authorities;
-    public UserPrincipal(Long id, String username, String password, Collection<? extends GrantedAuthority> authorities) {
+    public JwtUserPrincipal(Long id, String username, String password, Collection<? extends GrantedAuthority> authorities) {
         this.id = id;
         this.username = username;
         this.password = password;
         this.authorities = authorities;
     }
 
-    public static UserPrincipal create(User user) {
+    public static JwtUserPrincipal create(User user) {
         List<GrantedAuthority> authorities = new ArrayList<>();
         authorities.add(new SimpleGrantedAuthority(user.getRole()));
 
-        return new UserPrincipal(
+        return new JwtUserPrincipal(
                 user.getId(),
                 user.getUsername(),
                 user.getPassword(),
@@ -77,7 +77,7 @@ public class UserPrincipal implements UserDetails {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        UserPrincipal that = (UserPrincipal) o;
+        JwtUserPrincipal that = (JwtUserPrincipal) o;
         return Objects.equals(id, that.id);
     }
 

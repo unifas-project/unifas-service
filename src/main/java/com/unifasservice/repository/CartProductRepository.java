@@ -1,8 +1,8 @@
 package com.unifasservice.repository;
 
-import com.unifasservice.entity.CartProduct;
+import com.unifasservice.entity.CartItem;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 
-public interface CartProductRepository  extends JpaRepository<CartProduct, Long> {
+public interface CartProductRepository  extends JpaRepository<CartItem, Long> {
 }
