@@ -13,7 +13,7 @@ import javax.persistence.*;
 @AllArgsConstructor
 @Table(name = "IMAGE_PRODUCT")
 
-public class ImageProduct {
+public class ProductImage {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

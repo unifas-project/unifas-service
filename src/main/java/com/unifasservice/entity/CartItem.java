@@ -14,7 +14,7 @@ import javax.persistence.*;
 @Table(name = "CART_PRODUCT")
 
 
-public class CartProduct {
+public class CartItem {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

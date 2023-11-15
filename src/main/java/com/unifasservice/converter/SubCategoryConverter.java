@@ -1,13 +1,13 @@
 package com.unifasservice.converter;
 
-import com.unifasservice.dto.response.SubCategoryResponseDTO;
+import com.unifasservice.dto.payload.response.SubCategoryResponse;
 import com.unifasservice.entity.SubCategory;
 import org.springframework.stereotype.Component;
 
 @Component
 public class SubCategoryConverter {
-    public SubCategoryResponseDTO subCategoryToSubCategoryResponseDTO(SubCategory subCategory) {
-        SubCategoryResponseDTO subCategoryResponseDTO = new SubCategoryResponseDTO();
+    public SubCategoryResponse subCategoryToSubCategoryResponseDTO(SubCategory subCategory) {
+        SubCategoryResponse subCategoryResponseDTO = new SubCategoryResponse();
         subCategoryResponseDTO.setId(subCategory.getId());
         subCategoryResponseDTO.setName(subCategory.getName());
         subCategoryResponseDTO.setCategoryId(subCategory.getCategory().getId());
