@@ -18,21 +18,18 @@ import javax.validation.Valid;
 @CrossOrigin("*")
 @RequestMapping("/api/auth")
 public class AuthController {
-
-
-
     @Autowired
     private UserService userService;
 
     @PostMapping("/login")
-    public ResponseEntity<CommonResponse> login(@Valid @RequestBody UserLoginRequest loginRequestDTO,
+    public ResponseEntity<CommonResponse> login(@Valid @RequestBody UserLoginRequest loginRequest,
                                                                    BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
 
         try {
-            CommonResponse loginResponseDTO = userService.login(loginRequestDTO);
+            CommonResponse loginResponseDTO = userService.login(loginRequest);
             return new ResponseEntity<>(loginResponseDTO, HttpStatus.OK);
         } catch (IllegalArgumentException e) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
@@ -41,8 +38,8 @@ public class AuthController {
         }
     }
     @PostMapping(value = "/register")
-    public ResponseEntity<CommonResponse> registerUser(@RequestBody UserRegisterRequest userRegisterRequestDTO) {
-        CommonResponse responseDto = userService.register(userRegisterRequestDTO);
+    public ResponseEntity<CommonResponse> registerUser(@RequestBody UserRegisterRequest userRegisterRequest) {
+        CommonResponse responseDto = userService.register(userRegisterRequest);
         return new ResponseEntity<>(responseDto, HttpStatus.CREATED);
     }
 

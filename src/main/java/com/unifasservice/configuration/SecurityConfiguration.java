@@ -58,7 +58,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 //                        "/api/admin/")
 //                .hasAnyRole(ERole.ADMIN.toString()).
 
-//				  antMatchers(HttpMethod.GET, "/home").hasAnyRole(ERole.USER.toString(),ERole.ADMIN.toString()).
+//             antMatchers(HttpMethod.GET, "/home").hasAnyRole(ERole.USER.toString(),ERole.ADMIN.toString()).
 //                antMatchers(HttpMethod.GET, "/api/profile").hasAnyRole(ERole.USER.toString(),ERole.ADMIN.toString()).
 //                antMatchers(HttpMethod.PUT, "/api/edit").hasAnyRole(ERole.USER.toString(),ERole.ADMIN.toString()).
 //                antMatchers(HttpMethod.DELETE, "/api/delete").hasAnyRole(ERole.ADMIN.toString()).
@@ -95,4 +95,6 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 //    public PersistentTokenRepository persistentTokenRepository() {
 //        return new InMemoryTokenRepositoryImpl();
 //    }
+
 }
+
