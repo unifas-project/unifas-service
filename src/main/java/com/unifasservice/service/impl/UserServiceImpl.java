@@ -1,19 +1,19 @@
 package com.unifasservice.service.impl;
 
-import com.unifasservice.configuration.JwtTokenUtil;
+import com.unifasservice.dto.payload.CommonResponse;
+import com.unifasservice.security.JwtTokenUtil;
 import com.unifasservice.converter.UserLoginConverter;
-import com.unifasservice.dto.request.UserLoginRequestDTO;
-import com.unifasservice.dto.response.ResponseDto;
-import com.unifasservice.dto.response.UserLoginResponseDTO;
+import com.unifasservice.dto.payload.request.UserLoginRequest;
+import com.unifasservice.dto.payload.response.UserLoginResponse;
+import com.unifasservice.entity.Cart;
 import com.unifasservice.entity.User;
 import com.unifasservice.repository.UserRepository;
 import com.unifasservice.converter.UserRegisterConverter;
-import com.unifasservice.dto.request.UserRegisterRequestDTO;
-import com.unifasservice.dto.response.UserRegisterResponseDTO;
+import com.unifasservice.dto.payload.request.UserRegisterRequest;
+import com.unifasservice.dto.payload.response.UserRegisterResponse;
+import com.unifasservice.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
-import com.unifasservice.service.UserService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -23,14 +23,16 @@ import org.springframework.stereotype.Service;
 public class UserServiceImpl implements UserService {
 
     private final UserRepository userRepository;
-
     private final UserLoginConverter userLoginConverter;
-
     private final UserRegisterConverter userRegisterConverter;
     private final PasswordEncoder passwordEncoder;
     private final JwtTokenUtil jwtTokenUtil;
 
-    public UserLoginResponseDTO login(UserLoginRequestDTO login) {
+
+    public CommonResponse login(UserLoginRequest login) {
+
+        CommonResponse commonResponse = new CommonResponse();
+
         String email = login.getEmail();
         String password = login.getPassword();
 
@@ -42,15 +44,23 @@ public class UserServiceImpl implements UserService {
 
         if (user != null) {
             if (passwordEncoder.matches(password, user.getPassword())) {
-                UserLoginResponseDTO loginResponseDTO = userLoginConverter.userToUserLoginDTO(user);
-                loginResponseDTO.setMessage("Logged in successfully !");
+
+                UserLoginResponse loginResponseDTO = userLoginConverter.userToUserLoginDTO(user);
+
 
                 String token = jwtTokenUtil.generateToken(user);
                 loginResponseDTO.setToken(token);
                 loginResponseDTO.setRole(user.getRole());
 
 
-                return loginResponseDTO;
+                commonResponse.builder()
+                        .message("Logged in Successfully !")
+                        .statusCode(HttpStatus.OK)
+                        .data(loginResponseDTO)
+                        .build();
+                return commonResponse;
+
+
             } else {
                 throw new RuntimeException("Wrong password");
             }
@@ -60,40 +70,43 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public ResponseDto register(UserRegisterRequestDTO userResgisterRequestDTO) {
-        ResponseDto responseDto;
-        User userNameCheck = userRepository.findByUsername(userResgisterRequestDTO.getUsername());
+    public CommonResponse register(UserRegisterRequest userRegisterRequestDTO) {
+
+        String password = userRegisterRequestDTO.getPassword();
+        String hashCode = passwordEncoder.encode(password);
+
+        User userNameCheck = userRepository.findByUsername(userRegisterRequestDTO.getUsername());
         if (userNameCheck != null) {
-            responseDto = getResponseDto("Username already exists!", HttpStatus.BAD_REQUEST, false);
-            return responseDto;
+            return getCommonResponse("This account already exists", HttpStatus.BAD_REQUEST, false);
         }
-        User emailCheck = userRepository.findByEmail(userResgisterRequestDTO.getEmail());
+        User emailCheck = userRepository.findByEmail(userRegisterRequestDTO.getEmail());
         if (emailCheck != null) {
-            responseDto = getResponseDto("Email already exists!", HttpStatus.BAD_REQUEST, false);
-            return responseDto;
+            return getCommonResponse("Email exists, please enter another email!", HttpStatus.BAD_REQUEST, false);
         }
         try {
-        String password = userResgisterRequestDTO.getPassword();
-        String hashCode = passwordEncoder.encode(password);
-            User user = userRegisterConverter.convertDTORequestToEntity(userResgisterRequestDTO);
+
+            User user = userRegisterConverter.convertDTORequestToEntity(userRegisterRequestDTO);
             user.setPassword(hashCode);
             user.setDeleted(false);
+
+            Cart cartUser = new Cart();
+            cartUser.setUser(user);
+            user.setCart(cartUser);
             userRepository.save(user);
+
         } catch (Exception e) {
-            responseDto = getResponseDto("Register False!", HttpStatus.BAD_REQUEST, false);
-            return responseDto;
+            return getCommonResponse("Register Failure!", HttpStatus.BAD_REQUEST, false);
         }
-        responseDto = getResponseDto("Register Success!", HttpStatus.OK, true);
-        return responseDto;
+        return getCommonResponse("Register Success!", HttpStatus.CREATED, true);
     }
 
-    private ResponseDto getResponseDto (String message, HttpStatus status, Object data) {
-        ResponseDto responseDto = ResponseDto.builder()
+    private CommonResponse getCommonResponse(String message, HttpStatus status, Object data) {
+        CommonResponse commonResponse = CommonResponse.builder()
                 .message(message)
-                .status(status)
+                .statusCode(status)
                 .data(data)
                 .build();
-        return responseDto;
+        return commonResponse;
 
     }
 }
