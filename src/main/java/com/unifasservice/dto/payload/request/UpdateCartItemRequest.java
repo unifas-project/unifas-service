@@ -4,7 +4,7 @@ package com.unifasservice.dto.payload.request;
 import lombok.Data;
 
 @Data
-public class UpdateCartProductRequest {
+public class UpdateCartItemRequest {
 
     private int newQuantity;
 

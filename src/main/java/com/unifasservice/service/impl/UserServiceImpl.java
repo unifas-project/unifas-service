@@ -30,79 +30,83 @@ public class UserServiceImpl implements UserService {
 
 
     public CommonResponse login(UserLoginRequest login) {
-
         CommonResponse commonResponse = new CommonResponse();
 
-        String email = login.getEmail();
-        String password = login.getPassword();
+        try {
+            String email = login.getEmail();
+            String password = login.getPassword();
 
-        if (email == null || password == null) {
-            throw new IllegalArgumentException("Username and password are required.");
-        }
-
-        User user = userRepository.findByEmail(email);
-
-        if (user != null) {
-            if (passwordEncoder.matches(password, user.getPassword())) {
-
-                UserLoginResponse loginResponseDTO = userLoginConverter.userToUserLoginDTO(user);
-
-
-                String token = jwtTokenUtil.generateToken(user);
-                loginResponseDTO.setToken(token);
-                loginResponseDTO.setRole(user.getRole());
-
-
-                commonResponse.builder()
-                        .message("Logged in Successfully !")
-                        .statusCode(HttpStatus.OK)
-                        .data(loginResponseDTO)
-                        .build();
-                return commonResponse;
-
-
-            } else {
-                throw new RuntimeException("Wrong password");
+            if (email == null || password == null) {
+                throw new IllegalArgumentException("Username and password are required.");
             }
-        } else {
-            throw new RuntimeException("User not found");
+
+            User user = userRepository.findByEmail(email);
+
+            if (user != null) {
+                if (passwordEncoder.matches(password, user.getPassword())) {
+                    UserLoginResponse loginResponse = userLoginConverter.userToUserLoginDTO(user);
+                    String token = jwtTokenUtil.generateToken(user);
+                    loginResponse.setToken(token);
+                    loginResponse.setRole(user.getRole());
+
+                    commonResponse = commonResponse.builder()
+                            .data(loginResponse)
+                            .message("Logged in Successfully !")
+                            .statusCode(HttpStatus.OK)
+                            .build();
+
+                } else {
+                    throw new RuntimeException("Wrong password");
+                }
+            } else {
+                throw new RuntimeException("User not found");
+            }
+        } catch (IllegalArgumentException e) {
+            commonResponse.setMessage(e.getMessage());
+            commonResponse.setStatusCode(HttpStatus.BAD_REQUEST);
+        } catch (RuntimeException e) {
+            commonResponse.setMessage(e.getMessage());
+            commonResponse.setStatusCode(HttpStatus.UNAUTHORIZED);
         }
+
+        return commonResponse;
     }
+
     @Override
-    public CommonResponse register(UserRegisterRequest userRegisterRequestDTO) {
+    public CommonResponse register(UserRegisterRequest userRegisterRequest) {
 
         CommonResponse commonResponse =  new CommonResponse();
 
-        String password = userRegisterRequestDTO.getPassword();
+        String password = userRegisterRequest.getPassword();
+
         String hashCode = passwordEncoder.encode(password);
 
         UserRegisterResponse responseDTO = new UserRegisterResponse();
 
         try {
-            User userNameCheck = userRepository.findByUsername(userRegisterRequestDTO.getUsername());
+            User userNameCheck = userRepository.findByUsername(userRegisterRequest.getUsername());
             if (userNameCheck != null) {
-                commonResponse.builder()
+                commonResponse = commonResponse.builder()
                         .message("This account already exists")
                         .statusCode(HttpStatus.BAD_REQUEST)
                         .data(null)
                         .build();
                 return commonResponse;
             }
-            User emailCheck = userRepository.findByEmail(userRegisterRequestDTO.getEmail());
+            User emailCheck = userRepository.findByEmail(userRegisterRequest.getEmail());
             if (emailCheck != null) {
-                commonResponse.builder()
+                commonResponse =  commonResponse.builder()
                         .message("Email exists, please enter another email!")
                         .statusCode(HttpStatus.BAD_REQUEST)
                         .data(null)
                         .build();
                 return commonResponse;
-
-
             }
 
-            User user = userRegisterConverter.convertDTORequestToEntity(userRegisterRequestDTO);
+            User user = userRegisterConverter.convertDTORequestToEntity(userRegisterRequest);
             user.setPassword(hashCode);
             user.setDeleted(false);
+            user.setRole("ROLE_USER");
 
             Cart cartUser = new Cart();
             cartUser.setUser(user);
@@ -110,9 +114,7 @@ public class UserServiceImpl implements UserService {
             userRepository.save(user);
             responseDTO = userRegisterConverter.convertEntityResponseToDTO(user);
 
-
-
-            commonResponse.builder()
+            commonResponse =  commonResponse.builder()
                     .message("Register Success!")
                     .statusCode(HttpStatus.CREATED)
                     .data(responseDTO)
@@ -122,14 +124,14 @@ public class UserServiceImpl implements UserService {
 
         } catch (Exception e) {
 
-            commonResponse.builder()
+            commonResponse = commonResponse.builder()
                     .message("Register Failure!")
                     .statusCode(HttpStatus.BAD_REQUEST)
                     .data(null)
                     .build();
-
             return commonResponse;
         }
 
     }
+
 }

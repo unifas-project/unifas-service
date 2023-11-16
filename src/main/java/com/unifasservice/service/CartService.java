@@ -10,9 +10,9 @@ import java.util.List;
 public interface CartService {
     CommonResponse addToCart(String username, AddProductToCartRequest addProduct);
 
-    CommonResponse getCartProducts(String username);
+    CommonResponse getCartItems(String username);
 
-    CommonResponse updateCartProduct(String username, long cartProductId, int newQuantity);
+    CommonResponse updateCartItem(String username, long cartProductId, int newQuantity);
 
-    DeleteCartItemResponse deleteCartProduct(String username, long cartProductId);
+    DeleteCartItemResponse deleteCartItem(String username, long cartProductId);
 }

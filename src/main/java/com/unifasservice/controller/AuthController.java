@@ -10,7 +10,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
-
 import javax.validation.Valid;
 
 @RestController
@@ -19,21 +18,19 @@ import javax.validation.Valid;
 @RequestMapping("/api/auth")
 public class AuthController {
 
-
-
     @Autowired
     private UserService userService;
 
     @PostMapping("/login")
-    public ResponseEntity<CommonResponse> login(@Valid @RequestBody UserLoginRequest loginRequestDTO,
+    public ResponseEntity<CommonResponse> login(@Valid @RequestBody UserLoginRequest loginRequest,
                                                                    BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
 
         try {
-            CommonResponse loginResponseDTO = userService.login(loginRequestDTO);
-            return new ResponseEntity<>(loginResponseDTO, HttpStatus.OK);
+            CommonResponse loginResponse = userService.login(loginRequest);
+            return new ResponseEntity<>(loginResponse, HttpStatus.OK);
         } catch (IllegalArgumentException e) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         } catch (RuntimeException e) {
@@ -41,8 +38,8 @@ public class AuthController {
         }
     }
     @PostMapping(value = "/register")
-    public ResponseEntity<CommonResponse> registerUser(@RequestBody UserRegisterRequest userRegisterRequestDTO) {
-        CommonResponse responseDto = userService.register(userRegisterRequestDTO);
+    public ResponseEntity<CommonResponse> registerUser(@RequestBody UserRegisterRequest userRegisterRequest) {
+        CommonResponse responseDto = userService.register(userRegisterRequest);
         return new ResponseEntity<>(responseDto, HttpStatus.CREATED);
     }
 

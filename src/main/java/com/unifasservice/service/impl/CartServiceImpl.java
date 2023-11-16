@@ -8,7 +8,6 @@ import com.unifasservice.entity.*;
 import com.unifasservice.repository.*;
 import com.unifasservice.service.CartService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import java.util.ArrayList;
@@ -42,7 +41,7 @@ public class CartServiceImpl implements CartService {
         User user = userRepository.findByUsername(username);
         if (user == null) {
 
-            commonResponse.builder()
+            commonResponse = commonResponse.builder()
                     .message("User not found !")
                     .statusCode(HttpStatus.BAD_REQUEST)
                     .data(null)
@@ -57,7 +56,7 @@ public class CartServiceImpl implements CartService {
 
         if (product == null) {
 
-            commonResponse.builder()
+            commonResponse =  commonResponse.builder()
                     .message("Product not found !")
                     .statusCode(HttpStatus.BAD_REQUEST)
                     .data(null)
@@ -100,7 +99,7 @@ public class CartServiceImpl implements CartService {
         addProductToCartResponse.setSubtotal(addProduct.getQuantity() * product.getPrice());
 
 
-        commonResponse.builder()
+        commonResponse = commonResponse.builder()
                 .message("Product added to cart successfully !")
                 .statusCode(HttpStatus.OK)
                 .data(addProductToCartResponse)
@@ -110,14 +109,14 @@ public class CartServiceImpl implements CartService {
       }
 
     @Override
-    public CommonResponse getCartProducts(String username) {
+    public CommonResponse getCartItems(String username) {
 
         CommonResponse commonResponse = new CommonResponse();
 
         User user = userRepository.findByUsername(username);
         if (user == null || user.getCart() == null) {
 
-            commonResponse.builder()
+            commonResponse =  commonResponse.builder()
                     .message("User not found or Cart not created ! ")
                     .statusCode(HttpStatus.BAD_REQUEST)
                     .data(null)
@@ -131,7 +130,7 @@ public class CartServiceImpl implements CartService {
         List<CartItemResponse> cartProductResponseDtoList = cartProductConverter.fromListEntityToDto(cartProductList);
 
 
-        commonResponse.builder()
+        commonResponse = commonResponse.builder()
                 .message("Show successfully !")
                 .statusCode(HttpStatus.OK)
                 .data(cartProductResponseDtoList)
@@ -142,7 +141,7 @@ public class CartServiceImpl implements CartService {
     }
 
     @Override
-    public CommonResponse updateCartProduct(String username, long cartProductId, int newQuantity) {
+    public CommonResponse updateCartItem(String username, long cartProductId, int newQuantity) {
 
         CommonResponse commonResponse = new CommonResponse();
 
@@ -152,7 +151,7 @@ public class CartServiceImpl implements CartService {
 
         if (user == null || user.getCart() == null) {
 
-            commonResponse.builder()
+            commonResponse =  commonResponse.builder()
                     .message("User not found or Cart not created ! ")
                     .statusCode(HttpStatus.BAD_REQUEST)
                     .data(null)
@@ -179,7 +178,7 @@ public class CartServiceImpl implements CartService {
                 responseDto.setSubtotal(cartProduct.getSubtotal());
 
 
-                commonResponse.builder()
+                commonResponse = commonResponse.builder()
                         .message("Cart Item updated successfully !")
                         .statusCode(HttpStatus.OK)
                         .data(responseDto)
@@ -188,7 +187,7 @@ public class CartServiceImpl implements CartService {
             }
         }
 
-        commonResponse.builder()
+        commonResponse =  commonResponse.builder()
                 .message("Cart Item not found !")
                 .statusCode(HttpStatus.BAD_REQUEST)
                 .data(null)
@@ -197,7 +196,7 @@ public class CartServiceImpl implements CartService {
     }
 
     @Override
-    public DeleteCartItemResponse deleteCartProduct(String username, long cartProductId) {
+    public DeleteCartItemResponse deleteCartItem(String username, long cartProductId) {
         DeleteCartItemResponse responseDto = new DeleteCartItemResponse();
 
         User user = userRepository.findByUsername(username);

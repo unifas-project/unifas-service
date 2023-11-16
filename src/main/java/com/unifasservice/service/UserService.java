@@ -10,5 +10,5 @@ import com.unifasservice.dto.payload.response.UserRegisterResponse;
 
 public interface UserService {
     CommonResponse login(UserLoginRequest login);
-    CommonResponse register(UserRegisterRequest userResgisterRequestDTO);
+    CommonResponse register(UserRegisterRequest userResgisterRequest);
 }
