@@ -1,18 +1,14 @@
 package com.unifasservice.controller;
-
-
 import com.unifasservice.dto.payload.CommonResponse;
 import com.unifasservice.dto.payload.request.AddProductToCartRequest;
 import com.unifasservice.dto.payload.request.UpdateCartItemRequest;
 import com.unifasservice.dto.payload.response.*;
 import com.unifasservice.service.CartService;
 import lombok.RequiredArgsConstructor;
-
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
-
 
 @RestController
 @RequestMapping("/api/cart")
@@ -23,7 +19,7 @@ public class CartController {
 
     private final CartService cartService;
 
-    @PostMapping("/cart-item")
+    @PostMapping("/")
     public ResponseEntity<CommonResponse> addToCart(
             @RequestBody AddProductToCartRequest addProduct,
             Authentication authentication) {
@@ -41,7 +37,7 @@ public class CartController {
         }
     }
 
-    @GetMapping("/cart-items")
+    @GetMapping("/")
     public ResponseEntity<CommonResponse> getCartItemList(Authentication authentication) {
 
             String username = authentication.getName();
@@ -51,9 +47,9 @@ public class CartController {
     }
 
 
-    @PutMapping("/{cartItemId}")
+    @PutMapping("/{cart-item-id}")
     public ResponseEntity<CommonResponse> updateCartItem(
-            @PathVariable("cartItemId") long cartItemId,
+            @PathVariable("cart-item-id") long cartItemId,
             @RequestBody UpdateCartItemRequest updateRequest,
             Authentication authentication) {
         try {
@@ -67,9 +63,9 @@ public class CartController {
     }
 
 
-    @DeleteMapping("/{cartItemId}")
+    @DeleteMapping("/{cart-item-id}")
     public ResponseEntity<DeleteCartItemResponse> deleteCartItem(
-            @PathVariable("cartItemId") long cartItemId,
+            @PathVariable("cart-item-id") long cartItemId,
             Authentication authentication) {
         try {
             String username = authentication.getName();

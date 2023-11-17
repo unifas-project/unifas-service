@@ -33,7 +33,7 @@ public class CartServiceImpl implements CartService {
     @Override
     public CommonResponse addToCart(String username, AddProductToCartRequest addProduct) {
 
-        CommonResponse commonResponse = new CommonResponse();
+
 
         AddProductToCartResponse addProductToCartResponse = new AddProductToCartResponse();
 
@@ -41,12 +41,12 @@ public class CartServiceImpl implements CartService {
         User user = userRepository.findByUsername(username);
         if (user == null) {
 
-            commonResponse = commonResponse.builder()
+            return CommonResponse.builder()
                     .message("User not found !")
                     .statusCode(HttpStatus.BAD_REQUEST)
                     .data(null)
                     .build();
-            return commonResponse;
+
         }
 
 
@@ -56,13 +56,11 @@ public class CartServiceImpl implements CartService {
 
         if (product == null) {
 
-            commonResponse =  commonResponse.builder()
+            return CommonResponse.builder()
                     .message("Product not found !")
                     .statusCode(HttpStatus.BAD_REQUEST)
                     .data(null)
                     .build();
-            return commonResponse;
-
 
         }
 
@@ -99,29 +97,27 @@ public class CartServiceImpl implements CartService {
         addProductToCartResponse.setSubtotal(addProduct.getQuantity() * product.getPrice());
 
 
-        commonResponse = commonResponse.builder()
+        return CommonResponse.builder()
                 .message("Product added to cart successfully !")
                 .statusCode(HttpStatus.OK)
                 .data(addProductToCartResponse)
                 .build();
-        return commonResponse;
 
-      }
+
+    }
 
     @Override
     public CommonResponse getCartItems(String username) {
 
-        CommonResponse commonResponse = new CommonResponse();
-
         User user = userRepository.findByUsername(username);
         if (user == null || user.getCart() == null) {
 
-            commonResponse =  commonResponse.builder()
+            return CommonResponse.builder()
                     .message("User not found or Cart not created ! ")
                     .statusCode(HttpStatus.BAD_REQUEST)
                     .data(null)
                     .build();
-            return commonResponse;
+
         }
 
         Cart cart = user.getCart();
@@ -130,20 +126,18 @@ public class CartServiceImpl implements CartService {
         List<CartItemResponse> cartProductResponseDtoList = cartProductConverter.fromListEntityToDto(cartProductList);
 
 
-        commonResponse = commonResponse.builder()
+        return CommonResponse.builder()
                 .message("Show successfully !")
                 .statusCode(HttpStatus.OK)
                 .data(cartProductResponseDtoList)
                 .build();
-        return commonResponse;
-
 
     }
 
     @Override
     public CommonResponse updateCartItem(String username, long cartProductId, int newQuantity) {
 
-        CommonResponse commonResponse = new CommonResponse();
+
 
         UpdateCartItemResponse responseDto = new UpdateCartItemResponse();
 
@@ -151,14 +145,11 @@ public class CartServiceImpl implements CartService {
 
         if (user == null || user.getCart() == null) {
 
-            commonResponse =  commonResponse.builder()
+            return CommonResponse.builder()
                     .message("User not found or Cart not created ! ")
                     .statusCode(HttpStatus.BAD_REQUEST)
                     .data(null)
                     .build();
-            return commonResponse;
-
-
         }
 
         Cart cart = user.getCart();
@@ -178,21 +169,21 @@ public class CartServiceImpl implements CartService {
                 responseDto.setSubtotal(cartProduct.getSubtotal());
 
 
-                commonResponse = commonResponse.builder()
+                return CommonResponse.builder()
                         .message("Cart Item updated successfully !")
                         .statusCode(HttpStatus.OK)
                         .data(responseDto)
                         .build();
-                return commonResponse;
+
             }
         }
 
-        commonResponse =  commonResponse.builder()
+        return CommonResponse.builder()
                 .message("Cart Item not found !")
                 .statusCode(HttpStatus.BAD_REQUEST)
                 .data(null)
                 .build();
-        return commonResponse;
+
     }
 
     @Override

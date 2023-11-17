@@ -1,11 +1,8 @@
 package com.unifasservice.service;
-
-
 import com.unifasservice.dto.payload.CommonResponse;
 import com.unifasservice.dto.payload.request.AddProductToCartRequest;
 import com.unifasservice.dto.payload.response.*;
 
-import java.util.List;
 
 public interface CartService {
     CommonResponse addToCart(String username, AddProductToCartRequest addProduct);
