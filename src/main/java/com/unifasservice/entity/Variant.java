@@ -3,6 +3,7 @@ package com.unifasservice.entity;
 import lombok.*;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Entity
 @Getter
@@ -33,5 +34,10 @@ public class Variant {
     @JoinColumn(name = "PRODUCT_ID")
     private Product product;
 
+    @OneToMany(mappedBy = "variant", fetch = FetchType.LAZY)
+    private List<CartItem> cartItemList ;
+
+    @OneToMany(mappedBy = "variant", fetch = FetchType.LAZY)
+    private List<OrderLine> orderLineList ;
 
 }

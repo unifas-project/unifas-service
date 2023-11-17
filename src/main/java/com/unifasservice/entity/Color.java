@@ -21,6 +21,12 @@ public class Color {
     @Column(name = "NAME")
     private String name;
 
+    @Column(name = "CODE")
+    private String code;
+
+    @Column(name = "ACRONYM")
+    private String acronym;
+
     @Column(name = "IS_DELETED")
     private boolean isDeleted;
 

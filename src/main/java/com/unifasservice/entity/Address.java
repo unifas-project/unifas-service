@@ -35,9 +35,11 @@ public class Address {
     @Column(name = "CONTACT")
     private long contact;
 
-
     @Column(name = "RECEIVER")
     private String receiver;
+
+    @Column(name = "IS_DEFAULT")
+    private boolean isDefault;
 
     @Column(name="IS_DELETED")
     private boolean isDeleted;
@@ -45,6 +47,9 @@ public class Address {
     @ManyToOne
     @JoinColumn(name = "USER_ID")
     private User user;
+
+    @OneToOne(mappedBy = "address")
+    private Order order;
 
 
 
