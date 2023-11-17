@@ -47,11 +47,7 @@ public class UserServiceImpl implements UserService {
                     loginResponse.setToken(token);
                     loginResponse.setRole(user.getRole());
 
-                    return CommonResponse.builder()
-                            .data(loginResponse)
-                            .message("Logged in Successfully !")
-                            .statusCode(HttpStatus.OK)
-                            .build();
+                    return getCommonResponse("Logged in Successfully !", HttpStatus.OK, loginResponse);
                 } else {
                     throw new RuntimeException("Wrong password");
                 }
@@ -59,79 +55,59 @@ public class UserServiceImpl implements UserService {
                 throw new RuntimeException("User not found");
             }
         } catch (IllegalArgumentException e) {
-            return CommonResponse.builder()
-                    .message(e.getMessage())
-                    .statusCode(HttpStatus.BAD_REQUEST)
-                    .build();
+            return getCommonResponse(e.getMessage(), HttpStatus.BAD_REQUEST, null);
         } catch (RuntimeException e) {
-            return CommonResponse.builder()
-                    .message(e.getMessage())
-                    .statusCode(HttpStatus.UNAUTHORIZED)
-                    .build();
+            return getCommonResponse(e.getMessage(), HttpStatus.UNAUTHORIZED, null);
         }
     }
 
 
+
     @Override
     public CommonResponse register(UserRegisterRequest userRegisterRequest) {
-
-
-        String password = userRegisterRequest.getPassword();
-
-        String hashCode = passwordEncoder.encode(password);
-
-        UserRegisterResponse responseDTO;
-
         try {
+            String password = userRegisterRequest.getPassword();
+            String hashedPassword = passwordEncoder.encode(password);
+
             User userNameCheck = userRepository.findByUsername(userRegisterRequest.getUsername());
             if (userNameCheck != null) {
-
-                return CommonResponse.builder()
-                        .message("This account already exists")
-                        .statusCode(HttpStatus.BAD_REQUEST)
-                        .data(null)
-                        .build();
-
+                return getCommonResponse("This account already exists", HttpStatus.BAD_REQUEST, null);
             }
+
             User emailCheck = userRepository.findByEmail(userRegisterRequest.getEmail());
             if (emailCheck != null) {
-
-                return CommonResponse.builder()
-                        .message("Email exists, please enter another email!")
-                        .statusCode(HttpStatus.BAD_REQUEST)
-                        .data(null)
-                        .build();
-
+                return getCommonResponse("Email exists, please enter another email!", HttpStatus.BAD_REQUEST, null);
             }
 
+
             User user = userRegisterConverter.convertDTORequestToEntity(userRegisterRequest);
-            user.setPassword(hashCode);
+            user.setPassword(hashedPassword);
             user.setDeleted(false);
-            user.setRole("ROLE_USER");
 
             Cart cartUser = new Cart();
             cartUser.setUser(user);
             user.setCart(cartUser);
             userRepository.save(user);
-            responseDTO = userRegisterConverter.convertEntityResponseToDTO(user);
 
-            return CommonResponse.builder()
-                    .message("Register Success!")
-                    .statusCode(HttpStatus.CREATED)
-                    .data(responseDTO)
-                    .build();
+            UserRegisterResponse responseDTO = userRegisterConverter.convertEntityResponseToDTO(user);
 
-
+            return getCommonResponse("Register Success!", HttpStatus.CREATED, responseDTO);
 
         } catch (Exception e) {
+            e.printStackTrace();
 
-            return CommonResponse.builder()
-                    .message("Register Failure!")
-                    .statusCode(HttpStatus.BAD_REQUEST)
-                    .data(null)
-                    .build();
-
+            return getCommonResponse("Register Failure!", HttpStatus.BAD_REQUEST, null);
         }
+    }
+
+
+    private CommonResponse getCommonResponse(String message, HttpStatus status, Object data) {
+        CommonResponse commonResponse = CommonResponse.builder()
+                .message(message)
+                .statusCode(status)
+                .data(data)
+                .build();
+        return commonResponse;
 
     }
 

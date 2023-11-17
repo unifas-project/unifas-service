@@ -18,8 +18,7 @@ import javax.validation.Valid;
 @RequestMapping("/api/auth")
 public class AuthController {
 
-    @Autowired
-    private UserService userService;
+    private final UserService userService;
 
     @PostMapping("/login")
     public ResponseEntity<CommonResponse> login(@Valid @RequestBody UserLoginRequest loginRequest,
@@ -29,8 +28,10 @@ public class AuthController {
         }
 
         try {
-            CommonResponse loginResponse = userService.login(loginRequest);
-            return new ResponseEntity<>(loginResponse, HttpStatus.OK);
+
+            CommonResponse loginResponseDTO = userService.login(loginRequest);
+            return new ResponseEntity<>(loginResponseDTO, HttpStatus.OK);
+
         } catch (IllegalArgumentException e) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         } catch (RuntimeException e) {

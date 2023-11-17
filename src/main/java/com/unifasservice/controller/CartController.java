@@ -19,7 +19,8 @@ public class CartController {
 
     private final CartService cartService;
 
-    @PostMapping("/")
+
+    @PostMapping("")
     public ResponseEntity<CommonResponse> addToCart(
             @RequestBody AddProductToCartRequest addProduct,
             Authentication authentication) {
@@ -37,13 +38,20 @@ public class CartController {
         }
     }
 
-    @GetMapping("/")
+    @GetMapping("")
     public ResponseEntity<CommonResponse> getCartItemList(Authentication authentication) {
-
+        try {
             String username = authentication.getName();
             CommonResponse cartItemList = cartService.getCartItems(username);
-            return new ResponseEntity<>(cartItemList , HttpStatus.OK);
+            return new ResponseEntity<>(cartItemList, HttpStatus.OK);
+        } catch (Exception e) {
 
+            return new ResponseEntity<>(CommonResponse.builder()
+                    .message("An error occurred while fetching the cart items.")
+                    .statusCode(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .data(null)
+                    .build(), HttpStatus.INTERNAL_SERVER_ERROR);
+        }
     }
 
 
@@ -56,7 +64,9 @@ public class CartController {
             String username = authentication.getName();
             int newQuantity = updateRequest.getNewQuantity();
             CommonResponse response = cartService.updateCartItem(username, cartItemId, newQuantity);
+
             return new ResponseEntity<>(response, HttpStatus.OK);
+
         } catch (Exception e) {
             return (ResponseEntity<CommonResponse>) ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR);
         }
@@ -74,6 +84,9 @@ public class CartController {
         } catch (Exception e) {
             return (ResponseEntity<DeleteCartItemResponse>) ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR);        }
     }
+
+
+
 
 
 }
