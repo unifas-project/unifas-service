@@ -5,7 +5,6 @@ import com.unifasservice.dto.payload.CommonResponse;
 import com.unifasservice.dto.payload.request.UserRegisterRequest;
 import com.unifasservice.service.UserService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;

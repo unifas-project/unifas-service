@@ -85,8 +85,4 @@ public class CartController {
             return (ResponseEntity<DeleteCartItemResponse>) ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR);        }
     }
 
-
-
-
-
 }
