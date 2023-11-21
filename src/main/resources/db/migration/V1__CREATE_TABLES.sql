@@ -1,6 +1,4 @@
 
-
-
 CREATE TABLE IF NOT EXISTS USERS (
     ID BIGINT AUTO_INCREMENT PRIMARY KEY,
     EMAIL VARCHAR(255) NOT NULL,
@@ -151,51 +149,3 @@ CREATE TABLE IF NOT EXISTS SALE_VOUCHER (
     ORDER_ID BIGINT NOT NULL,
     FOREIGN KEY (ORDER_ID) REFERENCES ORDERS(ID)
     );
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
