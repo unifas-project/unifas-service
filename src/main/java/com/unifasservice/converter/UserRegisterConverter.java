@@ -19,6 +19,7 @@ public class UserRegisterConverter {
         user.setUsername(userRegisterRequestDTO.getUsername());
         user.setPassword(userRegisterRequestDTO.getPassword());
         user.setEmail(userRegisterRequestDTO.getEmail());
+        user.setRole("ROLE_USER");
         return user;
     }
 }

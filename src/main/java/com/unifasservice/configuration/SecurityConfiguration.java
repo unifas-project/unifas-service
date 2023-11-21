@@ -95,4 +95,6 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 //    public PersistentTokenRepository persistentTokenRepository() {
 //        return new InMemoryTokenRepositoryImpl();
 //    }
+
 }
+

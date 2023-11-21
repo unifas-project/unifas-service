@@ -68,37 +68,22 @@ public class UserServiceImpl implements UserService {
             throw new RuntimeException("User not found");
         }
     }
+
     @Override
     public CommonResponse register(UserRegisterRequest userRegisterRequestDTO) {
-
-        CommonResponse commonResponse =  new CommonResponse();
 
         String password = userRegisterRequestDTO.getPassword();
         String hashCode = passwordEncoder.encode(password);
 
-        UserRegisterResponse responseDTO = new UserRegisterResponse();
-
+        User userNameCheck = userRepository.findByUsername(userRegisterRequestDTO.getUsername());
+        if (userNameCheck != null) {
+            return getCommonResponse("This account already exists", HttpStatus.BAD_REQUEST, false);
+        }
+        User emailCheck = userRepository.findByEmail(userRegisterRequestDTO.getEmail());
+        if (emailCheck != null) {
+            return getCommonResponse("Email exists, please enter another email!", HttpStatus.BAD_REQUEST, false);
+        }
         try {
-            User userNameCheck = userRepository.findByUsername(userRegisterRequestDTO.getUsername());
-            if (userNameCheck != null) {
-                commonResponse.builder()
-                        .message("This account already exists")
-                        .statusCode(HttpStatus.BAD_REQUEST)
-                        .data(null)
-                        .build();
-                return commonResponse;
-            }
-            User emailCheck = userRepository.findByEmail(userRegisterRequestDTO.getEmail());
-            if (emailCheck != null) {
-                commonResponse.builder()
-                        .message("Email exists, please enter another email!")
-                        .statusCode(HttpStatus.BAD_REQUEST)
-                        .data(null)
-                        .build();
-                return commonResponse;
-
-
-            }
 
             User user = userRegisterConverter.convertDTORequestToEntity(userRegisterRequestDTO);
             user.setPassword(hashCode);
@@ -108,28 +93,20 @@ public class UserServiceImpl implements UserService {
             cartUser.setUser(user);
             user.setCart(cartUser);
             userRepository.save(user);
-            responseDTO = userRegisterConverter.convertEntityResponseToDTO(user);
-
-
-
-            commonResponse.builder()
-                    .message("Register Success!")
-                    .statusCode(HttpStatus.CREATED)
-                    .data(responseDTO)
-                    .build();
-            return commonResponse;
-
 
         } catch (Exception e) {
-
-            commonResponse.builder()
-                    .message("Register Failure!")
-                    .statusCode(HttpStatus.BAD_REQUEST)
-                    .data(null)
-                    .build();
-
-            return commonResponse;
+            return getCommonResponse("Register Failure!", HttpStatus.BAD_REQUEST, false);
         }
+        return getCommonResponse("Register Success!", HttpStatus.CREATED, true);
+    }
+
+    private CommonResponse getCommonResponse(String message, HttpStatus status, Object data) {
+        CommonResponse commonResponse = CommonResponse.builder()
+                .message(message)
+                .statusCode(status)
+                .data(data)
+                .build();
+        return commonResponse;
 
     }
 }
