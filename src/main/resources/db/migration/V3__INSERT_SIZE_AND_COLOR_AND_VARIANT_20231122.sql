@@ -1,0 +1,32 @@
+-- Insert Size
+INSERT INTO `unifas_service`.`size` (`NAME`, `IS_DELETED`) VALUES ('XS', '0');
+INSERT INTO `unifas_service`.`size` (`NAME`, `IS_DELETED`) VALUES ('S', '0');
+INSERT INTO `unifas_service`.`size` (`NAME`, `IS_DELETED`) VALUES ('M', '0');
+INSERT INTO `unifas_service`.`size` (`NAME`, `IS_DELETED`) VALUES ('L', '0');
+INSERT INTO `unifas_service`.`size` (`NAME`, `IS_DELETED`) VALUES ('XL', '0');
+INSERT INTO `unifas_service`.`size` (`NAME`, `IS_DELETED`) VALUES ('XXL', '0');
+INSERT INTO `unifas_service`.`size` (`NAME`, `IS_DELETED`) VALUES ('XXXL', '0');
+INSERT INTO `unifas_service`.`size` (`NAME`, `IS_DELETED`) VALUES ('26', '0');
+INSERT INTO `unifas_service`.`size` (`NAME`, `IS_DELETED`) VALUES ('27', '0');
+INSERT INTO `unifas_service`.`size` (`NAME`, `IS_DELETED`) VALUES ('28', '0');
+INSERT INTO `unifas_service`.`size` (`NAME`, `IS_DELETED`) VALUES ('29', '0');
+INSERT INTO `unifas_service`.`size` (`NAME`, `IS_DELETED`) VALUES ('30', '0');
+INSERT INTO `unifas_service`.`size` (`NAME`, `IS_DELETED`) VALUES ('31', '0');
+INSERT INTO `unifas_service`.`size` (`NAME`, `IS_DELETED`) VALUES ('32', '0');
+-- Insert Color
+INSERT INTO `unifas_service`.`color` (`NAME`, `CODE`, `ACRONYM`, `IS_DELETED`) VALUES ('Black', '#000000', 'BK', '0');
+INSERT INTO `unifas_service`.`color` (`NAME`, `CODE`, `ACRONYM`, `IS_DELETED`) VALUES ('White', '#FFFFFF', 'W', '0');
+INSERT INTO `unifas_service`.`color` (`NAME`, `CODE`, `ACRONYM`, `IS_DELETED`) VALUES ('Red', '#FF0000', 'R', '0');
+INSERT INTO `unifas_service`.`color` (`NAME`, `CODE`, `ACRONYM`, `IS_DELETED`) VALUES ('Lime', '#00FF00', 'L', '0');
+INSERT INTO `unifas_service`.`color` (`NAME`, `CODE`, `ACRONYM`, `IS_DELETED`) VALUES ('Blue', '#0000FF', 'B', '0');
+INSERT INTO `unifas_service`.`color` (`NAME`, `CODE`, `ACRONYM`, `IS_DELETED`) VALUES ('Yellow', '#FFFF00', 'Y', '0');
+INSERT INTO `unifas_service`.`color` (`NAME`, `CODE`, `ACRONYM`, `IS_DELETED`) VALUES ('Aqua', '#00FFFF', 'A', '0');
+INSERT INTO `unifas_service`.`color` (`NAME`, `CODE`, `ACRONYM`, `IS_DELETED`) VALUES ('Fuchsia', '#FF00FF', 'F', '0');
+INSERT INTO `unifas_service`.`color` (`NAME`, `CODE`, `ACRONYM`, `IS_DELETED`) VALUES ('Silver', '#C0C0C0', 'S', '0');
+INSERT INTO `unifas_service`.`color` (`NAME`, `CODE`, `ACRONYM`, `IS_DELETED`) VALUES ('Gray', '#808080', 'G', '0');
+INSERT INTO `unifas_service`.`color` (`NAME`, `CODE`, `ACRONYM`, `IS_DELETED`) VALUES ('Maroon', '#800000', 'M', '0');
+INSERT INTO `unifas_service`.`color` (`NAME`, `CODE`, `ACRONYM`, `IS_DELETED`) VALUES ('Olive', '#808000', 'O', '0');
+INSERT INTO `unifas_service`.`color` (`NAME`, `CODE`, `ACRONYM`, `IS_DELETED`) VALUES ('Green', '#008000', 'G', '0');
+INSERT INTO `unifas_service`.`color` (`NAME`, `CODE`, `ACRONYM`, `IS_DELETED`) VALUES ('Purple', '#800080', 'P', '0');
+INSERT INTO `unifas_service`.`color` (`NAME`, `CODE`, `ACRONYM`, `IS_DELETED`) VALUES ('Teal', '#008080', 'T', '0');
+INSERT INTO `unifas_service`.`color` (`NAME`, `CODE`, `ACRONYM`, `IS_DELETED`) VALUES ('Navy', '#000080', 'N', '0');
