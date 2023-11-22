@@ -32,14 +32,17 @@ public class Variant {
     @JoinColumn(name = "SIZE_ID")
     private Size size;
 
-    @ManyToOne
-    @JoinColumn(name = "PRODUCT_ID")
-    private Product product;
-
     @OneToMany(mappedBy = "variant", fetch = FetchType.LAZY)
     private List<CartItem> cartItemList ;
 
     @OneToMany(mappedBy = "variant", fetch = FetchType.LAZY)
     private List<OrderLine> orderLineList ;
 
+    @ManyToMany
+    @JoinTable(
+            name = "product_variant",
+            joinColumns = @JoinColumn(name = "VARIANT_ID"),
+            inverseJoinColumns = @JoinColumn(name = "PRODUCT_ID")
+    )
+    private List<Product> productList;
 }

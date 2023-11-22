@@ -25,7 +25,7 @@ public class OrderLine {
     private int quantity;
 
     @Column(name = "PRICE")
-    private double price;
+    private long price;
 
     @Column(name = "SUBTOTAL")
     private long subtotal;
