@@ -14,7 +14,7 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @Table(name = "PRODUCT")
-@Where(clause = "IS_DELETED = 'FALSE'")
+@Where(clause = "IS_DELETED = 0")
 public class Product {
 
     @Id
