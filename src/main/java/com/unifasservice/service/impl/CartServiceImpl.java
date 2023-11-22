@@ -8,7 +8,6 @@ import com.unifasservice.entity.*;
 import com.unifasservice.repository.*;
 import com.unifasservice.service.CartService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import java.util.ArrayList;
@@ -29,7 +28,7 @@ public class CartServiceImpl implements CartService {
 
     private final CartItemConverter cartProductConverter;
 
-    private final CartProductRepository cartProductRepository;
+    private final CartItemRepository cartItemRepository;
 
     @Override
     public CommonResponse addToCart(String username, AddProductToCartRequest addProduct) {
@@ -170,7 +169,7 @@ public class CartServiceImpl implements CartService {
 
                 cartProduct.setQuantity(newQuantity);
                 cartProduct.setSubtotal(newQuantity*cartProduct.getPrice());
-                cartProductRepository.save(cartProduct);
+                cartItemRepository.save(cartProduct);
 
                 responseDto.setId(cartProduct.getId());
                 responseDto.setName(cartProduct.getProduct().getName());

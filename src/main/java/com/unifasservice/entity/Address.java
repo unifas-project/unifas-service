@@ -4,6 +4,7 @@ package com.unifasservice.entity;
 import lombok.*;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Entity
 @Getter
@@ -22,7 +23,6 @@ public class Address {
     @Column(name = "STREET")
     private String street;
 
-
     @Column(name = "WARD")
     private String ward;
 
@@ -39,7 +39,7 @@ public class Address {
     private String receiver;
 
     @Column(name = "IS_DEFAULT")
-    private boolean isDefault;
+    private String isDefault;
 
     @Column(name="IS_DELETED")
     private boolean isDeleted;
@@ -48,8 +48,8 @@ public class Address {
     @JoinColumn(name = "USER_ID")
     private User user;
 
-    @OneToOne(mappedBy = "address")
-    private Order order;
+    @OneToMany(mappedBy = "address")
+    private List<Order> orderList;
 
 
 
