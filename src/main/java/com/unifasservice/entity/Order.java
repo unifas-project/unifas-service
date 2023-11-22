@@ -29,10 +29,13 @@ public class Order {
     @Column(name = "TOTAL_AMOUNT")
     private long totalAmount;
 
+    @Column(name = "FINAL_PRICE")
+    private long finalPrice;
+
     @Column(name = "PAYMENT")
     private String payment;
 
-    @OneToOne
+    @ManyToOne
     @JoinColumn(name = "ADDRESS_ID")
     private Address address;
 
