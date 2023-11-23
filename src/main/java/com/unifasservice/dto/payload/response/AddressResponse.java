@@ -1,14 +1,13 @@
 package com.unifasservice.dto.payload.response;
 
-import lombok.Builder;
-import lombok.Data;
-import lombok.RequiredArgsConstructor;
+import lombok.*;
 
 import javax.persistence.Column;
 
 @Data
 @Builder
-@RequiredArgsConstructor
+@AllArgsConstructor
+@NoArgsConstructor
 public class AddressResponse {
     private long id;
     private String street;
