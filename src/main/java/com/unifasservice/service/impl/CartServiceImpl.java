@@ -98,11 +98,10 @@ public class CartServiceImpl implements CartService {
         addProductToCartResponse.setPrice(product.getPrice());
         addProductToCartResponse.setSubtotal(addProduct.getQuantity() * product.getPrice());
 
-
         commonResponse.builder()
                 .message("Product added to cart successfully !")
                 .statusCode(HttpStatus.OK)
-                .data(addProductToCartResponse)
+                .data("fix")
                 .build();
         return commonResponse;
 

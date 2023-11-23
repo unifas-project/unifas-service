@@ -27,7 +27,7 @@ public class AddressController {
     @PostMapping("/address/{user-id}")
     private ResponseEntity<CommonResponse> addNewAddress(@PathVariable("user-id") long userId, @RequestBody AddressRequest addressRequest){
         CommonResponse commonResponse = addressService.addNewAddress(userId,addressRequest);
-        return null;
+        return new ResponseEntity<>(commonResponse,HttpStatus.OK);
     }
 
 }
