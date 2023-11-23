@@ -74,7 +74,7 @@ public class CartServiceImpl implements CartService {
             product.setVariantList(new ArrayList<>());
         }
 
-        variant.setProduct(product);
+//        variant.setProduct(product);
         product.getVariantList().add(variant);
 
         productRepository.save(product);

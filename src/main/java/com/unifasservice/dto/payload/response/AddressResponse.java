@@ -1,14 +1,15 @@
 package com.unifasservice.dto.payload.response;
 
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
-
-import javax.persistence.Column;
 
 @Data
 @Builder
-@RequiredArgsConstructor
+@AllArgsConstructor
+@NoArgsConstructor
 public class AddressResponse {
     private long id;
     private String street;
@@ -18,6 +19,4 @@ public class AddressResponse {
     private long contact;
     private String receiver;
     private boolean isDefault;
-
-
 }
