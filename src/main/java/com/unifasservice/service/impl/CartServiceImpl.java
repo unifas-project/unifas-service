@@ -53,24 +53,25 @@ public class CartServiceImpl implements CartService {
             Variant variant = variantRepository.findById(variantId)
                     .orElseThrow(() -> new RuntimeException("Variant not found"));
 
-            if (product.getVariantList() == null) {
-                product.setVariantList(new ArrayList<>());
-            }
+//            if (product.getVariantList() == null) {
+//                product.setVariantList(new ArrayList<>());
+//            }
 
-            variant.setProduct(product);
-            product.getVariantList().add(variant);
+//            variant.setProduct(product);
+//            product.getVariantList().add(variant);
 
             productRepository.save(product);
 
             Cart cart = user.getCart();
-            if (cart == null) {
-                cart = new Cart();
-                cart.setUser(user);
-                user.setCart(cart);
-            }
-
+//            if (cart == null) {
+//                cart = new Cart();
+//                cart.setUser(user);
+//                user.setCart(cart);
+//            }
             CartItem cartProduct = new CartItem();
             cartProduct.setProduct(product);
+            cartProduct.setVariant(variant);
+            cartProduct.setDeleted(false);
             cartProduct.setCart(cart);
             cartRepository.save(cart);
 
@@ -138,7 +139,6 @@ public class CartServiceImpl implements CartService {
             return getCommonResponse("Error updating cart item!", HttpStatus.BAD_REQUEST, null);
         }
     }
-
 
 
 
