@@ -36,11 +36,7 @@ public class Variant {
     @OneToMany(mappedBy = "variant", fetch = FetchType.LAZY)
     private List<OrderLine> orderLineList ;
 
-    @ManyToMany
-    @JoinTable(
-            name = "product_variant",
-            joinColumns = @JoinColumn(name = "VARIANT_ID"),
-            inverseJoinColumns = @JoinColumn(name = "PRODUCT_ID")
-    )
-    private List<Product> productList;
+    @ManyToOne
+    @JoinColumn( name = "PRODUCT_ID" )
+    private Product product;
 }

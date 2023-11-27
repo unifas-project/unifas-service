@@ -60,7 +60,7 @@ public class Product {
     @OneToMany(mappedBy = "product", fetch = FetchType.LAZY)
     private List<OrderLine>  orderLineList ;
 
-    @ManyToMany(mappedBy = "productList")
+    @OneToMany(mappedBy = "product")
     private List<Variant> variantList;
 
 

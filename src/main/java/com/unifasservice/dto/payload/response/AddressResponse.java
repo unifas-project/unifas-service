@@ -2,7 +2,6 @@ package com.unifasservice.dto.payload.response;
 
 import lombok.*;
 
-import javax.persistence.Column;
 
 @Data
 @Builder

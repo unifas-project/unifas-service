@@ -40,11 +40,11 @@ public class AddressServiceImpl implements AddressService {
     @Override
     public CommonResponse getUserAddressList(long userId) {
         List<Address> addressList = addressRepository.findByUserId(userId);
-        for (int i=0; i<addressList.size(); i++){
-            if ("T".equals(addressList.get(i).getIsDefault())){
+        for (int i = 0; i < addressList.size(); i++) {
+            if ("T".equals(addressList.get(i).getIsDefault())) {
                 Address subAddress = addressList.get(i);
                 addressList.remove(addressList.get(i));
-                addressList.add(0,subAddress);
+                addressList.add(0, subAddress);
                 break;
             }
         }
@@ -52,7 +52,7 @@ public class AddressServiceImpl implements AddressService {
 
         List<AddressResponse> addressResponseList = addressConverter.convertAddressEntityListToResponseList(addressList);
 
-        return createCommonResponse(addressResponseList,"Get address success",HttpStatus.OK);
+        return createCommonResponse(addressResponseList, "Get address success", HttpStatus.OK);
     }
 
     @Override
@@ -63,7 +63,7 @@ public class AddressServiceImpl implements AddressService {
         address.setOrderList(Collections.singletonList(new Order()));
         addressRepository.save(address);
 
-        return createCommonResponse(false,"Add new address successfully",HttpStatus.OK);
+        return createCommonResponse(false, "Add new address successfully", HttpStatus.OK);
     }
 
 
