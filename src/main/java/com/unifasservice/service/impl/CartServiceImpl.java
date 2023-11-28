@@ -70,12 +70,12 @@ public class CartServiceImpl implements CartService {
         Variant variant = variantRepository.findById(variantId)
                 .orElseThrow(() -> new RuntimeException("Variant not found"));
 
-        if (product.getVariantList() == null) {
-            product.setVariantList(new ArrayList<>());
-        }
+//        if (product.getVariantList() == null) {
+//            product.setVariantList(new ArrayList<>());
+//        }
 
 //        variant.setProduct(product);
-        product.getVariantList().add(variant);
+//        product.getVariantList().add(variant);
 
         productRepository.save(product);
 
