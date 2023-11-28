@@ -1,6 +1,11 @@
 package com.unifasservice.service.impl;
 
 import com.unifasservice.dto.payload.CommonResponse;
+import com.unifasservice.dto.payload.request.ChangePassRequest;
+import com.unifasservice.dto.payload.request.ForgetPassRequest;
+import com.unifasservice.dto.payload.response.CodePassResponse;
+import com.unifasservice.dto.payload.response.DataMailResponse;
+import com.unifasservice.dto.payload.response.UserRegisterResponse;
 import com.unifasservice.security.JwtTokenUtil;
 import com.unifasservice.converter.UserLoginConverter;
 import com.unifasservice.dto.payload.request.UserLoginRequest;
@@ -10,12 +15,18 @@ import com.unifasservice.entity.User;
 import com.unifasservice.repository.UserRepository;
 import com.unifasservice.converter.UserRegisterConverter;
 import com.unifasservice.dto.payload.request.UserRegisterRequest;
-import com.unifasservice.dto.payload.response.UserRegisterResponse;
+import com.unifasservice.service.MailService;
 import com.unifasservice.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
+import org.springframework.messaging.MessagingException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+
+import java.util.HashMap;
+import java.util.Map;
+
+import static com.unifasservice.utilities.RandomStringGenerator.generateRandomString;
 
 
 @Service
@@ -27,6 +38,7 @@ public class UserServiceImpl implements UserService {
     private final UserRegisterConverter userRegisterConverter;
     private final PasswordEncoder passwordEncoder;
     private final JwtTokenUtil jwtTokenUtil;
+    private final MailService mailService;
 
 
     public CommonResponse login(UserLoginRequest login) {
@@ -65,9 +77,11 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public CommonResponse register(UserRegisterRequest userRegisterRequest) {
+
         try {
             String password = userRegisterRequest.getPassword();
             String hashedPassword = passwordEncoder.encode(password);
+
 
             User userNameCheck = userRepository.findByUsername(userRegisterRequest.getUsername());
             if (userNameCheck != null) {
@@ -82,6 +96,7 @@ public class UserServiceImpl implements UserService {
 
             User user = userRegisterConverter.convertDTORequestToEntity(userRegisterRequest);
             user.setPassword(hashedPassword);
+
             user.setDeleted(false);
 
             Cart cartUser = new Cart();
@@ -109,6 +124,44 @@ public class UserServiceImpl implements UserService {
                 .build();
         return commonResponse;
 
+    }
+
+    @Override
+    public CodePassResponse createCodePass(ForgetPassRequest forgetPassRequest) {
+        User emailCheck = userRepository.findByEmail(forgetPassRequest.getEmail());
+        if (emailCheck != null) {
+            String randomString = generateRandomString(6);
+            CodePassResponse responseDto = new CodePassResponse();
+            responseDto.setCodePass(randomString);
+            responseDto.setEmail(emailCheck.getEmail());
+            try {
+                DataMailResponse dataMail = new DataMailResponse();
+                dataMail.setTo(forgetPassRequest.getEmail());
+                dataMail.setSubject("Yêu cầu đặt lại mật khẩu");
+                Map<String, Object> props = new HashMap<>();
+                props.put("codePass", randomString);
+                dataMail.setProps(props);
+                mailService.sendHtmlMail(dataMail, "forgot-password");
+            } catch (MessagingException exp){
+                exp.printStackTrace();
+            } catch (javax.mail.MessagingException e) {
+                throw new RuntimeException(e);
+            }
+            return responseDto;
+        }
+        return null;
+    }
+
+    @Override
+    public boolean changePass(ChangePassRequest changePassRequest) {
+        User emailCheck = userRepository.findByEmail(changePassRequest.getEmail());
+        if (emailCheck != null) {
+            String hashCode = passwordEncoder.encode(changePassRequest.getNewPass());
+            emailCheck.setPassword(hashCode);
+            userRepository.save(emailCheck);
+            return true;
+        }
+        return false;
     }
 
 }
