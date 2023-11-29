@@ -16,6 +16,4 @@ public class AddressResponse {
     private long contact;
     private String receiver;
     private boolean isDefault;
-
-
 }
