@@ -42,8 +42,6 @@ public class UserServiceImpl implements UserService {
 
     public CommonResponse login(UserLoginRequest login) {
 
-        CommonResponse commonResponse = new CommonResponse();
-
         String email = login.getEmail();
         String password = login.getPassword();
 
@@ -65,13 +63,11 @@ public class UserServiceImpl implements UserService {
                 loginResponseDTO.setRole(user.getRole());
 
 
-                commonResponse.builder()
+            return    CommonResponse.builder()
                         .message("Logged in Successfully !")
                         .statusCode(HttpStatus.OK)
                         .data(loginResponseDTO)
                         .build();
-                return commonResponse;
-
 
             } else {
                 throw new RuntimeException("Wrong password");
