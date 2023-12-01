@@ -10,6 +10,7 @@ import com.unifasservice.entity.User;
 import com.unifasservice.repository.AddressRepository;
 import com.unifasservice.repository.UserRepository;
 import com.unifasservice.service.AddressService;
+import com.unifasservice.utilities.ValidateAddress;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
@@ -58,8 +59,21 @@ public class AddressServiceImpl implements AddressService {
     @Override
     public CommonResponse addNewAddress(long userId, AddressRequest addressRequest) {
         User userEntity = userRepository.findById(userId).orElseThrow(() -> new IllegalArgumentException("User not found"));
-        Address address = addressConverter.convertAddressRequestToEntity(addressRequest);
         List<Address> addressList = userEntity.getAddressList();
+
+        boolean isReceiverValid = ValidateAddress.validate("RECEIVER",addressRequest.getReceiver());
+        boolean isContactValid = ValidateAddress.validate("CONTACT",addressRequest.getContact());
+        boolean isStreetValid = ValidateAddress.validate("STREET",addressRequest.getStreet());
+
+        if (!isReceiverValid){
+            throw new IllegalArgumentException("Name must be 2 characters or more");
+        }else if (!isContactValid){
+            throw new IllegalArgumentException("Phone number must have 10 number and start with 0");
+        }else if (!isStreetValid) {
+            throw new IllegalArgumentException("Street must be filled");
+        }
+
+        Address address = addressConverter.convertAddressRequestToEntity(addressRequest);
 
         String isDefaultAddress = address.getIsDefault();
         if ("T".equals(isDefaultAddress)) {
@@ -92,6 +106,56 @@ public class AddressServiceImpl implements AddressService {
        );
        AddressResponse addressResponse = addressConverter.convertAddressEntityToResponse(address);
        return createCommonResponse(addressResponse,"Get address for edit successfully", HttpStatus.OK);
+    }
+
+    @Override
+    public CommonResponse updateAddress(long userId,long addressId, AddressRequest addressRequest) {
+        Address addressEntity = addressRepository.findById(addressId).orElseThrow(
+                () -> new IllegalArgumentException("Address not found")
+        );
+
+
+        boolean isReceiverValid = ValidateAddress.validate("RECEIVER",addressRequest.getReceiver());
+        boolean isContactValid = ValidateAddress.validate("CONTACT",addressRequest.getContact());
+        boolean isStreetValid = ValidateAddress.validate("STREET",addressRequest.getStreet());
+
+        if (!isReceiverValid){
+            throw new IllegalArgumentException("Name must be 2 characters or more");
+        }else if (!isContactValid){
+            throw new IllegalArgumentException("Phone number must have 10 number and start with 0");
+        }else if (!isStreetValid){
+            throw new IllegalArgumentException("Street must be filled");
+        }else {
+            addressEntity.setReceiver(addressRequest.getReceiver());
+            addressEntity.setContact(addressRequest.getContact());
+            addressEntity.setCity(addressRequest.getCity());
+            addressEntity.setDistrict(addressRequest.getDistrict());
+            addressEntity.setStreet(addressRequest.getStreet());
+        }
+
+        if ("true".equals(addressRequest.getIsDefault()) && "T".equals(addressEntity.getIsDefault()) ||
+                "false".equals(addressRequest.getIsDefault()) && "F".equals(addressEntity.getIsDefault())
+        ){
+
+        }else {
+            if ("true".equals(addressRequest.getIsDefault())) {
+                User userEntity = userRepository.findById(userId).orElseThrow(
+                        () -> new IllegalArgumentException("User not found")
+                );
+                List<Address> addressList = userEntity.getAddressList();
+                for (Address subAddress : addressList) {
+                    if ("T".equals(subAddress.getIsDefault())) {
+                        subAddress.setIsDefault("F");
+                        break;
+                    }
+                }
+                addressEntity.setIsDefault("T");
+            }else {
+                throw new IllegalArgumentException("Can not uncheck default address");
+            }
+        }
+        addressRepository.save(addressEntity);
+        return createCommonResponse(false,"Update address successfully",HttpStatus.OK);
     }
 }
 
