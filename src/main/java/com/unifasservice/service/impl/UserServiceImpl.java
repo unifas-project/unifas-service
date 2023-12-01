@@ -46,9 +46,11 @@ public class UserServiceImpl implements UserService {
             String email = login.getEmail();
             String password = login.getPassword();
 
-            if (email == null || password == null) {
-                throw new IllegalArgumentException("Username and password are required.");
-            }
+
+
+        if (email == null || password == null) {
+            throw new IllegalArgumentException("Username and password are required.");
+        }
 
             User user = userRepository.findByEmail(email);
 

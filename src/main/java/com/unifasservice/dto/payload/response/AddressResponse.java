@@ -13,7 +13,7 @@ public class AddressResponse {
     private String ward;
     private String district;
     private String city;
-    private long contact;
+    private String contact;
     private String receiver;
-    private boolean isDefault;
+    private String isDefault;
 }
