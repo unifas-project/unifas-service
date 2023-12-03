@@ -33,7 +33,7 @@ public class Address {
     private String city;
 
     @Column(name = "CONTACT")
-    private long contact;
+    private String contact;
 
     @Column(name = "RECEIVER")
     private String receiver;
