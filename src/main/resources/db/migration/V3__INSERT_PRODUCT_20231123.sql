@@ -13,11 +13,11 @@ INSERT INTO `unifas_service`.`product` (`NAME`, `PRICE`, `CATEGORY_ID`, `SUB_CAT
 INSERT INTO `unifas_service`.`product` (`NAME`, `PRICE`, `CATEGORY_ID`, `SUB_CATEGORY_ID`) VALUES ('Double Face Long Coat', '2453000', '1', '4');
 INSERT INTO `unifas_service`.`product` (`NAME`, `PRICE`, `CATEGORY_ID`, `SUB_CATEGORY_ID`) VALUES ('JW Anderson Pile Lined Fleece Printed Full-Zip Hoodie', '980000', '2', '5');
 INSERT INTO `unifas_service`.`product` (`NAME`, `PRICE`, `CATEGORY_ID`, `SUB_CATEGORY_ID`) VALUES ('Soft Knitted Fleece Crew Neck Long Sleeve T-Shirt', '391000', '2', '5');
-INSERT INTO `unifas_service`.`product` (`NAME`, `PRICE`, `CATEGORY_ID`, `SUB_CATEGORY_ID`) VALUES ('Pile Lined Fleece Stand Collar Coat', '1668000', '2', '5');
+INSERT INTO `unifas_service`.`product` (`NAME`, `PRICE`, `CATEGORY_ID`, `SUB_CATEGORY_ID`) VALUES ('HEATTECH Fleece Turtleneck Long Sleeve T-Shirt', '391000', '2', '5');
 INSERT INTO `unifas_service`.`product` (`NAME`, `PRICE`, `CATEGORY_ID`, `SUB_CATEGORY_ID`) VALUES ('Half-Zip Sweatshirt', '686000', '2', '6');
 INSERT INTO `unifas_service`.`product` (`NAME`, `PRICE`, `CATEGORY_ID`, `SUB_CATEGORY_ID`) VALUES ('Sweat Long Sleeve Full-Zip Hoodie', '784000', '2', '6');
-INSERT INTO `unifas_service`.`product` (`NAME`, `PRICE`, `CATEGORY_ID`, `SUB_CATEGORY_ID`) VALUES ('Dry Sweat Track Pants', '686000', '2', '6');
-INSERT INTO `unifas_service`.`product` (`NAME`, `PRICE`, `CATEGORY_ID`, `SUB_CATEGORY_ID`) VALUES ('Light Souffle Yarn High Neck Long Sleeve Sweater Stripe', '784000', '2', '7');
+INSERT INTO `unifas_service`.`product` (`NAME`, `PRICE`, `CATEGORY_ID`, `SUB_CATEGORY_ID`) VALUES ('AIRism Mesh UV Protection Full-Zip Hoodie', '686000', '2', '6');
+INSERT INTO `unifas_service`.`product` (`NAME`, `PRICE`, `CATEGORY_ID`, `SUB_CATEGORY_ID`) VALUES ('Extra Fine Merino Long Sleeve Crew Neck Sweater', '784000', '2', '7');
 INSERT INTO `unifas_service`.`product` (`NAME`, `PRICE`, `CATEGORY_ID`, `SUB_CATEGORY_ID`) VALUES ('Light Souffle Yarn High Neck Long Sleeve Sweater', '784000', '2', '7');
 INSERT INTO `unifas_service`.`product` (`NAME`, `PRICE`, `CATEGORY_ID`, `SUB_CATEGORY_ID`) VALUES ('JW Anderson Souffle Yarn Color Mix Crew Neck Long Sleeve Sweater', '784000', '2', '7');
 INSERT INTO `unifas_service`.`product` (`NAME`, `PRICE`, `CATEGORY_ID`, `SUB_CATEGORY_ID`) VALUES ('UV Protection Crew Neck Cardigan', '489000', '2', '8');
@@ -57,7 +57,7 @@ INSERT INTO `unifas_service`.`product` (`NAME`, `PRICE`, `CATEGORY_ID`, `SUB_CAT
 INSERT INTO `unifas_service`.`product` (`NAME`, `PRICE`, `CATEGORY_ID`, `SUB_CATEGORY_ID`) VALUES ('Souffle Yarn Long Sleeve Dress', '980000', '4', '20');
 INSERT INTO `unifas_service`.`product` (`NAME`, `PRICE`, `CATEGORY_ID`, `SUB_CATEGORY_ID`) VALUES ('Mercerized Cotton Short Sleeve A Line Dress', '588000', '4', '20');
 INSERT INTO `unifas_service`.`product` (`NAME`, `PRICE`, `CATEGORY_ID`, `SUB_CATEGORY_ID`) VALUES ('Easy Cargo Skirt', '784000', '4', '21');
-INSERT INTO `unifas_service`.`product` (`NAME`, `PRICE`, `CATEGORY_ID`, `SUB_CATEGORY_ID`) VALUES ('Denim Gather Skirt', '1275000', '4', '21');
+INSERT INTO `unifas_service`.`product` (`NAME`, `PRICE`, `CATEGORY_ID`, `SUB_CATEGORY_ID`) VALUES ('Chiffon Pleated Skirt', '1275000', '4', '21');
 INSERT INTO `unifas_service`.`product` (`NAME`, `PRICE`, `CATEGORY_ID`, `SUB_CATEGORY_ID`) VALUES ('Premium Lambswool Mini Skirt', '784000', '4', '21');
 INSERT INTO `unifas_service`.`product` (`NAME`, `PRICE`, `CATEGORY_ID`, `SUB_CATEGORY_ID`) VALUES ('Wireless Bra (3D Hold)', '489000', '5', '22');
 INSERT INTO `unifas_service`.`product` (`NAME`, `PRICE`, `CATEGORY_ID`, `SUB_CATEGORY_ID`) VALUES ('Wireless Bra (Ultra Relax)', '489000', '5', '22');
@@ -74,7 +74,7 @@ INSERT INTO `unifas_service`.`product` (`NAME`, `PRICE`, `CATEGORY_ID`, `SUB_CAT
 INSERT INTO `unifas_service`.`product` (`NAME`, `PRICE`, `CATEGORY_ID`, `SUB_CATEGORY_ID`) VALUES ('AIRism Cotton Pajamas (Long Sleeve)', '784000', '6', '26');
 INSERT INTO `unifas_service`.`product` (`NAME`, `PRICE`, `CATEGORY_ID`, `SUB_CATEGORY_ID`) VALUES ('AIRism Cotton Pajamas (Short Sleeve)', '588000', '6', '26');
 INSERT INTO `unifas_service`.`product` (`NAME`, `PRICE`, `CATEGORY_ID`, `SUB_CATEGORY_ID`) VALUES ('Ultra Stretch Set (Long Sleeve)', '784000', '6', '26');
-INSERT INTO `unifas_service`.`product` (`NAME`, `PRICE`, `CATEGORY_ID`, `SUB_CATEGORY_ID`) VALUES ('Ultra Stretch Waffle Straight Pants', '489000', '6', '27');
+INSERT INTO `unifas_service`.`product` (`NAME`, `PRICE`, `CATEGORY_ID`, `SUB_CATEGORY_ID`) VALUES ('Flannel Pants', '489000', '6', '27');
 INSERT INTO `unifas_service`.`product` (`NAME`, `PRICE`, `CATEGORY_ID`, `SUB_CATEGORY_ID`) VALUES ('Washable Knit Ribbed Pants', '489000', '6', '27');
 INSERT INTO `unifas_service`.`product` (`NAME`, `PRICE`, `CATEGORY_ID`, `SUB_CATEGORY_ID`) VALUES ('Cotton Relaxed Ankle Pants', '489000', '6', '27');
 INSERT INTO `unifas_service`.`product` (`NAME`, `PRICE`, `CATEGORY_ID`, `SUB_CATEGORY_ID`) VALUES ('Ultra Light Down Vest', '980000', '7', '28');
@@ -106,7 +106,7 @@ INSERT INTO `unifas_service`.`product` (`NAME`, `PRICE`, `CATEGORY_ID`, `SUB_CAT
 INSERT INTO `unifas_service`.`product` (`NAME`, `PRICE`, `CATEGORY_ID`, `SUB_CATEGORY_ID`) VALUES ('AIRism Cotton Crew Neck Oversized T-Shirt', '391000', '8', '36');
 INSERT INTO `unifas_service`.`product` (`NAME`, `PRICE`, `CATEGORY_ID`, `SUB_CATEGORY_ID`) VALUES ('Dry Pique Short Sleeve Polo Shirt', '489000', '8', '37');
 INSERT INTO `unifas_service`.`product` (`NAME`, `PRICE`, `CATEGORY_ID`, `SUB_CATEGORY_ID`) VALUES ('Dry-EX Short Sleeve Polo Shirt', '489000', '8', '37');
-INSERT INTO `unifas_service`.`product` (`NAME`, `PRICE`, `CATEGORY_ID`, `SUB_CATEGORY_ID`) VALUES ('AIRism Short Sleeve Plo Shirt (Regular Collar)', '489000', '8', '37');
+INSERT INTO `unifas_service`.`product` (`NAME`, `PRICE`, `CATEGORY_ID`, `SUB_CATEGORY_ID`) VALUES ('AIRism Short Sleeve Polo Shirt (Regular Collar)', '489000', '8', '37');
 INSERT INTO `unifas_service`.`product` (`NAME`, `PRICE`, `CATEGORY_ID`, `SUB_CATEGORY_ID`) VALUES ('Hunter X Hunter Anime Short Sleeve UT', '391000', '8', '38');
 INSERT INTO `unifas_service`.`product` (`NAME`, `PRICE`, `CATEGORY_ID`, `SUB_CATEGORY_ID`) VALUES ('KAWS Short Sleeve UT', '391000', '8', '38');
 INSERT INTO `unifas_service`.`product` (`NAME`, `PRICE`, `CATEGORY_ID`, `SUB_CATEGORY_ID`) VALUES ('JUJUTSU KAISEN Short Sleeve UT', '391000', '8', '38');
@@ -204,4 +204,3 @@ INSERT INTO `unifas_service`.`product` (`NAME`, `PRICE`, `CATEGORY_ID`, `SUB_CAT
 INSERT INTO `unifas_service`.`product` (`NAME`, `PRICE`, `CATEGORY_ID`, `SUB_CATEGORY_ID`) VALUES ('Leggings', '146000', '20', '74');
 INSERT INTO `unifas_service`.`product` (`NAME`, `PRICE`, `CATEGORY_ID`, `SUB_CATEGORY_ID`) VALUES ('Picturebook Pajamas Long Sleeve', '489000', '20', '75');
 INSERT INTO `unifas_service`.`product` (`NAME`, `PRICE`, `CATEGORY_ID`, `SUB_CATEGORY_ID`) VALUES ('My Favorite Toys Long Sleeve Pajamas', '489000', '20', '75');
-INSERT INTO `unifas_service`.`product` (`NAME`, `PRICE`, `CATEGORY_ID`, `SUB_CATEGORY_ID`) VALUES ('Quilted Long Sleeve Pajamas', '489000', '20', '75');
