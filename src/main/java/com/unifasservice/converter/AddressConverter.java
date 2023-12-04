@@ -15,6 +15,11 @@ public class AddressConverter {
     public AddressResponse convertAddressEntityToResponse(Address address){
         AddressResponse addressResponse = new AddressResponse();
         BeanUtils.copyProperties(address,addressResponse);
+        if("T".equals(address.getIsDefault())){
+            addressResponse.setIsDefault("true");
+        }else {
+            addressResponse.setIsDefault("false");
+        }
         return addressResponse;
     }
 
