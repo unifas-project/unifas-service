@@ -59,8 +59,8 @@ public class Product {
 
     @OneToMany(mappedBy = "product", fetch = FetchType.LAZY)
     private List<OrderLine>  orderLineList ;
-
     @OneToMany(mappedBy = "product", fetch = FetchType.LAZY)
+
     private List<Variant> variantList;
 
 

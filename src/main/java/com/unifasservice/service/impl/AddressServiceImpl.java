@@ -40,11 +40,11 @@ public class AddressServiceImpl implements AddressService {
     @Override
     public CommonResponse getUserAddressList(long userId) {
         List<Address> addressList = addressRepository.findByUserId(userId);
-        for (int i=0; i<addressList.size(); i++){
-            if ("T".equals(addressList.get(i).getIsDefault())){
+        for (int i = 0; i < addressList.size(); i++) {
+            if ("T".equals(addressList.get(i).getIsDefault())) {
                 Address subAddress = addressList.get(i);
                 addressList.remove(addressList.get(i));
-                addressList.add(0,subAddress);
+                addressList.add(0, subAddress);
                 break;
             }
         }
@@ -52,19 +52,50 @@ public class AddressServiceImpl implements AddressService {
 
         List<AddressResponse> addressResponseList = addressConverter.convertAddressEntityListToResponseList(addressList);
 
-        return createCommonResponse(addressResponseList,"Get address success",HttpStatus.OK);
+        return createCommonResponse(addressResponseList, "Get address success", HttpStatus.OK);
     }
 
     @Override
     public CommonResponse addNewAddress(long userId, AddressRequest addressRequest) {
-        Address address = addressConverter.convertAddressRequestToEntity(addressRequest);
         User userEntity = userRepository.findById(userId).orElseThrow(() -> new IllegalArgumentException("User not found"));
-        address.setUser(userEntity);
-        address.setOrderList(Collections.singletonList(new Order()));
-        addressRepository.save(address);
+        Address address = addressConverter.convertAddressRequestToEntity(addressRequest);
+        List<Address> addressList = userEntity.getAddressList();
 
-        return createCommonResponse(false,"Add new address successfully",HttpStatus.OK);
+        String isDefaultAddress = address.getIsDefault();
+        if ("T".equals(isDefaultAddress)) {
+            for (Address subAddress : addressList){
+                if ("T".equals(subAddress.getIsDefault())){
+                    subAddress.setIsDefault("F");
+                    break;
+                }
+            }
+            address.setUser(userEntity);
+            address.setOrderList(Collections.singletonList(new Order()));
+            addressRepository.save(address);
+            return createCommonResponse(false, "Add new address successfully", HttpStatus.OK);
+        } else {
+            if (addressList.size()==0){
+                address.setIsDefault("T");
+            }
+
+            address.setUser(userEntity);
+            address.setOrderList(Collections.singletonList(new Order()));
+            addressRepository.save(address);
+            return createCommonResponse(false, "Add new address successfully", HttpStatus.OK);
+        }
     }
 
-
+    @Override
+    public CommonResponse getUserAddressForEdit(long addressId) {
+       Address address = addressRepository.findById(addressId).orElseThrow(
+               () -> new IllegalArgumentException("Address not found")
+       );
+       AddressResponse addressResponse = addressConverter.convertAddressEntityToResponse(address);
+       return createCommonResponse(addressResponse,"Get address for edit successfully", HttpStatus.OK);
+    }
 }
+
+
+
+
+
