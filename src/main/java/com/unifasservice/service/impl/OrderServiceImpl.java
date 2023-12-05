@@ -45,20 +45,19 @@ public class OrderServiceImpl implements OrderService {
 
         Order orderEntity = orderRepository.save(order);
 
-        List<CartItem> cartItemList = cartItemConverter.convertListDTORequestToListEntity(orderRequest.getCartItemDtoList());
+        List<CartItem> cartItemList = userEntity.getCart().getCartProductList();
         List<OrderLine> orderLineList = new ArrayList<>();
         for (CartItem cartItem : cartItemList){
-            CartItem cartItemEntity = cartItemRepository.findById(cartItem.getId()).orElseThrow(() -> new IllegalArgumentException("CartItem not found"));
 
-            int quantity = cartItemEntity.getQuantity();
-            long price = cartItemEntity.getPrice();
+            int quantity = cartItem.getQuantity();
+            long price = cartItem.getPrice();
 
             OrderLine orderLine = OrderLine.builder()
                     .quantity(quantity)
                     .price(price)
                     .subtotal(quantity * price)
-                    .product(cartItemEntity.getProduct())
-                    .variant(cartItemEntity.getVariant())
+                    .product(cartItem.getProduct())
+                    .variant(cartItem.getVariant())
                     .order(orderEntity)
                     .build();
 

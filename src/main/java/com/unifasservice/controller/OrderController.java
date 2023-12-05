@@ -17,6 +17,7 @@ public class OrderController {
 
     private final OrderService orderService;
 
+    @PostMapping("/order")
     public ResponseEntity<CommonResponse> createOrder(Authentication authentication, @RequestBody OrderRequest orderRequest){
         try {
             CommonResponse commonResponse = orderService.createOrder(authentication, orderRequest);

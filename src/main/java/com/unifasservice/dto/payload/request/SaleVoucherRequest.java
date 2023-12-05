@@ -8,5 +8,5 @@ import lombok.Data;
 public class SaleVoucherRequest {
     private long id;
     private String code;
-
+    private double discount;
 }
