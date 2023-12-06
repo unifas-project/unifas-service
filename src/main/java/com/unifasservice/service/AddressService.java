@@ -13,5 +13,5 @@ public interface AddressService {
 
     CommonResponse getUserAddressForEdit(long addressId);
 
-    CommonResponse updateAddress(long userId, long addressId, AddressRequest addressRequest);
+    CommonResponse updateAddress(long userId, AddressRequest addressRequest);
 }
