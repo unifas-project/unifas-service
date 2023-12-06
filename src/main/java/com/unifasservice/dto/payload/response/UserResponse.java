@@ -5,8 +5,6 @@ import lombok.Data;
 
 @Data
 @Builder
-public class CategoryResponse {
-    private long id;
-    private String name;
-    private String gender;
+public class UserResponse {
+    private String username;
 }
