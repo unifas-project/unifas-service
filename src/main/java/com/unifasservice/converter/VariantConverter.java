@@ -19,8 +19,8 @@ public class VariantConverter {
     public VariantResponse variantToVariantResponse(Variant variant) {
         return VariantResponse.builder()
                 .id(variant.getId())
-                .color(colorConverter.colorToColorResponse(variant.getColor()))
-                .size(sizeConverter.sizeToSizeResponse(variant.getSize()))
+                .colorResponse(colorConverter.colorToColorResponse(variant.getColor()))
+                .sizeResponse(sizeConverter.sizeToSizeResponse(variant.getSize()))
                 .build();
     }
     public List<VariantResponse> listVariantToListVariantResponse(List<Variant> variantList) {

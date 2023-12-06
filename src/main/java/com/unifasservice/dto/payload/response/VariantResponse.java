@@ -1,17 +1,17 @@
 package com.unifasservice.dto.payload.response;
 
-import com.unifasservice.entity.Color;
-import com.unifasservice.entity.Size;
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Data
+@AllArgsConstructor
+@NoArgsConstructor
 @Builder
 public class VariantResponse {
 
     private long id;
-
-    private ColorResponse color;
-
-    private SizeResponse size;
+    private ColorResponse colorResponse;
+    private SizeResponse sizeResponse;
 }

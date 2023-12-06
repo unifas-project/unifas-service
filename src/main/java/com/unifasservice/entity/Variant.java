@@ -39,6 +39,6 @@ public class Variant {
     private List<OrderLine> orderLineList ;
 
     @ManyToOne
-    @JoinColumn( name = "PRODUCT_ID" )
+    @JoinColumn(name="PRODUCT_ID")
     private Product product;
 }

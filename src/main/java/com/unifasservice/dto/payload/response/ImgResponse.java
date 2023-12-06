@@ -9,13 +9,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class ColorResponse {
-
+public class ImgResponse {
     private long id;
-
-    private String name;
-
-    private String code;
-
-    private String acronym;
+    private String url;
 }
