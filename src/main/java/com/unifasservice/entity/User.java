@@ -2,6 +2,7 @@ package com.unifasservice.entity;
 
 import lombok.*;
 import javax.persistence.*;
+import java.sql.Date;
 import java.util.List;
 
 
@@ -33,6 +34,12 @@ public class User {
 
     @Column(name="IS_DELETED")
     private boolean isDeleted;
+
+    @Column(name = "FULL_NAME")
+    private String fullName;
+
+    @Column(name = "DATE_OF_BIRTH")
+    private Date dateOfBirth;
 
     @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
     private List<Address> addressList ;
