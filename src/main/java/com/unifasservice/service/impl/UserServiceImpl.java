@@ -1,18 +1,19 @@
 package com.unifasservice.service.impl;
 
-import com.unifasservice.converter.UserDetailConverter;
 import com.unifasservice.dto.payload.CommonResponse;
-import com.unifasservice.dto.payload.request.*;
+import com.unifasservice.dto.payload.request.ChangePassRequest;
+import com.unifasservice.dto.payload.request.ForgetPassRequest;
 import com.unifasservice.dto.payload.response.CodePassResponse;
 import com.unifasservice.dto.payload.response.DataMailResponse;
-import com.unifasservice.dto.payload.response.UserDetailResponse;
 import com.unifasservice.security.JwtTokenUtil;
 import com.unifasservice.converter.UserLoginConverter;
+import com.unifasservice.dto.payload.request.UserLoginRequest;
 import com.unifasservice.dto.payload.response.UserLoginResponse;
 import com.unifasservice.entity.Cart;
 import com.unifasservice.entity.User;
 import com.unifasservice.repository.UserRepository;
 import com.unifasservice.converter.UserRegisterConverter;
+import com.unifasservice.dto.payload.request.UserRegisterRequest;
 import com.unifasservice.service.MailService;
 import com.unifasservice.service.UserService;
 import lombok.RequiredArgsConstructor;
@@ -37,7 +38,6 @@ public class UserServiceImpl implements UserService {
     private final PasswordEncoder passwordEncoder;
     private final JwtTokenUtil jwtTokenUtil;
     private final MailService mailService;
-    private final UserDetailConverter userDetailConverter;
 
 
     public CommonResponse login(UserLoginRequest login) {
@@ -153,52 +153,6 @@ public class UserServiceImpl implements UserService {
             return true;
         }
         return false;
-    }
-
-    @Override
-    public UserDetailResponse getUserByUsername(String username) throws Exception {
-        User user = userRepository.findByUsername(username);
-        if (user == null) {
-            throw new Exception("Username not found");
-        }
-        return userDetailConverter.toDto(user);
-    }
-
-    @Override
-    public UserDetailResponse updateUserByUsername(String username, UserDetailRequest userDetailRequest) throws Exception {
-        User currentUser = userRepository.findByUsername(username);
-        if (currentUser == null) {
-            throw new Exception("Username not found");
-        }
-        currentUser.setDateOfBirth(userDetailRequest.getDateOfBirth());
-        currentUser.setFullName(userDetailRequest.getFullName());
-        User user = userRepository.save(currentUser);
-        UserDetailResponse response = userDetailConverter.toDto(user);
-        return response;
-    }
-
-    @Override
-    public UserDetailResponse changePasswordByUsername(String username,
-                                                       UserPasswordRequest userPasswordRequest) throws Exception {
-        User currentUser = userRepository.findByUsername(username);
-        if (currentUser == null) {
-            throw new Exception("Không tìm thấy tên tài khoản");
-        }
-
-        if (!passwordEncoder.matches(userPasswordRequest.getCurrentPassword(), currentUser.getPassword())) {
-            throw new Exception("Mật khẩu hiện tại không đúng");
-        }
-        if (passwordEncoder.matches(userPasswordRequest.getNewPassword(), currentUser.getPassword())) {
-            throw new Exception("Mật khẩu mới phải khác mật khẩu hiện tại");
-        }
-        if (!userPasswordRequest.getNewPassword().equals(userPasswordRequest.getConfirmationPassword())) {
-            throw new Exception("Mật khẩu xác thực không đúng");
-        }
-        currentUser.setPassword(passwordEncoder.encode(userPasswordRequest.getNewPassword()));
-
-        User user = userRepository.save(currentUser);
-        UserDetailResponse response = userDetailConverter.toDto(user);
-        return response;
     }
 
 }
