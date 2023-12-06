@@ -1,6 +1,7 @@
 package com.unifasservice.entity;
 
 import lombok.*;
+import org.hibernate.annotations.Where;
 
 import javax.persistence.*;
 import java.util.List;
@@ -12,6 +13,7 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @Table(name = "VARIANT")
+@Where(clause = "IS_DELETED = 0")
 public class Variant {
 
     @Id
@@ -37,6 +39,6 @@ public class Variant {
     private List<OrderLine> orderLineList ;
 
     @ManyToOne
-    @JoinColumn( name = "PRODUCT_ID" )
+    @JoinColumn(name="PRODUCT_ID")
     private Product product;
 }

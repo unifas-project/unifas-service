@@ -1,5 +1,7 @@
 package com.unifasservice.entity;
 import lombok.*;
+import org.hibernate.annotations.Where;
+
 import javax.persistence.*;
 import java.util.List;
 
@@ -10,7 +12,7 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @Table(name = "COLOR")
-
+@Where(clause = "IS_DELETED = 0")
 public class Color {
 
     @Id
@@ -32,8 +34,6 @@ public class Color {
 
     @OneToMany(mappedBy = "color",fetch = FetchType.LAZY)
     private List<Variant> variantList;
-
-
 }
 
 

@@ -2,13 +2,10 @@ package com.unifasservice.converter;
 
 import com.unifasservice.dto.payload.request.OrderRequest;
 import com.unifasservice.dto.payload.response.OrderResponse;
-import com.unifasservice.entity.CartItem;
 import com.unifasservice.entity.Order;
-import com.unifasservice.entity.OrderLine;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalDateTime;
-import java.util.List;
 
 @Component
 public class OrderConverter {
