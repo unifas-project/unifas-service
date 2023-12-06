@@ -15,5 +15,4 @@ public class OrderResponse {
     private long finalPrice;
     private String payment;
     private List<OrderLineResponse> orderLineResponseList;
-
 }

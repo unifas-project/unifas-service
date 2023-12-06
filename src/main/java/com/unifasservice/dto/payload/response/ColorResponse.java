@@ -10,8 +10,12 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Builder
 public class ColorResponse {
+
     private long id;
+
     private String name;
+
     private String code;
+
     private String acronym;
 }

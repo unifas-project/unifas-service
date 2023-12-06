@@ -28,8 +28,8 @@ public class SearchProductConverter implements Function<List<Product>, List<Sear
             SearchProduct searchProduct = new SearchProduct();
             BeanUtils.copyProperties(element,searchProduct);
             searchProduct.setImgResponseList(imgFunction.apply(element.getImageProductList()));
-            searchProduct.setCategoryResponse(categoryConverter.categoryToCategoryResponseDTO(element.getCategory()));
-            searchProduct.setSubCategoryResponse(subCategoryConverter.subCategoryToSubCategoryResponseDTO(element.getSubCategory()));
+            searchProduct.setCategoryResponse(categoryConverter.categoryToCategoryResponse(element.getCategory()));
+            searchProduct.setSubCategoryResponse(subCategoryConverter.subCategoryToSubCategoryResponse(element.getSubCategory()));
             searchProduct.setVariantResponseList(variantFunction.apply(element.getVariantList()));
             searchProductList.add(searchProduct);
         }

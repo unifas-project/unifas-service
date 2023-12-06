@@ -5,8 +5,10 @@ import lombok.Data;
 
 @Data
 @Builder
-public class CategoryResponse {
+public class ProductImageResponse {
+
     private long id;
-    private String name;
-    private String gender;
+
+    private String url;
 }
+

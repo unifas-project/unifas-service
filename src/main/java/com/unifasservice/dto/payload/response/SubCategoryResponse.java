@@ -1,10 +1,13 @@
 package com.unifasservice.dto.payload.response;
 
+import com.unifasservice.entity.Category;
+import lombok.Builder;
 import lombok.Data;
 
 @Data
+@Builder
 public class SubCategoryResponse {
     private long id;
     private String name;
-    private long categoryId;
+    private CategoryResponse category;
 }

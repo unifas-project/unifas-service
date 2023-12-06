@@ -49,17 +49,17 @@ public class Product {
     private SubCategory subCategory;
 
     @OneToMany(mappedBy = "product", fetch = FetchType.LAZY)
-    private List<ProductImage>  imageProductList ;
+    private List<ProductImage> imageProductList ;
 
     @OneToMany(mappedBy = "product", fetch = FetchType.LAZY)
-    private List<Review>  reviews ;
+    private List<Review> reviews ;
 
     @OneToMany(mappedBy = "product", fetch = FetchType.LAZY)
-    private List<CartItem>  cartProductList ;
+    private List<CartItem> cartProductList ;
 
     @OneToMany(mappedBy = "product", fetch = FetchType.LAZY)
-    private List<OrderLine>  orderLineList ;
-    @OneToMany(mappedBy = "product", fetch = FetchType.LAZY)
+    private List<OrderLine> orderLineList ;
 
+    @OneToMany(mappedBy = "product")
     private List<Variant> variantList;
 }

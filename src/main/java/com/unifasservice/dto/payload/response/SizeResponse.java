@@ -10,6 +10,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Builder
 public class SizeResponse {
+
     private long id;
     private String name;
 }
