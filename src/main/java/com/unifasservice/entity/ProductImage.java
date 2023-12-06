@@ -2,6 +2,7 @@ package com.unifasservice.entity;
 
 
 import lombok.*;
+import org.hibernate.annotations.Where;
 
 import javax.persistence.*;
 
@@ -12,7 +13,7 @@ import javax.persistence.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @Table(name = "IMAGE_PRODUCT")
-
+@Where(clause = "IS_DELETED = 0")
 public class ProductImage {
 
     @Id

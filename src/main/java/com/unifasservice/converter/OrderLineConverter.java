@@ -1,7 +1,6 @@
 package com.unifasservice.converter;
 
 import com.unifasservice.dto.payload.response.OrderLineResponse;
-import com.unifasservice.entity.CartItem;
 import com.unifasservice.entity.OrderLine;
 import org.springframework.stereotype.Component;
 

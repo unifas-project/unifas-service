@@ -2,6 +2,7 @@ package com.unifasservice.entity;
 
 
 import lombok.*;
+import org.hibernate.annotations.Where;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
@@ -13,7 +14,7 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @AllArgsConstructor
 @Table(name = "REVIEW")
-
+@Where(clause = "IS_DELETED = 0")
 public class Review {
 
     @Id
@@ -40,7 +41,4 @@ public class Review {
     @ManyToOne
     @JoinColumn(name = "PRODUCT_ID")
     private Product product;
-
-
-
 }

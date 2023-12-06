@@ -34,8 +34,6 @@ public class Color {
 
     @OneToMany(mappedBy = "color",fetch = FetchType.LAZY)
     private List<Variant> variantList;
-
-
 }
 
 
