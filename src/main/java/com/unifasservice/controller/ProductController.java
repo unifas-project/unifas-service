@@ -26,13 +26,13 @@ public class ProductController {
         return new ResponseEntity<>(products, HttpStatus.OK);
     }
 
-    @PostMapping("")
-    public ResponseEntity<?> save(
-            @Valid @RequestBody CreateProductRequest productRequest, BindingResult bindingResult) {
-        if (bindingResult.hasErrors()) {
-            return new ResponseEntity<>(bindingResult.getAllErrors(), HttpStatus.BAD_REQUEST);
-        }
-        CreateProductResponse productResponseDTO = productService.createProduct(productRequest);
-        return new ResponseEntity<>(productResponseDTO, HttpStatus.CREATED);
-    }
+//    @PostMapping("")
+//    public ResponseEntity<?> save(
+//            @Valid @RequestBody CreateProductRequest productRequest, BindingResult bindingResult) {
+//        if (bindingResult.hasErrors()) {
+//            return new ResponseEntity<>(bindingResult.getAllErrors(), HttpStatus.BAD_REQUEST);
+//        }
+//        CreateProductResponse productResponseDTO = productService.createProduct(productRequest);
+//        return new ResponseEntity<>(productResponseDTO, HttpStatus.CREATED);
+//    }
 }
