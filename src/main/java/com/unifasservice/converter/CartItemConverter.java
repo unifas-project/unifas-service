@@ -19,6 +19,7 @@ public class CartItemConverter {
 
         cartProductResponseDto.setId(cartItem.getId());
         cartProductResponseDto.setName(cartItem.getProduct().getName());
+        cartProductResponseDto.setProductId(cartProductResponseDto.getProductId());
         cartProductResponseDto.setColor(cartItem.getVariant().getColor().getName());
         cartProductResponseDto.setSize(cartItem.getVariant().getSize().getName());
         cartProductResponseDto.setPrice(cartItem.getPrice());

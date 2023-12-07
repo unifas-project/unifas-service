@@ -1,5 +1,5 @@
 INSERT INTO unifas_service.sale_voucher (CODE, DISCOUNT, IS_DELETED) VALUES ('TEST', 12.00, 0);
-INSERT INTO unifas_service.sale_voucher (CODE, DISCOUNT, IS_DELETED) VALUES ('ABC', 12.00, 0);
+INSERT INTO unifas_service.sale_voucher (CODE, DISCOUNT, IS_DELETED) VALUES ('FREE', 100.00, 0);
 INSERT INTO unifas_service.sale_voucher (CODE, DISCOUNT, IS_DELETED) VALUES ('CG', 12.00, 0);
 INSERT INTO unifas_service.sale_voucher (CODE, DISCOUNT, IS_DELETED) VALUES ('UNIFAS', 98.00, 0);
 INSERT INTO unifas_service.sale_voucher (CODE, DISCOUNT, IS_DELETED) VALUES ('ALONE', 96.00, 0);

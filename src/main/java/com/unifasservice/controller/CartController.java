@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.*;
 
 
 @RestController
-@RequestMapping("/api/cart")
+@RequestMapping("/api")
 @CrossOrigin("*")
 @RequiredArgsConstructor
 public class CartController {
@@ -21,14 +21,12 @@ public class CartController {
     private final CartService cartService;
 
 
-    @PostMapping("")
+    @PostMapping("/user/{user-id}/cart")
     public ResponseEntity<CommonResponse> addToCart(
-            @RequestBody CartItemRequest cartItem,
-            Authentication authentication) {
+            @RequestBody CartItemRequest cartItem, @PathVariable("user-id") long userId) {
         try {
-            String username = authentication.getName();
 
-            CommonResponse response = cartService.addToCart(username, cartItem);
+            CommonResponse response = cartService.addToCart(cartItem,userId);
 
             return new ResponseEntity<>(response , HttpStatus.OK);
 
@@ -39,11 +37,10 @@ public class CartController {
         }
     }
 
-    @GetMapping("")
-    public ResponseEntity<CommonResponse> getCartItemList(Authentication authentication) {
+    @GetMapping("/cart/{user-id}")
+    public ResponseEntity<CommonResponse> getCartItemList(@PathVariable("user-id") long userId) {
         try {
-            String username = authentication.getName();
-            CommonResponse cartItemList = cartService.getCartItems(username);
+            CommonResponse cartItemList = cartService.getCartItems(userId);
             return new ResponseEntity<>(cartItemList, HttpStatus.OK);
         } catch (Exception e) {
 

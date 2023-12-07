@@ -7,7 +7,7 @@ import org.springframework.http.HttpStatus;
 
 public interface CartService {
 
-    CommonResponse getCartItems(String username);
-    CommonResponse addToCart(String username, CartItemRequest cartItems);
+    CommonResponse getCartItems(long userId);
+    CommonResponse addToCart(CartItemRequest cartItems, long userId);
     CommonResponse createCommonResponse(Object data, String message, HttpStatus statusCode);
 }

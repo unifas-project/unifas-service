@@ -8,7 +8,10 @@ import lombok.Data;
 public class CartItemRequest {
     private long id;
     private long productId;
-    private int quantity;
+    private String name;
     private String color;
     private String size;
+    private int quantity;
+    private double price;
+    private double subtotal;
 }

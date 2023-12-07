@@ -5,6 +5,7 @@ import com.unifasservice.dto.payload.response.OrderLineResponse;
 import com.unifasservice.dto.payload.response.OrderResponse;
 import com.unifasservice.entity.CartItem;
 import com.unifasservice.entity.Order;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalDateTime;
@@ -12,8 +13,9 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Component
+@RequiredArgsConstructor
 public class OrderConverter {
-    OrderLineConverter orderLineConverter;
+    private final OrderLineConverter orderLineConverter;
     public Order convertOrderRequestToEntity(OrderRequest orderRequest){
         return Order.builder()
                 .date(LocalDateTime.now())
