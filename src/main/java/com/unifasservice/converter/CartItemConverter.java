@@ -16,10 +16,11 @@ public class CartItemConverter {
 
     public CartItemResponse fromEntityToDto (CartItem cartItem) {
         CartItemResponse cartProductResponseDto = new CartItemResponse();
+
         cartProductResponseDto.setId(cartItem.getId());
         cartProductResponseDto.setName(cartItem.getProduct().getName());
-//        cartProductResponseDto.setColor(cartProduct.getProduct().getVariantList());
-//        cartProductResponseDto.setSize();
+        cartProductResponseDto.setColor(cartItem.getVariant().getColor().getName());
+        cartProductResponseDto.setSize(cartItem.getVariant().getSize().getName());
         cartProductResponseDto.setPrice(cartItem.getPrice());
         cartProductResponseDto.setQuantity(cartItem.getQuantity());
         cartProductResponseDto.setSubtotal(cartItem.getSubtotal());

@@ -27,4 +27,11 @@ public class SizeConverter {
         return sizeResponseList;
     }
 
+    public SizeResponse sizeToSizeResponse(Size size) {
+        return SizeResponse.builder()
+                .id(size.getId())
+                .name(size.getName())
+                .build();
+    }
+
 }

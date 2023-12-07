@@ -23,4 +23,9 @@ public class ColorController {
         return new ResponseEntity<>(colors, HttpStatus.OK);
     }
 
+    @GetMapping("/colors")
+    public ResponseEntity<CommonResponse> getAllColor (){
+        return colorService.getAllColor();
+    }
+
 }

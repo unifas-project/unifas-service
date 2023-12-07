@@ -8,9 +8,9 @@ import lombok.Data;
 public class OrderLineResponse {
     private long id;
     private String productName;
-    private long price;
+    private double price;
     private int quantity;
-    private long subtotal;
+    private double subtotal;
     private String size;
     private String color;
 }

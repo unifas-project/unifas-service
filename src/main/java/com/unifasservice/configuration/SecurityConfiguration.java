@@ -4,7 +4,6 @@ package com.unifasservice.configuration;
 import com.unifasservice.security.JwtRequestFilter;
 import com.unifasservice.security.JwtAuthenticationEntryPoint;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Lazy;
@@ -49,7 +48,9 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .antMatchers(
                         "/auth/login",
                         "/auth/register",
-                        "/categories").permitAll()
+                        "/categories",
+                        "/products")
+                .permitAll()
 
 
 

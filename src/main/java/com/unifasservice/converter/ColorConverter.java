@@ -1,10 +1,8 @@
 package com.unifasservice.converter;
 
-
 import com.unifasservice.dto.payload.response.ColorResponse;
 import com.unifasservice.entity.Color;
 import org.springframework.stereotype.Component;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -27,6 +25,16 @@ public class ColorConverter {
             colorResponseList.add(convertToColorResponseDto(color));
         }
         return colorResponseList;
+    }
+
+
+    public ColorResponse colorToColorResponse(Color color) {
+        return ColorResponse.builder()
+                .id(color.getId())
+                .name(color.getName())
+                .code(color.getCode())
+                .acronym(color.getAcronym())
+                .build();
     }
 
 

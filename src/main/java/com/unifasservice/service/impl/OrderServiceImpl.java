@@ -51,7 +51,7 @@ public class OrderServiceImpl implements OrderService {
             CartItem cartItemEntity = cartItemRepository.findById(cartItem.getId()).orElseThrow(() -> new IllegalArgumentException("CartItem not found"));
 
             int quantity = cartItemEntity.getQuantity();
-            long price = cartItemEntity.getPrice();
+            double price = cartItemEntity.getPrice();
 
             OrderLine orderLine = OrderLine.builder()
                     .quantity(quantity)

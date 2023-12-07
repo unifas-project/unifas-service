@@ -7,11 +7,17 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Data
-@Builder
 @AllArgsConstructor
 @NoArgsConstructor
+@Builder
 public class ColorResponse {
+
     private long id;
+
     private String name;
+
+    private String code;
+
+    private String acronym;
 }
 

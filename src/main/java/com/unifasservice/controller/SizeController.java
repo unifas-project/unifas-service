@@ -1,6 +1,7 @@
 package com.unifasservice.controller;
 
 
+
 import com.unifasservice.dto.payload.CommonResponse;
 import com.unifasservice.service.SizeService;
 import lombok.RequiredArgsConstructor;
@@ -19,12 +20,15 @@ public class SizeController {
 
     private final SizeService sizeService;
 
+
     @GetMapping("")
     public ResponseEntity<CommonResponse> getAllSizes() {
         CommonResponse sizes = sizeService.findAllSizes();
         return new ResponseEntity<>(sizes, HttpStatus.OK);
     }
-
-
+    @GetMapping("/sizes")
+    public ResponseEntity<CommonResponse> getAllSize(){
+        return sizeService.getAllSize();
+    }
 
 }
