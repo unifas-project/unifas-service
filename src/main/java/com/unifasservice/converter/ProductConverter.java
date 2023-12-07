@@ -44,4 +44,10 @@ public class ProductConverter {
         }
         return list;
     }
+
+//    public Product convertRequestToEntity(CreateProductRequest productRequest) {
+//    }
+//
+//    public CreateProductResponse convertEntityToResponse(Product originProduct) {
+//    }
 }

@@ -5,6 +5,7 @@ import com.unifasservice.dto.payload.CommonResponse;
 import com.unifasservice.dto.payload.request.*;
 import com.unifasservice.dto.payload.response.CodePassResponse;
 import com.unifasservice.dto.payload.response.DataMailResponse;
+import com.unifasservice.dto.payload.response.UserRegisterResponse;
 import com.unifasservice.dto.payload.response.UserDetailResponse;
 import com.unifasservice.security.JwtTokenUtil;
 import com.unifasservice.converter.UserLoginConverter;
@@ -41,60 +42,63 @@ public class UserServiceImpl implements UserService {
 
 
     public CommonResponse login(UserLoginRequest login) {
+        try {
+            String email = login.getEmail();
+            String password = login.getPassword();
 
-        String email = login.getEmail();
-        String password = login.getPassword();
+
 
         if (email == null || password == null) {
             throw new IllegalArgumentException("Username and password are required.");
         }
 
-        User user = userRepository.findByEmail(email);
+            User user = userRepository.findByEmail(email);
 
-        if (user != null) {
-            if (passwordEncoder.matches(password, user.getPassword())) {
+            if (user != null) {
+                if (passwordEncoder.matches(password, user.getPassword())) {
+                    UserLoginResponse loginResponse = userLoginConverter.userToUserLoginDTO(user);
+                    String token = jwtTokenUtil.generateToken(user);
+                    loginResponse.setToken(token);
+                    loginResponse.setRole(user.getRole());
 
-                UserLoginResponse loginResponseDTO = userLoginConverter.userToUserLoginDTO(user);
-
-
-                String token = jwtTokenUtil.generateToken(user);
-                loginResponseDTO.setToken(token);
-                loginResponseDTO.setId(user.getId());
-                loginResponseDTO.setRole(user.getRole());
-
-
-            return    CommonResponse.builder()
-                        .message("Logged in Successfully !")
-                        .statusCode(HttpStatus.OK)
-                        .data(loginResponseDTO)
-                        .build();
-
+                    return getCommonResponse("Logged in Successfully !", HttpStatus.OK, loginResponse);
+                } else {
+                    throw new RuntimeException("Wrong password");
+                }
             } else {
-                throw new RuntimeException("Wrong password");
+                throw new RuntimeException("User not found");
             }
-        } else {
-            throw new RuntimeException("User not found");
+        } catch (IllegalArgumentException e) {
+            return getCommonResponse(e.getMessage(), HttpStatus.BAD_REQUEST, null);
+        } catch (RuntimeException e) {
+            return getCommonResponse(e.getMessage(), HttpStatus.UNAUTHORIZED, null);
         }
     }
+
+
 
     @Override
     public CommonResponse register(UserRegisterRequest userRegisterRequest) {
 
-        String password = userRegisterRequest.getPassword();
-        String hashCode = passwordEncoder.encode(password);
-
-        User userNameCheck = userRepository.findByUsername(userRegisterRequest.getUsername());
-        if (userNameCheck != null) {
-            return getCommonResponse("This account already exists", HttpStatus.BAD_REQUEST, false);
-        }
-        User emailCheck = userRepository.findByEmail(userRegisterRequest.getEmail());
-        if (emailCheck != null) {
-            return getCommonResponse("Email exists, please enter another email!", HttpStatus.BAD_REQUEST, false);
-        }
         try {
+            String password = userRegisterRequest.getPassword();
+            String hashedPassword = passwordEncoder.encode(password);
+
+
+            User userNameCheck = userRepository.findByUsername(userRegisterRequest.getUsername());
+            if (userNameCheck != null) {
+                return getCommonResponse("This account already exists", HttpStatus.BAD_REQUEST, null);
+            }
+
+            User emailCheck = userRepository.findByEmail(userRegisterRequest.getEmail());
+            if (emailCheck != null) {
+                return getCommonResponse("Email exists, please enter another email!", HttpStatus.BAD_REQUEST, null);
+            }
+
 
             User user = userRegisterConverter.convertDTORequestToEntity(userRegisterRequest);
-            user.setPassword(hashCode);
+            user.setPassword(hashedPassword);
+
             user.setDeleted(false);
 
             Cart cartUser = new Cart();
@@ -102,11 +106,17 @@ public class UserServiceImpl implements UserService {
             user.setCart(cartUser);
             userRepository.save(user);
 
+            UserRegisterResponse responseDTO = userRegisterConverter.convertEntityResponseToDTO(user);
+
+            return getCommonResponse("Register Success!", HttpStatus.CREATED, responseDTO);
+
         } catch (Exception e) {
-            return getCommonResponse("Register Failure!", HttpStatus.BAD_REQUEST, false);
+            e.printStackTrace();
+
+            return getCommonResponse("Register Failure!", HttpStatus.BAD_REQUEST, null);
         }
-        return getCommonResponse("Register Success!", HttpStatus.CREATED, true);
     }
+
 
     private CommonResponse getCommonResponse(String message, HttpStatus status, Object data) {
         CommonResponse commonResponse = CommonResponse.builder()
@@ -117,6 +127,7 @@ public class UserServiceImpl implements UserService {
         return commonResponse;
 
     }
+
     @Override
     public CodePassResponse createCodePass(ForgetPassRequest forgetPassRequest) {
         User emailCheck = userRepository.findByEmail(forgetPassRequest.getEmail());

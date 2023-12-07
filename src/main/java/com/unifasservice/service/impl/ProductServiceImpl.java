@@ -8,7 +8,6 @@ import com.unifasservice.entity.Product;
 import com.unifasservice.repository.ProductRepository;
 import com.unifasservice.service.ProductService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
@@ -21,11 +20,8 @@ import java.util.function.Function;
 @RequiredArgsConstructor
 public class ProductServiceImpl implements ProductService {
 
-    @Autowired
-    private ProductRepository productRepository;
-
-    @Autowired
-    private ProductConverter productConverter;
+    private final ProductRepository productRepository;
+    private final ProductConverter productConverter;
     private final Function<List<Product>, List<SearchProduct>> searchProductFunction;
 
     @Override
@@ -74,4 +70,35 @@ public class ProductServiceImpl implements ProductService {
             return CommonResponse.builder().message("Search error").statusCode(HttpStatus.BAD_REQUEST).data(false).build();
         }
     }
+
+//    @Override
+//    public CreateProductResponse createProduct(CreateProductRequest productRequest) {
+//        Product product = productConverter.convertRequestToEntity(productRequest);
+//        Product productDatabase = productRepository.save(product);
+//
+//
+////        List<Variant> variantInputs = new ArrayList<>(productRequestDTO.getVariants().stream().map(item -> {
+////            Variant variantInput = variantConverter.convertRequestToEntity(item);
+////            variantInput.setProduct(productDatabase);
+////            return variantInput;
+////        }).toList());
+////        List<Variant> variantsDatabase = variantRepository.findByProductOrderByColorAsc(productDatabase);
+////        if (!variantsDatabase.isEmpty()) {
+////            variantInputs.forEach(variantInput -> {
+////                variantsDatabase.forEach(variantDatabase -> {
+////                    if (Objects.equals(variantDatabase.getSize().getName(), variantInput.getSize().getName())
+////                            && Objects.equals(variantDatabase.getColor().getName(), variantInput.getColor().getName())) {
+////                        variantInput.setId(variantDatabase.getId());
+////                    }
+////                });
+////            });
+////            variantsDatabase.removeAll(variantInputs);
+////            List<Variant> variantsToRemove = new ArrayList<>(variantsDatabase);
+////            variantsToRemove.forEach(variant -> variant.setActive(false));
+////            variantInputs.addAll(variantsToRemove);
+////        }
+////        variantRepository.saveAll(variantInputs);
+//        Product originProduct = productRepository.save(productDatabase);
+//        return productConverter.convertEntityToResponse(originProduct);
+//    }
 }

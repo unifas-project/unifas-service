@@ -10,7 +10,7 @@ public class OrderLineResponse {
     private String productName;
     private double price;
     private int quantity;
-    private long subtotal;
+    private double subtotal;
     private String size;
     private String color;
 }

@@ -52,7 +52,7 @@ public class OrderServiceImpl implements OrderService {
         for (CartItem cartItem : cartItemList){
 
             int quantity = cartItem.getQuantity();
-            long price = cartItem.getPrice();
+            double price = cartItem.getPrice();
 
             OrderLine orderLine = OrderLine.builder()
                     .quantity(quantity)
