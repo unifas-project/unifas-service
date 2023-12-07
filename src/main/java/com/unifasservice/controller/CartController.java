@@ -1,8 +1,6 @@
 package com.unifasservice.controller;
 import com.unifasservice.dto.payload.CommonResponse;
-import com.unifasservice.dto.payload.request.AddProductToCartRequest;
 import com.unifasservice.dto.payload.request.CartItemRequest;
-import com.unifasservice.entity.CartItem;
 import com.unifasservice.service.CartService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;

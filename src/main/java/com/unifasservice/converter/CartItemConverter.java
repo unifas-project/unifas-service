@@ -24,6 +24,7 @@ public class CartItemConverter {
         cartProductResponseDto.setPrice(cartItem.getPrice());
         cartProductResponseDto.setQuantity(cartItem.getQuantity());
         cartProductResponseDto.setSubtotal(cartItem.getSubtotal());
+        cartProductResponseDto.setImage(cartProductResponseDto.getImage());
         return cartProductResponseDto;
     }
 

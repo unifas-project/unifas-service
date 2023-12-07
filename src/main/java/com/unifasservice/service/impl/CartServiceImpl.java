@@ -80,6 +80,7 @@ public class CartServiceImpl implements CartService {
             cartItem.setCart(cart);
             cartItem.setPrice(product.getPrice());
             cartItem.setSubtotal(product.getPrice()*cartItemRequest.getQuantity());
+            cartItem.setDeleted(false);
             cart.getCartProductList().add(cartItem);
             userRepository.save(user);
             cartItemRepository.save(cartItem);
