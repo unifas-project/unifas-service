@@ -17,27 +17,40 @@ public class OrderController {
 
     private final OrderService orderService;
 
-    @PostMapping("/order")
-    public ResponseEntity<CommonResponse> createOrder(Authentication authentication, @RequestBody OrderRequest orderRequest){
+    @PostMapping("/user/{user-id}/order")
+    public ResponseEntity<CommonResponse> createOrder(@RequestBody OrderRequest orderRequest, @PathVariable("user-id") long userId){
         try {
-            CommonResponse commonResponse = orderService.createOrder(authentication, orderRequest);
+            CommonResponse commonResponse = orderService.createOrder(userId, orderRequest);
             return new ResponseEntity<>(commonResponse, HttpStatus.OK);
         }catch (IllegalArgumentException e){
-            CommonResponse commonResponse = CommonResponse.builder()
-                    .data(false)
-                    .message(e.getMessage())
-                    .build();
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(commonResponse);
+            CommonResponse commonResponse = createCommonResponse(false, e.getMessage(), HttpStatus.NOT_FOUND);
+            return new  ResponseEntity<>(commonResponse,HttpStatus.OK);
         }catch (Exception e){
-            CommonResponse commonResponse = CommonResponse.builder()
-                    .data(false)
-                    .message(e.getMessage())
-                    .build();
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(commonResponse);
+            CommonResponse commonResponse = createCommonResponse(false, e.getMessage(), HttpStatus.BAD_REQUEST);
+            return new  ResponseEntity<>(commonResponse,HttpStatus.OK);
         }
 
     }
 
+    @GetMapping("/user/{user-id}/order")
+    public ResponseEntity<CommonResponse> getAllOrderLineToCreateOrder(@PathVariable("user-id") long id){
+        try {
+            CommonResponse commonResponse = orderService.getAllCartItemToCreateOrder(id);
+            return new ResponseEntity<>(commonResponse, HttpStatus.OK);
+        }catch (Exception e){
+            CommonResponse commonResponse = createCommonResponse(false, e.getMessage(), HttpStatus.BAD_REQUEST);
+            return new  ResponseEntity<>(commonResponse,HttpStatus.OK);
+        }
+    }
 
+
+    public CommonResponse createCommonResponse(Object data, String message, HttpStatus statusCode) {
+        return CommonResponse
+                .builder()
+                .data(data)
+                .message(message)
+                .statusCode(statusCode)
+                .build();
+    }
 
 }

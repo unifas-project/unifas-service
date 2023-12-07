@@ -130,6 +130,7 @@ public class AddressServiceImpl implements AddressService {
             addressEntity.setContact(addressRequest.getContact());
             addressEntity.setCity(addressRequest.getCity());
             addressEntity.setDistrict(addressRequest.getDistrict());
+            addressEntity.setWard(addressRequest.getWard());
             addressEntity.setStreet(addressRequest.getStreet());
         }
 

@@ -124,9 +124,9 @@ public class CartServiceImpl implements CartService {
         }
 
         Cart cart = user.getCart();
-        List<CartItem> cartProductList = cart.getCartProductList();
+        List<CartItem> cartItemList = cart.getCartItemList();
 
-        List<CartItemResponse> cartProductResponseDtoList = cartProductConverter.fromListEntityToDto(cartProductList);
+        List<CartItemResponse> cartProductResponseDtoList = cartProductConverter.fromListEntityToDto(cartItemList);
 
 
         commonResponse.builder()
@@ -163,7 +163,7 @@ public class CartServiceImpl implements CartService {
         Cart cart = user.getCart();
 
 
-        for (CartItem cartProduct : cart.getCartProductList()) {
+        for (CartItem cartProduct : cart.getCartItemList()) {
             if (cartProduct.getId() == cartProductId) {
 
                 cartProduct.setQuantity(newQuantity);
@@ -208,10 +208,10 @@ public class CartServiceImpl implements CartService {
         Cart cart = user.getCart();
 
 
-        for (CartItem cartProduct : cart.getCartProductList()) {
-            if (cartProduct.getId() == cartProductId) {
+        for (CartItem cartItem : cart.getCartItemList()) {
+            if (cartItem.getId() == cartProductId) {
 
-                cart.getCartProductList().remove(cartProduct);
+                cart.getCartItemList().remove(cartItem);
                 cartRepository.save(cart);
                 responseDto.setMessage("CartProduct deleted successfully");
                 responseDto.setSuccess(true);

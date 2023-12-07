@@ -5,6 +5,7 @@ import com.unifasservice.converter.OrderConverter;
 import com.unifasservice.dto.payload.CommonResponse;
 import com.unifasservice.dto.payload.request.CartItemRequest;
 import com.unifasservice.dto.payload.request.OrderRequest;
+import com.unifasservice.dto.payload.response.OrderLineResponse;
 import com.unifasservice.dto.payload.response.OrderResponse;
 import com.unifasservice.entity.*;
 import com.unifasservice.repository.*;
@@ -31,9 +32,10 @@ public class OrderServiceImpl implements OrderService {
     private final CartItemConverter cartItemConverter;
 
     @Override
-    public CommonResponse createOrder(Authentication authentication, OrderRequest orderRequest) {
-        String username = authentication.getName();
-        User userEntity = userRepository.findByUsername(username);
+    public CommonResponse createOrder(long userId, OrderRequest orderRequest) {
+        User userEntity = userRepository.findById(userId).orElseThrow(
+                () -> new IllegalArgumentException("User not found")
+        );
         Address address = addressRepository.findById(orderRequest.getAddressId()).orElseThrow(
                 () -> new IllegalArgumentException("Address not found")
         );
@@ -45,7 +47,7 @@ public class OrderServiceImpl implements OrderService {
 
         Order orderEntity = orderRepository.save(order);
 
-        List<CartItem> cartItemList = userEntity.getCart().getCartProductList();
+        List<CartItem> cartItemList = userEntity.getCart().getCartItemList();
         List<OrderLine> orderLineList = new ArrayList<>();
         for (CartItem cartItem : cartItemList){
 
@@ -68,13 +70,27 @@ public class OrderServiceImpl implements OrderService {
 
         OrderResponse orderResponse = orderConverter.convertOrderEntityToResponse(orderAfterSave);
 
+        return createCommonResponse(orderResponse,"Create Order Successfully",HttpStatus.OK);
 
-        return CommonResponse.builder()
-                .data(orderResponse)
-                .message("Order Successfully")
-                .statusCode(HttpStatus.OK)
-                .build()
-                ;
+    }
 
+    @Override
+    public CommonResponse getAllCartItemToCreateOrder(long id) {
+        User userEntity = userRepository.findById(id).orElseThrow(
+                () -> new IllegalArgumentException("User not found")
+        );
+        List<CartItem> cartItemList = userEntity.getCart().getCartItemList();
+        List<OrderLineResponse> orderLineResponses = orderConverter.convertListCartItemEntityToListOrderLineResponse(cartItemList);
+        return createCommonResponse(orderLineResponses,"Get all Product in Order successfully", HttpStatus.OK);
+    }
+
+
+    public CommonResponse createCommonResponse(Object data, String message, HttpStatus statusCode) {
+        return CommonResponse
+                .builder()
+                .data(data)
+                .message(message)
+                .statusCode(statusCode)
+                .build();
     }
 }
