@@ -24,7 +24,6 @@ public class AddressServiceImpl implements AddressService {
 
     private final AddressRepository addressRepository;
     private final UserRepository userRepository;
-
     private final AddressConverter addressConverter;
 
 

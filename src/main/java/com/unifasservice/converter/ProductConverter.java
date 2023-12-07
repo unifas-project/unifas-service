@@ -1,5 +1,7 @@
 package com.unifasservice.converter;
 
+import com.unifasservice.dto.payload.request.CreateProductRequest;
+import com.unifasservice.dto.payload.response.CreateProductResponse;
 import com.unifasservice.dto.payload.response.ProductResponse;
 import com.unifasservice.entity.Product;
 import org.springframework.stereotype.Component;
@@ -16,4 +18,10 @@ public class ProductConverter {
         productResponseDTO.setStar(product.getStar());
         return productResponseDTO;
     }
+
+//    public Product convertRequestToEntity(CreateProductRequest productRequest) {
+//    }
+//
+//    public CreateProductResponse convertEntityToResponse(Product originProduct) {
+//    }
 }
