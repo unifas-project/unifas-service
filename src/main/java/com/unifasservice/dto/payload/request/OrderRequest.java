@@ -12,5 +12,4 @@ public class OrderRequest {
     private long finalPrice;
     private String payment;
     private List<CartItemRequest> cartItemDtoList;
-
 }

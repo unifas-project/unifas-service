@@ -3,6 +3,7 @@ package com.unifasservice.converter;
 
 import com.unifasservice.dto.payload.request.CartItemRequest;
 import com.unifasservice.dto.payload.response.CartItemResponse;
+import com.unifasservice.dto.payload.response.CartItemUpdateResponse;
 import com.unifasservice.entity.CartItem;
 import org.springframework.stereotype.Component;
 
@@ -19,32 +20,40 @@ public class CartItemConverter {
 
         cartProductResponseDto.setId(cartItem.getId());
         cartProductResponseDto.setName(cartItem.getProduct().getName());
+        cartProductResponseDto.setProductId(cartItem.getProduct().getId());
         cartProductResponseDto.setColor(cartItem.getVariant().getColor().getName());
         cartProductResponseDto.setSize(cartItem.getVariant().getSize().getName());
         cartProductResponseDto.setPrice(cartItem.getPrice());
         cartProductResponseDto.setQuantity(cartItem.getQuantity());
         cartProductResponseDto.setSubtotal(cartItem.getSubtotal());
-        cartProductResponseDto.setImage(cartProductResponseDto.getImage());
+        cartProductResponseDto.setImage(null);
         return cartProductResponseDto;
     }
 
     public List<CartItemResponse> fromListEntityToDto (List<CartItem> cartItemList) {
         List<CartItemResponse> list = new ArrayList<>();
-        for (CartItem cartProduct : cartItemList) {
-            list.add(fromEntityToDto(cartProduct));
+        for (CartItem cartItem : cartItemList) {
+            list.add(fromEntityToDto(cartItem));
         }
 
         return list;
     }
 
-    public CartItem convertDTORequestToEntity (CartItemRequest cartItemRequest){
-        return CartItem.builder()
-                .id(cartItemRequest.getId())
-                .build();
-    }
 
-    public List<CartItem> convertListDTORequestToListEntity(List<CartItemRequest> cartItemRequestList){
-        return cartItemRequestList.stream().map(this::convertDTORequestToEntity).collect(Collectors.toList());
+
+    public CartItemUpdateResponse UpdateFromEntityToDto (CartItem cartItem) {
+
+        CartItemUpdateResponse cartProductResponseDto = new CartItemUpdateResponse();
+
+        cartProductResponseDto.setId(cartItem.getId());
+        cartProductResponseDto.setName(cartItem.getProduct().getName());
+        cartProductResponseDto.setColor(cartItem.getVariant().getColor().getName());
+        cartProductResponseDto.setSize(cartItem.getVariant().getSize().getName());
+        cartProductResponseDto.setPrice(cartItem.getPrice());
+        cartProductResponseDto.setQuantity(cartItem.getQuantity());
+        cartProductResponseDto.setSubtotal(cartItem.getSubtotal());
+
+        return cartProductResponseDto;
     }
 
 }

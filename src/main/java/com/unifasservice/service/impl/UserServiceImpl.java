@@ -7,6 +7,7 @@ import com.unifasservice.dto.payload.response.CodePassResponse;
 import com.unifasservice.dto.payload.response.DataMailResponse;
 import com.unifasservice.dto.payload.response.UserRegisterResponse;
 import com.unifasservice.dto.payload.response.UserDetailResponse;
+import com.unifasservice.repository.CartRepository;
 import com.unifasservice.security.JwtTokenUtil;
 import com.unifasservice.converter.UserLoginConverter;
 import com.unifasservice.dto.payload.response.UserLoginResponse;
@@ -33,6 +34,7 @@ import static com.unifasservice.utilities.RandomStringGenerator.generateRandomSt
 public class UserServiceImpl implements UserService {
 
     private final UserRepository userRepository;
+    private final CartRepository cartRepository;
     private final UserLoginConverter userLoginConverter;
     private final UserRegisterConverter userRegisterConverter;
     private final PasswordEncoder passwordEncoder;
@@ -104,7 +106,10 @@ public class UserServiceImpl implements UserService {
             Cart cartUser = new Cart();
             cartUser.setUser(user);
             user.setCart(cartUser);
-            userRepository.save(user);
+            User userEntity = userRepository.save(user);
+
+            cartUser.setUser(userEntity);
+            cartRepository.save(cartUser);
 
             UserRegisterResponse responseDTO = userRegisterConverter.convertEntityResponseToDTO(user);
 

@@ -8,5 +8,4 @@ public interface SizeService {
     CommonResponse createCommonResponse(Object data, String message, HttpStatus statusCode);
 
     ResponseEntity<CommonResponse> getAllSize();
-
 }

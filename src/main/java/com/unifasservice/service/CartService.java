@@ -1,17 +1,15 @@
 package com.unifasservice.service;
 import com.unifasservice.dto.payload.CommonResponse;
-import com.unifasservice.dto.payload.request.AddProductToCartRequest;
 import com.unifasservice.dto.payload.request.CartItemRequest;
-import com.unifasservice.dto.payload.response.*;
-import com.unifasservice.entity.CartItem;
+import com.unifasservice.dto.payload.request.CartItemUpdateRequest;
 import org.springframework.http.HttpStatus;
 
-import java.util.List;
 
 
 public interface CartService {
 
-    CommonResponse getCartItems(String username);
-    CommonResponse addToCart(String username, CartItemRequest cartItems);
+    CommonResponse getCartItems(long userId);
+    CommonResponse addToCart(CartItemRequest cartItems, long userId);
     CommonResponse createCommonResponse(Object data, String message, HttpStatus statusCode);
+    CommonResponse updateCartItem( CartItemUpdateRequest updateRequest);
 }

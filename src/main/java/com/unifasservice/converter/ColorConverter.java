@@ -36,6 +36,4 @@ public class ColorConverter {
                 .acronym(color.getAcronym())
                 .build();
     }
-
-
 }

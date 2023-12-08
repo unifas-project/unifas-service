@@ -1,7 +1,5 @@
 package com.unifasservice.controller;
 
-
-
 import com.unifasservice.dto.payload.CommonResponse;
 import com.unifasservice.service.SizeService;
 import lombok.RequiredArgsConstructor;
@@ -30,5 +28,4 @@ public class SizeController {
     public ResponseEntity<CommonResponse> getAllSize(){
         return sizeService.getAllSize();
     }
-
 }

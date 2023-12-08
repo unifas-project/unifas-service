@@ -1,17 +1,16 @@
 package com.unifasservice.controller;
 import com.unifasservice.dto.payload.CommonResponse;
 import com.unifasservice.dto.payload.request.CartItemRequest;
+import com.unifasservice.dto.payload.request.CartItemUpdateRequest;
 import com.unifasservice.service.CartService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
 
 @RestController
-@RequestMapping("/api/cart")
+@RequestMapping("/api")
 @CrossOrigin("*")
 @RequiredArgsConstructor
 public class CartController {
@@ -20,14 +19,12 @@ public class CartController {
     private final CartService cartService;
 
 
-    @PostMapping("")
+    @PostMapping("/user/{user-id}/cart")
     public ResponseEntity<CommonResponse> addToCart(
-            @RequestBody CartItemRequest cartItem,
-            Authentication authentication) {
+            @RequestBody CartItemRequest cartItem, @PathVariable("user-id") long userId) {
         try {
-            String username = authentication.getName();
 
-            CommonResponse response = cartService.addToCart(username, cartItem);
+            CommonResponse response = cartService.addToCart(cartItem,userId);
 
             return new ResponseEntity<>(response , HttpStatus.OK);
 
@@ -38,11 +35,10 @@ public class CartController {
         }
     }
 
-    @GetMapping("")
-    public ResponseEntity<CommonResponse> getCartItemList(Authentication authentication) {
+    @GetMapping("/cart/{user-id}")
+    public ResponseEntity<CommonResponse> getCartItemList(@PathVariable("user-id") long userId) {
         try {
-            String username = authentication.getName();
-            CommonResponse cartItemList = cartService.getCartItems(username);
+            CommonResponse cartItemList = cartService.getCartItems(userId);
             return new ResponseEntity<>(cartItemList, HttpStatus.OK);
         } catch (Exception e) {
 
@@ -53,6 +49,37 @@ public class CartController {
                     .build(), HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
+
+    @PutMapping("/cart/item/{cart-item-id}")
+    public ResponseEntity<CommonResponse> updateCartItem(
+
+            @RequestBody CartItemUpdateRequest updateRequest) {
+
+        try {
+
+            CommonResponse updatedCartItem = cartService.updateCartItem( updateRequest);
+
+
+            if (updatedCartItem != null && updatedCartItem.getStatusCode() == HttpStatus.OK) {
+                return new ResponseEntity<>(updatedCartItem, HttpStatus.OK);
+            } else {
+
+                return new ResponseEntity<>(CommonResponse.builder()
+                        .message("Failed to update the cart item.")
+                        .statusCode(HttpStatus.INTERNAL_SERVER_ERROR)
+                        .data(null)
+                        .build(), HttpStatus.INTERNAL_SERVER_ERROR);
+            }
+        } catch (Exception e) {
+
+            return new ResponseEntity<>(CommonResponse.builder()
+                    .message("An error occurred while updating the cart item.")
+                    .statusCode(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .data(null)
+                    .build(), HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
 
 
 

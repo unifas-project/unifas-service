@@ -1,6 +1,5 @@
 package com.unifasservice.service.impl;
 
-
 import com.unifasservice.converter.SizeConverter;
 import com.unifasservice.dto.payload.CommonResponse;
 import com.unifasservice.dto.payload.response.SizeResponse;
@@ -15,7 +14,6 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Function;
-
 
 @Service
 @RequiredArgsConstructor
@@ -68,4 +66,3 @@ public class SizeServiceImpl implements SizeService {
         }
     }
 }
-

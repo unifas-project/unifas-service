@@ -14,6 +14,6 @@ public interface UserService {
 
     UserDetailResponse getUserByUsername(String username) throws Exception;
     UserDetailResponse updateUserByUsername(String username, UserDetailRequest userDetailRequest) throws Exception;
-    public UserDetailResponse changePasswordByUsername(String username, UserPasswordRequest userPasswordRequest) throws Exception;
+    UserDetailResponse changePasswordByUsername(String username, UserPasswordRequest userPasswordRequest) throws Exception;
 
 }

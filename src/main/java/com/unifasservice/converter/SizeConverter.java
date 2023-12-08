@@ -33,5 +33,4 @@ public class SizeConverter {
                 .name(size.getName())
                 .build();
     }
-
 }

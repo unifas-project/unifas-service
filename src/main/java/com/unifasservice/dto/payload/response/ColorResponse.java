@@ -1,6 +1,4 @@
 package com.unifasservice.dto.payload.response;
-
-
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -20,4 +18,3 @@ public class ColorResponse {
 
     private String acronym;
 }
-
