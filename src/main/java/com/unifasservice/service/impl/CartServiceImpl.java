@@ -3,17 +3,15 @@ package com.unifasservice.service.impl;
 
 import com.unifasservice.converter.CartItemConverter;
 import com.unifasservice.dto.payload.CommonResponse;
-import com.unifasservice.dto.payload.request.AddProductToCartRequest;
 import com.unifasservice.dto.payload.request.CartItemRequest;
+import com.unifasservice.dto.payload.request.CartItemUpdateRequest;
 import com.unifasservice.dto.payload.response.*;
 import com.unifasservice.entity.*;
 import com.unifasservice.repository.*;
 import com.unifasservice.service.CartService;
-import com.unifasservice.service.ProductService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
-import java.util.List;
 import java.util.NoSuchElementException;
 
 
@@ -67,7 +65,8 @@ public class CartServiceImpl implements CartService {
            foundVariant.setSize(foundSize);
 
 
-            CartItem cartItem = cartItemRepository.findByProductIdAndVariantId(product.getId(),foundVariant.getId());
+
+            CartItem cartItem= cartItemRepository.findByProductIdAndVariantId(product.getId(),foundVariant.getId());
 
             if (cartItem != null){
                 cartItem.setQuantity(cartItem.getQuantity() + cartItemRequest.getQuantity());
@@ -83,7 +82,7 @@ public class CartServiceImpl implements CartService {
                 cartItem.setCart(cart);
                 cartItem.setPrice(product.getPrice());
                 cartItem.setSubtotal(product.getPrice()*cartItemRequest.getQuantity());
-                cart.getCartItemList().add(cartItem);
+
                 cartItemRepository.save(cartItem);
                 CartItemResponse cartItemResponse = cartItemConverter.fromEntityToDto(cartItem);
                 return createCommonResponse(cartItemResponse,"Product added to cart successfully", HttpStatus.OK);
@@ -104,6 +103,7 @@ public class CartServiceImpl implements CartService {
                 .statusCode(statusCode)
                 .build();
     }
+
 
     @Override
     public CommonResponse getCartItems(long userId) {
@@ -142,6 +142,32 @@ public class CartServiceImpl implements CartService {
 
 
     }
+
+
+
+    @Override
+    public CommonResponse updateCartItem( CartItemUpdateRequest updateRequest) {
+
+
+    CartItem foudCartItem = cartItemRepository.findById(updateRequest.getId())
+             .orElseThrow (() -> new IllegalArgumentException("CartItem not found"));
+
+    foudCartItem.setQuantity(updateRequest.getUpdateQuantity());
+
+    Cart foundCart = cartRepository.findById(foudCartItem.getCart().getId())
+            .orElseThrow (() -> new IllegalArgumentException("Cart not found"));
+
+    foudCartItem.setCart(foundCart);
+
+    cartItemRepository.save(foudCartItem);
+
+    CartItemUpdateResponse cartItemUpdateResponse = cartItemConverter.UpdateFromEntityToDto(foudCartItem);
+
+        return createCommonResponse(cartItemUpdateResponse,"Product added to cart successfully", HttpStatus.OK);
+
+
+    }
+
 
 
 

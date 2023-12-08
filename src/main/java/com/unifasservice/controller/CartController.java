@@ -1,13 +1,11 @@
 package com.unifasservice.controller;
 import com.unifasservice.dto.payload.CommonResponse;
-import com.unifasservice.dto.payload.request.AddProductToCartRequest;
 import com.unifasservice.dto.payload.request.CartItemRequest;
-import com.unifasservice.entity.CartItem;
+import com.unifasservice.dto.payload.request.CartItemUpdateRequest;
 import com.unifasservice.service.CartService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
 
@@ -51,6 +49,37 @@ public class CartController {
                     .build(), HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
+
+    @PutMapping("/cart/item/{cart-item-id}")
+    public ResponseEntity<CommonResponse> updateCartItem(
+
+            @RequestBody CartItemUpdateRequest updateRequest) {
+
+        try {
+
+            CommonResponse updatedCartItem = cartService.updateCartItem( updateRequest);
+
+
+            if (updatedCartItem != null && updatedCartItem.getStatusCode() == HttpStatus.OK) {
+                return new ResponseEntity<>(updatedCartItem, HttpStatus.OK);
+            } else {
+
+                return new ResponseEntity<>(CommonResponse.builder()
+                        .message("Failed to update the cart item.")
+                        .statusCode(HttpStatus.INTERNAL_SERVER_ERROR)
+                        .data(null)
+                        .build(), HttpStatus.INTERNAL_SERVER_ERROR);
+            }
+        } catch (Exception e) {
+
+            return new ResponseEntity<>(CommonResponse.builder()
+                    .message("An error occurred while updating the cart item.")
+                    .statusCode(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .data(null)
+                    .build(), HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
 
 
 

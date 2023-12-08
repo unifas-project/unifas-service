@@ -6,7 +6,7 @@ import lombok.Data;
 @Builder
 @Data
 public class CartItemRequest {
-    private long id;
+//    private long id;
     private long productId;
     private String name;
     private String color;
