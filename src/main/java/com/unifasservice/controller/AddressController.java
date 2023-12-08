@@ -51,10 +51,10 @@ public class AddressController {
 
     }
 
-    @PutMapping("/user/{user-id}/address/{address-id}")
-    private ResponseEntity<CommonResponse> updateAddress(@PathVariable("user-id") long userId, @PathVariable("address-id") long addressId, @RequestBody AddressRequest addressRequest){
+    @PutMapping("/user/{user-id}/address")
+    private ResponseEntity<CommonResponse> updateAddress(@PathVariable("user-id") long userId, @RequestBody AddressRequest addressRequest){
         try {
-            CommonResponse commonResponse = addressService.updateAddress(userId, addressId, addressRequest);
+            CommonResponse commonResponse = addressService.updateAddress(userId, addressRequest);
             return new ResponseEntity<>(commonResponse, HttpStatus.OK);
         } catch (Exception e) {
             CommonResponse commonResponse = createCommonResponse(false, e.getMessage(), HttpStatus.BAD_REQUEST);
@@ -71,5 +71,4 @@ public class AddressController {
                 .statusCode(statusCode)
                 .build();
     }
-
 }

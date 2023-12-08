@@ -13,7 +13,7 @@ import java.util.List;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "ORDER")
+@Table(name = "ORDERS")
 
 
 public class Order {
@@ -45,5 +45,9 @@ public class Order {
 
     @OneToMany(mappedBy = "order", fetch = FetchType.LAZY)
     private List<OrderLine> orderLineList ;
+
+    @ManyToOne
+    @JoinColumn(name = "SALE_VOUCHER_ID")
+    private SaleVoucher saleVoucher;
 
 }

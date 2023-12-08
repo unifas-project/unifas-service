@@ -2,8 +2,10 @@ package com.unifasservice.entity;
 
 
 import lombok.*;
+import org.hibernate.annotations.Where;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Entity
 @Getter
@@ -12,7 +14,7 @@ import javax.persistence.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @Table(name = "SALE_VOUCHER")
-
+@Where(clause = "IS_DELETED = 0")
 
 public class SaleVoucher {
 
@@ -30,7 +32,6 @@ public class SaleVoucher {
     @Column(name = "IS_DELETED")
     private boolean isDeleted;
 
-    @OneToOne
-    @JoinColumn(name = "ORDER_ID")
-    private Order order;
+    @OneToMany(mappedBy = "saleVoucher", fetch = FetchType.LAZY)
+    private List<Order> orderList;
 }

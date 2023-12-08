@@ -7,5 +7,7 @@ import lombok.Data;
 @Builder
 public class SaleVoucherResponse {
     private long id;
+    private String code;
     private double discount;
+    private boolean isDeleted;
 }

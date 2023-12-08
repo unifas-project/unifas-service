@@ -24,7 +24,6 @@ public class AddressServiceImpl implements AddressService {
 
     private final AddressRepository addressRepository;
     private final UserRepository userRepository;
-
     private final AddressConverter addressConverter;
 
 
@@ -109,8 +108,8 @@ public class AddressServiceImpl implements AddressService {
     }
 
     @Override
-    public CommonResponse updateAddress(long userId,long addressId, AddressRequest addressRequest) {
-        Address addressEntity = addressRepository.findById(addressId).orElseThrow(
+    public CommonResponse updateAddress(long userId, AddressRequest addressRequest) {
+        Address addressEntity = addressRepository.findById(addressRequest.getId()).orElseThrow(
                 () -> new IllegalArgumentException("Address not found")
         );
 
@@ -130,6 +129,7 @@ public class AddressServiceImpl implements AddressService {
             addressEntity.setContact(addressRequest.getContact());
             addressEntity.setCity(addressRequest.getCity());
             addressEntity.setDistrict(addressRequest.getDistrict());
+            addressEntity.setWard(addressRequest.getWard());
             addressEntity.setStreet(addressRequest.getStreet());
         }
 

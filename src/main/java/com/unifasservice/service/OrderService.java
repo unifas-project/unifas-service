@@ -7,5 +7,7 @@ import org.springframework.security.core.Authentication;
 
 public interface OrderService {
 
-    CommonResponse createOrder(Authentication authentication, OrderRequest orderRequest);
+    CommonResponse createOrder(long userId, OrderRequest orderRequest);
+
+    CommonResponse getAllCartItemToCreateOrder(long id);
 }

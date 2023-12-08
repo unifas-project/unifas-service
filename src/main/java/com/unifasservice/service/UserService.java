@@ -11,7 +11,9 @@ public interface UserService {
     CommonResponse register(UserRegisterRequest userResgisterRequest);
     CodePassResponse createCodePass(ForgetPassRequest forgetPassRequest);
     boolean changePass(ChangePassRequest changePassRequest);
+
     UserDetailResponse getUserByUsername(String username) throws Exception;
     UserDetailResponse updateUserByUsername(String username, UserDetailRequest userDetailRequest) throws Exception;
-    public UserDetailResponse changePasswordByUsername(String username, UserPasswordRequest userPasswordRequest) throws Exception;
+    UserDetailResponse changePasswordByUsername(String username, UserPasswordRequest userPasswordRequest) throws Exception;
+
 }

@@ -1,8 +1,10 @@
+
 package com.unifasservice.service.impl;
 
 import com.unifasservice.converter.CartItemConverter;
 import com.unifasservice.dto.payload.CommonResponse;
-import com.unifasservice.dto.payload.request.AddProductToCartRequest;
+import com.unifasservice.dto.payload.request.CartItemRequest;
+import com.unifasservice.dto.payload.request.CartItemUpdateRequest;
 import com.unifasservice.dto.payload.response.*;
 import com.unifasservice.entity.*;
 import com.unifasservice.repository.*;
@@ -10,8 +12,7 @@ import com.unifasservice.service.CartService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.NoSuchElementException;
 
 
 @Service
@@ -26,96 +27,95 @@ public class CartServiceImpl implements CartService {
 
     private final VariantRepository variantRepository;
 
-    private final CartItemConverter cartProductConverter;
+    private final CartItemConverter cartItemConverter;
 
     private final CartItemRepository cartItemRepository;
 
+
+    private final SizeRepository sizeRepository;
+
+    private final ColorRepository colorRepository;
+
+
+
+ @Override
+    public CommonResponse addToCart(CartItemRequest cartItemRequest, long userId) {
+        try {
+            User user = userRepository.findById(userId).orElseThrow(
+                    () -> new IllegalArgumentException("User not found")
+            );
+
+            Cart cart = user.getCart();
+
+            Product product = productRepository.findById(cartItemRequest.getProductId())
+                    .orElseThrow(() -> new NoSuchElementException("Product not found with ID: " + cartItemRequest.getProductId()));
+
+
+            if (product == null) {
+                return createCommonResponse(null, "Product not found", HttpStatus.NOT_FOUND);
+            }
+
+            Size foundSize = sizeRepository.findByName(cartItemRequest.getSize());
+            Color foundColor = colorRepository.findByName(cartItemRequest.getColor().replace(" active",""));
+
+
+
+            Variant foundVariant = variantRepository.findByProductIdAndColorIdAndSizeId(product.getId(), foundColor.getId(), foundSize.getId());
+           foundVariant.setColor(foundColor);
+           foundVariant.setSize(foundSize);
+
+
+
+            CartItem cartItem= cartItemRepository.findByProductIdAndVariantId(product.getId(),foundVariant.getId());
+
+            if (cartItem != null){
+                cartItem.setQuantity(cartItem.getQuantity() + cartItemRequest.getQuantity());
+                cartItem.setSubtotal(cartItem.getSubtotal() + cartItemRequest.getQuantity() * product.getPrice());
+                cartItemRepository.save(cartItem);
+                CartItemResponse cartItemResponse = cartItemConverter.fromEntityToDto(cartItem);
+                return createCommonResponse(cartItemResponse,"Product added to cart successfully", HttpStatus.OK);
+            }else {
+                cartItem = new CartItem();
+                cartItem.setProduct(product);
+                cartItem.setQuantity(cartItemRequest.getQuantity());
+                cartItem.setVariant(foundVariant);
+                cartItem.setCart(cart);
+                cartItem.setPrice(product.getPrice());
+                cartItem.setSubtotal(product.getPrice()*cartItemRequest.getQuantity());
+
+                cartItemRepository.save(cartItem);
+                CartItemResponse cartItemResponse = cartItemConverter.fromEntityToDto(cartItem);
+                return createCommonResponse(cartItemResponse,"Product added to cart successfully", HttpStatus.OK);
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            return createCommonResponse(null, "Failed to add product to cart", HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
     @Override
-    public CommonResponse addToCart(String username, AddProductToCartRequest addProduct) {
-
-        CommonResponse commonResponse = new CommonResponse();
-
-//         AddProductToCartResponse addProductToCartResponse = new AddProductToCartResponse();
-
-
-//         User user = userRepository.findByUsername(username);
-//         if (user == null) {
-
-//             commonResponse.builder()
-//                     .message("User not found !")
-//                     .statusCode(HttpStatus.BAD_REQUEST)
-//                     .data(null)
-//                     .build();
-//             return commonResponse;
-//         }
-
-
-//         long productId = addProduct.getProductId();
-//         Product product = productRepository.findById(productId)
-//                 .orElseThrow(() -> new RuntimeException("Product not found"));
-
-//         if (product == null) {
-
-//             commonResponse.builder()
-//                     .message("Product not found !")
-//                     .statusCode(HttpStatus.BAD_REQUEST)
-//                     .data(null)
-//                     .build();
-//             return commonResponse;
-
-
-//         }
-
-//         long variantId = addProduct.getVariantId();
-//         Variant variant = variantRepository.findById(variantId)
-//                 .orElseThrow(() -> new RuntimeException("Variant not found"));
-
-// //        if (product.getVariantList() == null) {
-// //            product.setVariantList(new ArrayList<>());
-// //        }
-
-// //        variant.setProduct(product);
-// //        product.getVariantList().add(variant);
-
-//         productRepository.save(product);
-
-
-//         Cart cart = user.getCart();
-//         if (cart == null) {
-//             cart = new Cart();
-//             cart.setUser(user);
-//             user.setCart(cart);
-//         }
-
-//         CartItem cartProduct = new CartItem();
-//         cartProduct.setProduct(product);
-//         cartProduct.setCart(cart);
-//         cartRepository.save(cart);
-
-
-//         addProductToCartResponse.setId(product.getId());
-//         addProductToCartResponse.setQuantity(addProduct.getQuantity());
-//         addProductToCartResponse.setPrice(product.getPrice());
-//         addProductToCartResponse.setSubtotal(addProduct.getQuantity() * product.getPrice());
-
-        commonResponse.builder()
-                .message("Product added to cart successfully !")
-                .statusCode(HttpStatus.OK)
-                .data("fix")
+    public CommonResponse createCommonResponse(Object data, String message, HttpStatus statusCode) {
+        return CommonResponse
+                .builder()
+                .data(data)
+                .message(message)
+                .statusCode(statusCode)
                 .build();
-        return commonResponse;
+    }
 
-      }
 
     @Override
-    public CommonResponse getCartProducts(String username) {
+    public CommonResponse getCartItems(long userId) {
 
         CommonResponse commonResponse = new CommonResponse();
 
-        User user = userRepository.findByUsername(username);
+        User user = userRepository.findById(userId).orElseThrow(
+                () -> new IllegalArgumentException("User not found")
+        );
         if (user == null || user.getCart() == null) {
 
-            commonResponse.builder()
+            CommonResponse.builder()
                     .message("User not found or Cart not created ! ")
                     .statusCode(HttpStatus.BAD_REQUEST)
                     .data(null)
@@ -124,106 +124,53 @@ public class CartServiceImpl implements CartService {
         }
 
         Cart cart = user.getCart();
-        List<CartItem> cartProductList = cart.getCartProductList();
+//        List<CartItem> cartItemList = cart.getCartItemList();
+//
+//        List<CartItemResponse> cartItemResponseList = cartItemConverter.fromListEntityToDto(cartItemList);
 
-        List<CartItemResponse> cartProductResponseDtoList = cartProductConverter.fromListEntityToDto(cartProductList);
+        CartResponse cartResponse = CartResponse.builder()
+                .id(cart.getId())
+                .cartItemResponseList(cartItemConverter.fromListEntityToDto(cart.getCartItemList()))
+                .build();
 
 
-        commonResponse.builder()
+        return CommonResponse.builder()
                 .message("Show successfully !")
                 .statusCode(HttpStatus.OK)
-                .data(cartProductResponseDtoList)
+                .data(cartResponse)
                 .build();
-        return commonResponse;
 
 
     }
+
+
 
     @Override
-    public CommonResponse updateCartProduct(String username, long cartProductId, int newQuantity) {
-
-        CommonResponse commonResponse = new CommonResponse();
-
-        UpdateCartItemResponse responseDto = new UpdateCartItemResponse();
-
-        User user = userRepository.findByUsername(username);
-
-        if (user == null || user.getCart() == null) {
-
-            commonResponse.builder()
-                    .message("User not found or Cart not created ! ")
-                    .statusCode(HttpStatus.BAD_REQUEST)
-                    .data(null)
-                    .build();
-            return commonResponse;
+    public CommonResponse updateCartItem( CartItemUpdateRequest updateRequest) {
 
 
-        }
+    CartItem foudCartItem = cartItemRepository.findById(updateRequest.getId())
+             .orElseThrow (() -> new IllegalArgumentException("CartItem not found"));
 
-        Cart cart = user.getCart();
+    foudCartItem.setQuantity(updateRequest.getUpdateQuantity());
 
+    Cart foundCart = cartRepository.findById(foudCartItem.getCart().getId())
+            .orElseThrow (() -> new IllegalArgumentException("Cart not found"));
 
-        for (CartItem cartProduct : cart.getCartProductList()) {
-            if (cartProduct.getId() == cartProductId) {
+    foudCartItem.setCart(foundCart);
 
-                cartProduct.setQuantity(newQuantity);
-                cartProduct.setSubtotal(newQuantity*cartProduct.getPrice());
-                cartItemRepository.save(cartProduct);
+    cartItemRepository.save(foudCartItem);
 
-                responseDto.setId(cartProduct.getId());
-                responseDto.setName(cartProduct.getProduct().getName());
-                responseDto.setPrice(cartProduct.getPrice());
-                responseDto.setQuantity(cartProduct.getQuantity());
-                responseDto.setSubtotal(cartProduct.getSubtotal());
+    CartItemUpdateResponse cartItemUpdateResponse = cartItemConverter.UpdateFromEntityToDto(foudCartItem);
+
+        return createCommonResponse(cartItemUpdateResponse,"Product added to cart successfully", HttpStatus.OK);
 
 
-                commonResponse.builder()
-                        .message("Cart Item updated successfully !")
-                        .statusCode(HttpStatus.OK)
-                        .data(responseDto)
-                        .build();
-                return commonResponse;
-            }
-        }
-
-        commonResponse.builder()
-                .message("Cart Item not found !")
-                .statusCode(HttpStatus.BAD_REQUEST)
-                .data(null)
-                .build();
-        return commonResponse;
     }
 
-    @Override
-    public DeleteCartItemResponse deleteCartProduct(String username, long cartProductId) {
-        DeleteCartItemResponse responseDto = new DeleteCartItemResponse();
-
-        User user = userRepository.findByUsername(username);
-        if (user == null || user.getCart() == null) {
-            responseDto.setMessage("User or cart not found");
-            responseDto.setSuccess(false);
-            return responseDto;
-        }
-
-        Cart cart = user.getCart();
 
 
-        for (CartItem cartProduct : cart.getCartProductList()) {
-            if (cartProduct.getId() == cartProductId) {
-
-                cart.getCartProductList().remove(cartProduct);
-                cartRepository.save(cart);
-                responseDto.setMessage("CartProduct deleted successfully");
-                responseDto.setSuccess(true);
-                return responseDto;
-            }
-        }
-
-
-        responseDto.setMessage("CartProduct not found");
-        responseDto.setSuccess(false);
-        return responseDto;
-    }
 
 
 }
+

@@ -1,0 +1,2 @@
+INSERT INTO unifas_service.users (ID,EMAIL, USERNAME, PASSWORD, ROLE, IS_DELETED, DATE_OF_BIRTH, FULL_NAME) VALUES (1,'d.huy241201@gmail.com', 'dhuy241201', '$2a$10$5ZVssDwhRTVJzuqLdBDy.uMyWwNS3hEZVJaqD63BLQEZ3FBo9lPvC', 'ROLE_USER', 0, null, null);
+INSERT INTO unifas_service.users (ID,EMAIL, USERNAME, PASSWORD, ROLE, IS_DELETED, DATE_OF_BIRTH, FULL_NAME) VALUES (2,'admin@gmail.com', 'adminunifas', '$2a$10$A5g4wZbO.X3NjZiRKtQHj.I32xskX4H50S5jWZrvWguGtjrtFKVB.', 'ROLE_ADMIN', 0, null, null);

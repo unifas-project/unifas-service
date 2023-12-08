@@ -2,6 +2,7 @@ package com.unifasservice.entity;
 
 
 import lombok.*;
+import org.hibernate.annotations.Where;
 
 import javax.persistence.*;
 
@@ -12,6 +13,7 @@ import javax.persistence.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @Table(name = "CART_ITEM")
+@Where(clause = "IS_DELETED = 0")
 
 
 public class CartItem {
@@ -25,10 +27,10 @@ public class CartItem {
     private int quantity;
 
     @Column(name = "PRICE")
-    private long price;
+    private double price;
 
     @Column(name = "SUBTOTAL")
-    private long subtotal;
+    private double subtotal;
 
     @ManyToOne
     @JoinColumn(name = "CART_ID")
