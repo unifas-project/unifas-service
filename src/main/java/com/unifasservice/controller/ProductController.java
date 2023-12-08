@@ -30,7 +30,18 @@ public class ProductController {
         return new ResponseEntity<>(commonResponse, HttpStatus.OK);
     }
 
-//    @PostMapping("")
+    @GetMapping("/category/{categoryId}")
+    public ResponseEntity<CommonResponse> getProductByCategoryId(@PathVariable("categoryId") long categoryId) {
+        CommonResponse commonResponse = productService.getProductByCategoryId(categoryId);
+        return new ResponseEntity<>(commonResponse, HttpStatus.OK);
+    }
+    @GetMapping("/subCategory/{subCategoryId}")
+    public ResponseEntity<CommonResponse> getProductBySubCategoryId(@PathVariable("subCategoryId") long subCategoryId) {
+        CommonResponse commonResponse = productService.getProductBySubCategoryId(subCategoryId);
+        return new ResponseEntity<>(commonResponse, HttpStatus.OK);
+    }
+
+    //    @PostMapping("")
 //    public ResponseEntity<?> save(
 //            @Valid @RequestBody CreateProductRequest productRequest, BindingResult bindingResult) {
 //        if (bindingResult.hasErrors()) {
