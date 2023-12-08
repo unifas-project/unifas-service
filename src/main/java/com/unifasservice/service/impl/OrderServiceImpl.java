@@ -35,10 +35,10 @@ public class OrderServiceImpl implements OrderService {
     @Override
     public CommonResponse createOrder(long userId, OrderRequest orderRequest) {
         User userEntity = userRepository.findById(userId).orElseThrow(
-                () -> new IllegalArgumentException("User not found")
+                () -> new IllegalArgumentException("Let's confirm information first")
         );
         Address address = addressRepository.findById(orderRequest.getAddressId()).orElseThrow(
-                () -> new IllegalArgumentException("Address not found")
+                () -> new IllegalArgumentException("Let's confirm information first")
         );
 
         Order order = orderConverter.convertOrderRequestToEntity(orderRequest);
