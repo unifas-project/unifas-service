@@ -27,6 +27,7 @@ public class OrderServiceImpl implements OrderService {
     private final AddressRepository addressRepository;
     private final CartItemRepository cartItemRepository;
     private final OrderRepository orderRepository;
+    private final SaleVoucherRepository saleVoucherRepository;
 
     private final OrderConverter orderConverter;
     private final CartItemConverter cartItemConverter;
@@ -48,6 +49,11 @@ public class OrderServiceImpl implements OrderService {
         Order orderEntity = orderRepository.save(order);
 
         List<CartItem> cartItemList = userEntity.getCart().getCartItemList();
+        if (cartItemList.size() == 0) {
+            throw new IllegalArgumentException("Cart is empty. Let's add some wonderful product to you cart");
+        }
+
+
         List<OrderLine> orderLineList = new ArrayList<>();
         for (CartItem cartItem : cartItemList){
 
@@ -66,9 +72,19 @@ public class OrderServiceImpl implements OrderService {
             orderLineList.add(orderLine);
         }
         orderEntity.setOrderLineList(orderLineList);
-        Order orderAfterSave = orderRepository.save(orderEntity);
 
-//        OrderResponse orderResponse = orderConverter.convertOrderEntityToResponse(orderAfterSave);
+        if (orderRequest.getSaleVoucherId() != null){
+            SaleVoucher saleVoucher = saleVoucherRepository.findById(orderRequest.getSaleVoucherId()).orElseThrow(
+                    () -> new IllegalArgumentException("Sale Voucher not found")
+            );
+            orderEntity.setSaleVoucher(saleVoucher);
+        }
+        orderRepository.save(orderEntity);
+
+        for (CartItem cartItem : cartItemList){
+            cartItem.setDeleted(true);
+            cartItemRepository.save(cartItem);
+        }
 
         return createCommonResponse(false,"Create Order Successfully",HttpStatus.OK);
 
