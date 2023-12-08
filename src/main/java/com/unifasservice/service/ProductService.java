@@ -10,4 +10,7 @@ public interface ProductService {
 
     CommonResponse getProductById(long id);
 
+    CommonResponse getProductByCategoryId(long categoryId);
+
+    CommonResponse getProductBySubCategoryId(long subCategoryId);
 }
