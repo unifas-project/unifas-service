@@ -78,9 +78,35 @@ public class CartController {
                     .data(null)
                     .build(), HttpStatus.INTERNAL_SERVER_ERROR);
         }
+
+
+
     }
 
 
+    @DeleteMapping("/cart/item/{cart-item-id}")
+    public ResponseEntity<CommonResponse> deleteCartItem(@PathVariable("cart-item-id") long cartItemId) {
+        try {
+
+            CommonResponse deletedCartItem = cartService.deleteCartItem(cartItemId);
+
+            if (deletedCartItem != null && deletedCartItem.getStatusCode() == HttpStatus.OK) {
+                return new ResponseEntity<>(deletedCartItem, HttpStatus.OK);
+            } else {
+                return new ResponseEntity<>(CommonResponse.builder()
+                        .message("Failed to delete the cart item.")
+                        .statusCode(HttpStatus.INTERNAL_SERVER_ERROR)
+                        .data(null)
+                        .build(), HttpStatus.INTERNAL_SERVER_ERROR);
+            }
+        } catch (Exception e) {
+            return new ResponseEntity<>(CommonResponse.builder()
+                    .message("An error occurred while deleting the cart item.")
+                    .statusCode(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .data(null)
+                    .build(), HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
 
 
 

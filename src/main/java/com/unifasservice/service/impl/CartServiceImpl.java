@@ -168,7 +168,40 @@ public class CartServiceImpl implements CartService {
 
     }
 
+    @Override
+    public CommonResponse deleteCartItem(long cartItemId) {
+        try {
 
+            CartItem existingCartItem = cartItemRepository.findById(cartItemId)
+                .orElseThrow (() -> new IllegalArgumentException("CartItem not found"));
+
+            if (existingCartItem !=null) {
+
+                cartItemRepository.deleteById(cartItemId);
+
+
+                return CommonResponse.builder()
+                        .message("Cart item deleted successfully.")
+                        .statusCode(HttpStatus.OK)
+                        .data(null)
+                        .build();
+            } else {
+
+                return CommonResponse.builder()
+                        .message("Cart item not found.")
+                        .statusCode(HttpStatus.NOT_FOUND)
+                        .data(null)
+                        .build();
+            }
+        } catch (Exception e) {
+
+            return CommonResponse.builder()
+                    .message("An error occurred while deleting the cart item.")
+                    .statusCode(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .data(null)
+                    .build();
+        }
+    }
 
 
 

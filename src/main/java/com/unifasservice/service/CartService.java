@@ -12,4 +12,6 @@ public interface CartService {
     CommonResponse addToCart(CartItemRequest cartItems, long userId);
     CommonResponse createCommonResponse(Object data, String message, HttpStatus statusCode);
     CommonResponse updateCartItem( CartItemUpdateRequest updateRequest);
+
+    CommonResponse deleteCartItem(long cartItemId);
 }
